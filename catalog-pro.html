@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>الكتالوج التجاري الرسمي - جَنَّة لايت | جميع منتجات LED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        /* الألوان الرسمية لجَنَّة لايت (مطابقة تماماً للموقع) */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --gold-dark: #aa841b;
+            --dark: #1a1a1a;
+            --bg-deep: #04040f;
+            --bg-mid: #080818;
+            --glass: rgba(10, 10, 28, 0.55);
+            --glass-border: rgba(212,175,55,0.18);
+            --text-primary: #f0f0f0;
+            --text-muted: #a0a0b0;
+        }
+        
+        body {
+            background-color: var(--bg-deep);
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* خلفية الجسيمات الذهبية */
+        #canvas-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* الشريط العلوي */
+        .top-bar {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 12px 25px;
+            margin-bottom: 30px;
+        }
+        
+        .btn-home {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        
+        .btn-home:hover, .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212,175,55,0.5);
+        }
+        
+        .print-btn {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin: 20px 0 30px;
+        }
+        
+        .page-title h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--gold), #fff0b5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .page-title p {
+            color: var(--text-muted);
+        }
+        
+        /* أزرار الفلتر */
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0 35px;
+        }
+        
+        .filter-btn {
+            background: rgba(18,18,36,0.7);
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 8px 20px;
+            border-radius: 60px;
+            color: #ddd;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212,175,55,0.3);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background: rgba(18,18,36,0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.35s;
+            border: 1px solid rgba(212,175,55,0.2);
+            animation: float 4s infinite ease-in-out;
+        }
+        
+        .product-card:hover {
+            animation: none;
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--gold);
+            box-shadow: 0 0 35px rgba(212,175,55,0.45);
+        }
+        
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background: rgba(10,10,28,0.6);
+            padding: 15px;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: rgba(212,175,55,0.12);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin-bottom: 12px;
+        }
+        
+        .product-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .product-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+        
+        .specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        
+        .spec-badge {
+            background: rgba(0,0,0,0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            border-right: 2px solid var(--gold);
+        }
+        
+        .price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            margin-top: 10px;
+        }
+        
+        .price small {
+            font-size: 0.7rem;
+            color: var(--gold);
+        }
+        
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .badge {
+            background: rgba(212,175,55,0.12);
+            border: 1px solid var(--gold);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+        
+        footer {
+            background: linear-gradient(180deg, rgba(0,0,0,0.95), #000);
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(212,175,55,0.2);
+            color: #777;
+        }
+        
+        .footer-tagline {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 700px) {
+            .page-title h1 { font-size: 1.8rem; }
+            .product-title { font-size: 1.3rem; }
+            .filter-btn { padding: 5px 12px; font-size: 0.7rem; }
+        }
+    
+    </style>
+</head>
+<body>
+    <canvas id="canvas-bg"></canvas>
+    
+    <div class="container">
+        <div class="top-bar">
+            <div><i class="fas fa-book-open" style="color: var(--gold);"></i> <span style="color: var(--gold);">الكتالوج التجاري الرسمي 2026</span></div>
+            <div style="display: flex; gap: 15px;">
+                <a href="index.html" class="btn-home"><i class="fas fa-home"></i> الرئيسية</a>
+                <button class="print-btn" onclick="window.print()"><i class="fas fa-print"></i> طباعة</button>
+            </div>
+        </div>
+        
+        <div class="page-title">
+            <h1>📦 جَنَّة لايت | الكتالوج الشامل</h1>
+            <p>جميع أنواع مصابيح LED - المواصفات، الأسعار، وشهادات الجودة</p>
+        </div>
+        
+        <div class="filter-group" id="filterGroup">
+            <button class="filter-btn active" data-filter="all">الكل</button>
+            <button class="filter-btn" data-filter="bulb">💡 لمبات كروية</button>
+            <button class="filter-btn" data-filter="panel">⬛ ألواح LED</button>
+            <button class="filter-btn" data-filter="downlight">⭕ لمبات سقف</button>
+            <button class="filter-btn" data-filter="surface">📌 لمبات سطح</button>
+            <button class="filter-btn" data-filter="floodlight">🔦 بروجيكترات</button>
+            <button class="filter-btn" data-filter="street">🏙️ إنارة شوارع</button>
+            <button class="filter-btn" data-filter="strip">📏 شرائط LED</button>
+            <button class="filter-btn" data-filter="neon">✨ نيون بلاستيكي</button>
+            <button class="filter-btn" data-filter="highbay">🏭 High Bay</button>
+            <button class="filter-btn" data-filter="smart">📱 إضاءة ذكية</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid"></div>
+        
+        <div class="badge-list">
+            <span class="badge">✅ ضمان سنتان</span>
+            <span class="badge">🔹 توفير طاقة حتى 90%</span>
+            <span class="badge">📜 معايير IEC & RoHS</span>
+            <span class="badge">🇩🇿 صنع في الجزائر</span>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-tagline">✨ جَنَّة لايت – إضاءة جزائرية مبتكرة 🇩🇿</div>
+        <p>© 2026 الكتالوج التجاري الرسمي | جميع الحقوق محفوظة</p>
+    </footer>
+    
+    <script>
+        // ========== قاعدة بيانات جميع المنتجات ==========
+        const products = [
+            // لمبات كروية
+            { name: "5 واط", category: "bulb", power: "5W", image: "jannah5w.jpg", desc: "إضاءة هادئة، تعادل 40W تقليدية.", specs: ["توفير 90%", "3 ألوان", "عمر 25,000 س"], price: "250 دج" },
+            { name: "9 واط", category: "bulb", power: "9W", image: "jannah9w.jpg", desc: "المنتج الرئيسي للانطلاق، الأكثر طلباً.", specs: ["توفير 85%", "3 ألوان", "ضمان سنتين"], price: "390 دج" },
+            { name: "12 واط", category: "bulb", power: "12W", image: "jannah12w.jpg", desc: "توازن مثالي للسطوع والاستهلاك.", specs: ["توفير 84%", "معيار IEC", "ضمان سنتين"], price: "490 دج" },
+            { name: "18 واط", category: "bulb", power: "18W", image: "jannah18w.jpg", desc: "إضاءة قوية للمساحات الكبيرة.", specs: ["توفير 82%", "3 ألوان", "ضمان سنتين"], price: "650 دج" },
+            { name: "24 واط", category: "bulb", power: "24W", image: "jannah24w.jpg", desc: "للمستودعات والمحلات الكبيرة.", specs: ["كفاءة 120 lm/W", "3 ألوان", "مقبس E27"], price: "850 دج" },
+            { name: "40 واط", category: "bulb", power: "40W", image: "jannah40w.jpg", desc: "أقوى لمبة كروية، تعادل 300W.", specs: ["تبريد متطور", "عمر 50,000 س", "3 ألوان"], price: "1,500 دج" },
+            // ألواح LED
+            { name: "لوح 18 واط", category: "panel", power: "18W", image: "panel+18w.jpg", desc: "30x60 سم، للمكاتب والممرات.", specs: ["30x60cm", "سمك 9mm", "CRI>80"], price: "1,800 دج" },
+            { name: "لوح 24 واط", category: "panel", power: "24W", image: "panel+24w.jpg", desc: "60x60 سم، الأكثر طلباً للمكاتب.", specs: ["60x60cm", "ضمان سنتين", "كفاءة 130 lm/W"], price: "2,500 دج" },
+            { name: "لوح 40 واط", category: "panel", power: "40W", image: "panel+40w.jpg", desc: "60x120 سم، للمساحات التجارية.", specs: ["60x120cm", "DALI Dimmable", "IP44"], price: "3,500 دج" },
+            // لمبات سقف دائرية
+            { name: "داونلايت 12 واط", category: "downlight", power: "12W", image: "https://placehold.co/400x300?text=Downlight+12W", desc: "قطر حفر 90-120 مم.", specs: ["زاوية 120°", "جسم ألومنيوم", "IP54"], price: "1,200 دج" },
+            { name: "داونلايت 18 واط", category: "downlight", power: "18W", image: "https://placehold.co/400x300?text=Downlight+18W", desc: "للمحلات والمستشفيات.", specs: ["حفر 150mm", "عمر 50,000 س", "IP65"], price: "1,800 دج" },
+            // لمبات سطح
+            { name: "سطح 10 واط", category: "surface", power: "10W", image: "https://placehold.co/400x300?text=Surface+10W", desc: "دائري، للأسقف الخرسانية.", specs: ["IK08", "3 ألوان", "تركيب سريع"], price: "900 دج" },
+            { name: "سطح 20 واط", category: "surface", power: "20W", image: "https://placehold.co/400x300?text=Surface+20W", desc: "مربع، للمكاتب والممرات.", specs: ["15x15cm", "ضمان سنتين", "تبديد حراري"], price: "1,500 دج" },
+            // بروجيكترات
+            { name: "بروجيكتر 50 واط", category: "floodlight", power: "50W", image: "https://placehold.co/400x300?text=Flood+50W", desc: "IP67، للساحات والمحلات.", specs: ["زاوية 120°", "مشبك معدني", "ضد الصدأ"], price: "3,500 دج" },
+            { name: "بروجيكتر 100 واط", category: "floodlight", power: "100W", image: "https://placehold.co/400x300?text=Flood+100W", desc: "للملاعب والمستودعات.", specs: ["IP67", "عمر 50,000 س", "كفاءة 140 lm/W"], price: "6,500 دج" },
+            { name: "بروجيكتر 200 واط", category: "floodlight", power: "200W", image: "https://placehold.co/400x300?text=Flood+200W", desc: "للمواقع الإنشائية الكبيرة.", specs: ["IP67", "تبريد متطور", "كفاءة 140 lm/W"], price: "15,000 دج" },
+            // لمبات شوارع
+            { name: "عمود 60 واط", category: "street", power: "60W", image: "https://placehold.co/400x300?text=Street+60W", desc: "للشوارع الرئيسية.", specs: ["حساس ضوء", "150 lm/W", "IP66"], price: "8,500 دج" },
+            { name: "عمود 100 واط", category: "street", power: "100W", image: "https://placehold.co/400x300?text=Street+100W", desc: "للطرق السريعة.", specs: ["تحكم عن بعد", "ضمان 3 سنوات", "160 lm/W"], price: "15,000 دج" },
+            // شرائط LED
+            { name: "شريط SMD2835 60LED", category: "strip", power: "9.6W/m", image: "https://placehold.co/400x300?text=Strip+2835", desc: "IP20، للديكورات الداخلية.", specs: ["1200 lm/m", "تقطيع 50mm", "5 متر"], price: "250 دج/م" },
+            { name: "شريط SMD5050 RGB", category: "strip", power: "14.4W/m", image: "https://placehold.co/400x300?text=RGB+Strip", desc: "ألوان متغيرة، للمناسبات.", specs: ["IP65", "تحكم عن بعد", "5 متر"], price: "500 دج/م" },
+            // نيون بلاستيكي
+            { name: "نيون 10x16mm", category: "neon", power: "12W/m", image: "https://placehold.co/400x300?text=Neon+Flex", desc: "مرن IP67، للواجهات.", specs: ["مقاوم UV", "عمر 50,000 س", "أشكال حسب الطلب"], price: "1,800 دج/م" },
+            // High Bay
+            { name: "High Bay 100W", category: "highbay", power: "100W", image: "https://placehold.co/400x300?text=HighBay+100W", desc: "لارتفاع 4-6 م، للمستودعات.", specs: ["140 lm/W", "زاوية 90°", "IK08"], price: "8,000 دج" },
+            { name: "High Bay 200W", category: "highbay", power: "200W", image: "https://placehold.co/400x300?text=HighBay+200W", desc: "لارتفاع 8-10 م، للصالات الرياضية.", specs: ["150 lm/W", "تحكم DALI", "ضمان 3 سنوات"], price: "18,000 دج" },
+            // إضاءة ذكية
+            { name: "لمبة ذكية 9W", category: "smart", power: "9W", image: "https://placehold.co/400x300?text=Smart+Bulb", desc: "RGB+أبيض، تحكم WiFi.", specs: ["أليكسا/Google", "جدولة", "تطبيق"], price: "1,500 دج" },
+            { name: "شريط ذكي 5m", category: "smart", power: "14.4W/m", image: "https://placehold.co/400x300?text=Smart+Strip", desc: "16 مليون لون، 5 أمتار.", specs: ["أليكسا/Google", "مقطّع", "سيناريوهات"], price: "4,000 دج" }
+        ];
+        
+        function renderProducts(filter = "all") {
+            const grid = document.getElementById("productsGrid");
+            let filtered = filter === "all" ? products : products.filter(p => p.category === filter);
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">🚫 لا توجد منتجات في هذا القسم حاليًا</div>`;
+                return;
+            }
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    <img src="${p.image}" class="product-img" alt="${p.name}" onerror="this.src='https://placehold.co/400x300?text=LED'">
+                    <div class="product-info">
+                        <div class="product-category">${p.power}</div>
+                        <div class="product-title">${p.name}</div>
+                        <p class="product-desc">${p.desc}</p>
+                        <div class="specs">
+                            ${p.specs.map(s => `<span class="spec-badge">🔹 ${s}</span>`).join('')}
+                        </div>
+                        <div class="price">${p.price} <small>دج</small></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // الفلتر
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProducts(btn.getAttribute('data-filter'));
+            });
+        });
+        
+        renderProducts('all');
+        
+        // خلفية الجسيمات الذهبية
+        (function() {
+            const canvas = document.getElementById('canvas-bg');
+            const ctx = canvas.getContext('2d');
+            let w, h, particles = [];
+            function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+            function rand(min, max) { return Math.random() * (max - min) + min; }
+            function init() {
+                particles = [];
+                let count = Math.floor((w * h) / 15000);
+                for (let i = 0; i < count; i++) {
+                    particles.push({ x: rand(0, w), y: rand(0, h), r: rand(0.8, 2.2), dx: rand(-0.2, 0.2), dy: rand(-0.2, 0.2), alpha: rand(0.2, 0.6) });
+                }
+            }
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(212,175,55,${p.alpha})`;
+                    ctx.fill();
+                    p.x += p.dx; p.y += p.dy;
+                    if (p.x < 0 || p.x > w) p.dx *= -1;
+                    if (p.y < 0 || p.y > h) p.dy *= -1;
+                });
+                requestAnimationFrame(draw);
+            }
+            window.addEventListener('resize', () => { resize(); init(); });
+            resize(); init(); draw();
+        })();
+    </script>
+</body>
+</html>

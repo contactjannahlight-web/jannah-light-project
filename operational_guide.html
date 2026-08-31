@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>جَنَّة لايت - الدليل التشغيلي المعياري V.9.3 (النسخة الكاملة)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --gold: #d4af37; --dark: #1a1a1a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { background-color: #0a0a0a; } /* يمنع وميض الشاشة البيضاء عند التمرير الزائد (overscroll) */
+        body { background-color: #0a0a0a; font-family: 'Segoe UI', Tahoma, sans-serif; color: #f0f0f0; line-height: 1.6; overflow-x: hidden; }
+        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .container { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); border-radius: 48px; }
+        .section { background: rgba(10,10,20,0.65); backdrop-filter: blur(8px); border-radius: 32px; padding: 25px; margin-bottom: 35px; border: 1px solid rgba(212,175,55,0.25); transition: 0.3s; scroll-margin-top: 90px; }
+        .section:hover { border-color: rgba(212,175,55,0.5); }
+        .section-title { color: var(--gold); font-size: 1.8rem; border-right: 4px solid var(--gold); padding-right: 15px; margin: 25px 0 20px 0; }
+        .subsection-title { color: var(--gold); font-size: 1.4rem; margin: 20px 0 15px; font-weight: bold; scroll-margin-top: 90px; }
+        .sub-subtitle { color: #d4af37; font-size: 1.2rem; margin: 15px 0 10px; font-weight: bold; }
+
+        .table-responsive { width: 100%; overflow-x: auto; margin: 15px 0; border-radius: 16px; border: 1px solid #2a2a2a; }
+        .data-table { width: 100%; border-collapse: collapse; background: rgba(18,18,30,0.8); }
+        .data-table th, .data-table td { border: 1px solid #2a2a2a; padding: 12px; text-align: right; vertical-align: middle; }
+        .data-table th { background: #1f1f1f; color: var(--gold); font-weight: bold; white-space: nowrap; }
+
+        .badge-list { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+        .badge { background: rgba(212,175,55,0.12); border: 1px solid var(--gold); padding: 6px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: bold; color: var(--gold); }
+        .btn-back { background: linear-gradient(135deg, var(--gold), #aa841b); color: #000; padding: 10px 25px; border-radius: 40px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; margin-bottom: 20px; transition: 0.3s; }
+        .btn-back:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+        footer { background: #000; text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid #2a2a2a; color: #777; font-size: 0.8rem; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0px); } }
+        .card { animation: float 3s infinite ease-in-out; transition: 0.3s; }
+        .card:hover { transform: translateY(-6px); border-color: var(--gold); }
+        ul, .text-list { padding-right: 25px; margin: 15px 0; }
+        li { margin: 8px 0; }
+        hr { border-color: #2a2a2a; margin: 20px 0; }
+        .warning { color: #ffaa33; font-weight: bold; display: block; margin: 10px 0; }
+        .ltr-num { direction: ltr; unicode-bidi: embed; display: inline-block; }
+        @media (max-width: 700px) { .section-title { font-size: 1.4rem; } .subsection-title { font-size: 1.2rem; } }
+
+        .machine-card { background: rgba(18,18,36,0.75); border: 1px solid rgba(212,175,55,0.25); border-radius: 20px; padding: 20px 25px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 20px; transition: 0.3s; flex-wrap: wrap; }
+        .machine-card:hover { border-color: var(--gold); box-shadow: 0 0 25px rgba(212,175,55,0.2); transform: translateY(-3px); }
+        .machine-icon { font-size: 2.8rem; color: var(--gold); min-width: 60px; text-align: center; margin-top: 5px; flex-shrink: 0; }
+        .machine-content { flex: 1 1 240px; min-width: 0; max-width: 100%; }
+        .machine-content h4 { color: var(--gold); font-size: 1.3rem; margin-bottom: 8px; overflow-wrap: break-word; word-break: break-word; }
+        .machine-content p { color: #bbb; font-size: 0.95rem; line-height: 1.6; overflow-wrap: break-word; word-break: break-word; }
+        .machine-content .table-responsive { margin-top: 15px; max-width: 100%; }
+        .machine-content table { word-break: break-word; }
+        @media (max-width: 480px) {
+            .machine-card { flex-direction: column; align-items: flex-start; }
+            .machine-icon { margin-bottom: 4px; }
+        }
+
+        .version-badge { display: inline-block; background: rgba(212,175,55,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: bold; margin-right: 8px; }
+        .toc-box { background: rgba(18,18,30,0.6); border: 1px solid rgba(212,175,55,0.3); border-radius: 20px; padding: 20px; margin-bottom: 25px; }
+        .toc-box h3 { color: var(--gold); margin-bottom: 12px; font-size: 1.2rem; }
+        .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+        @media (max-width: 700px) { .toc-grid { grid-template-columns: 1fr; } }
+        .toc-grid a { color: #ddd; text-decoration: none; font-size: 0.92rem; padding: 4px 0; border-bottom: 1px dotted rgba(255,255,255,0.08); display: block; overflow-wrap: break-word; }
+        .toc-grid a:hover { color: var(--gold); }
+        .toc-grid a .toc-num { color: var(--gold); margin-left: 6px; }
+        #backToTop { position: fixed; bottom: 90px; left: 20px; background: var(--gold); color: #000; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.4); opacity: 0; transition: 0.3s; z-index: 50; pointer-events: none; }
+        #backToTop.show { opacity: 1; pointer-events: auto; }
+        p, li, td, th { overflow-wrap: break-word; word-break: break-word; }
+    </style>
+</head>
+<body>
+    <div id="canvas-bg"></div>
+    <a id="top"></a>
+    <div class="container">
+        <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i> العودة إلى الرئيسية</a>
+        <div class="section" id="sec-header">
+            <h1 class="section-title">📘 الدليل التشغيلي المعياري – ورشة Jannah Light</h1>
+            <p><span class="version-badge">الإصدار V.9.3 — النسخة المعتمدة النهائية</span></p>
+            <p style="margin-top:10px;"><strong>تاريخ الإصدار: 23 مايو 2026</strong></p>
+            <p><strong>المؤلف:</strong> محمد جعيل – المدير التقني والمؤسس</p>
+            <p style="font-style:italic; margin-top:8px;">"نصنع الجودة، لنضيء المستقبل بعقول جزائرية"</p>
+        </div>
+
+        <nav class="toc-box" id="sec-toc">
+            <h3><i class="fas fa-list"></i> فهرس المحتويات (للتصفح السريع)</h3>
+            <div class="toc-grid">
+                <a href="#bab1"><span class="toc-num">1</span> الباب الأول: التجهيزات التقنية والبنية التحتية</a>
+                <a href="#bab2"><span class="toc-num">2</span> الباب الثاني: استراتيجية الإنتاج والجدول الزمني</a>
+                <a href="#bab3"><span class="toc-num">3</span> الباب الثالث: البطاقات الفنية والصيانة</a>
+                <a href="#bab4"><span class="toc-num">4</span> الباب الرابع: بروتوكول IQC والامتثال العالمي</a>
+                <a href="#bab5"><span class="toc-num">5</span> الباب الخامس: Micro-SOP والاختبارات المتقدمة</a>
+                <a href="#ch6"><span class="toc-num">6</span> الفصل السادس: الموارد البشرية والنظام التشغيلي</a>
+                <a href="#ch7"><span class="toc-num">7</span> الفصل السابع: استراتيجية الإنتاج والجدول المالي</a>
+                <a href="#ch8"><span class="toc-num">8</span> الفصل الثامن: مراقبة الجودة وضبط الأداء</a>
+                <a href="#ch9"><span class="toc-num">9</span> الفصل التاسع: السلامة المهنية وإدارة الطوارئ</a>
+                <a href="#ch10"><span class="toc-num">10</span> الفصل العاشر: حماية الاستمرارية (الرطوبة والطاقة)</a>
+                <a href="#ch11"><span class="toc-num">11</span> الفصل الحادي عشر: سجل الدروس المستفادة</a>
+                <a href="#ch12"><span class="toc-num">12</span> الفصل الثاني عشر: النماذج والسجلات</a>
+                <a href="#ch13"><span class="toc-num">13</span> الفصل الثالث عشر: التسويق والمبيعات والشهادات</a>
+                <a href="#sec2"><span class="toc-num">–</span> القسم الثاني: الرؤية الاستراتيجية (3–5 سنوات)</a>
+                <a href="#sec-competitive"><span class="toc-num">–</span> تحليل التنافسية ورصد السوق</a>
+                <a href="#sec-review"><span class="toc-num">–</span> جدول المراجعة السنوية</a>
+                <a href="#sec-pledge"><span class="toc-num">–</span> إقرار الاطلاع والتعهد</a>
+            </div>
+            <p style="margin-top:14px; font-size:0.8rem; color:#999;">الملاحق العملية (ملفات مستقلة): خطة تهيئة الورشة والبنية التحتية • كتالوج المنتجات وخارطة التوسع • ملحق سلسلة التوريد • ملحق خطة الجودة • ملحق الإطار القانوني • ملحق إدارة النفايات الإلكترونية • ملحق الفريق اللوجستي والنقل • ملحق خطة التسويق • ملحق التحليل التنافسي.</p>
+        </nav>
+
+        <div class="section" id="sec-dedication">
+            <h2 class="subsection-title">الإهداء</h2>
+            <p>إلى كل عامل في ورشة «جنة لايت»،<br> إلى كل يد تبني وتضيء،<br> هذا الدليل التشغيلي وُضع ليكون مرجعاً لكم،<br> وليغرس فيكم روح الانتماء والمسؤولية،<br> حتى نصنع معاً الجودة ونضيء المستقبل بعقول جزائرية.</p>
+        </div>
+
+        <div class="section" id="sec-intro">
+            <h2 class="subsection-title">مقدمة الدليل التشغيلي الداخلي</h2>
+            <p>بسم الله الرحمن الرحيم.</p>
+            <p>إن نجاح أي مشروع صناعي لا يقوم على الفكرة وحدها، بل على التنظيم الدقيق، وضبط الإجراءات، والالتزام بمنهجية واضحة وموثقة. وانطلاقاً من هذا المبدأ، تم إعداد هذا الدليل التشغيلي ليكون المرجع الأساسي والمرشد اليومي لجميع العاملين في ورشة «جنة لايت» (Jannah Light).</p>
+            <p>ويستند هذا الدليل إلى خبرة ميدانية عملية متراكمة في مجال الكهرباء الصناعية والإلكترونيات، وصيغ في قالب منهجي ليكون:</p>
+            <ul>
+                <li>مرجعاً عملياً للعمال الجدد والقدامى.</li>
+                <li>أداة لمراقبة الجودة وضبط الإنتاج.</li>
+                <li>دليلاً لاتخاذ القرارات الإدارية والفنية.</li>
+                <li>إطاراً قانونياً وتنظيمياً يحمي حقوق الورشة والعاملين معاً.</li>
+            </ul>
+
+            <h3 class="sub-subtitle">ما يميز هذا الدليل التشغيلي:</h3>
+            <ul>
+                <li><strong>واقعيته:</strong> يعتمد فقط على ما هو موجود فعلياً في الورشة من آلات ومعدات وقدرات تشغيلية.</li>
+                <li><strong>تفصيله:</strong> يقدم أرقاماً وإجراءات دقيقة، ولا يترك مجالاً للاجتهاد الشخصي.</li>
+                <li><strong>مرونته:</strong> صُمم ليكون وثيقة حية، تُراجع وتُحدَّث سنوياً وفق الخبرات الجديدة وتغيرات السوق.</li>
+                <li><strong>شموليته:</strong> يربط بين الجوانب التقنية والمالية والبشرية في منظومة واحدة متكاملة.</li>
+                <li><strong>موثوقيته:</strong> بُني وفق المعايير الدولية ISO 9001 و IEC 62471 و LM-80 لضمان منتج جزائري قابل للتصدير والمنافسة.</li>
+            </ul>
+
+            <h3 class="sub-subtitle">الغاية الاقتصادية:</h3>
+            <p>إن هذا الدليل ليس غاية في حد ذاته، بل وسيلة لتحقيق 3 أهداف وطنية: أولاً، تخفيض فاتورة استيراد المصابيح. ثانياً، خلق مناصب شغل دائمة للشباب الجزائري. ثالثاً، بناء علامة "Jannah Light" كبديل وطني عالي الجودة.</p>
+
+            <h3 class="sub-subtitle">تمهيد الدليل التشغيلي:</h3>
+            <p>هذا الدليل هو المرجع اليومي الإلزامي لجميع عمال ومشرفي ورشة «جنة لايت»، ويعتبر جزءاً لا يتجزأ من النظام الداخلي للمؤسسة. الاطلاع عليه والتوقيع على الالتزام به شرط أساسي للعمل، ومخالفة بنوده تعتبر إخلالاً بالواجبات المهنية.</p>
+            <p><strong>القسم الأول (السنة الأولى):</strong> تفصيل كامل بالأرقام والتواريخ – العمود الفقري لعمليات الورشة.</p>
+            <p><strong>القسم الثاني (رؤية 3-5 سنوات):</strong> اتجاهات استراتيجية عامة بدون أرقام ملزمة في هذه المرحلة.</p>
+
+            <h3 class="sub-subtitle">يشمل هذا الدليل:</h3>
+            <ul>
+                <li>جميع الآلات والبطاقات الفنية.</li>
+                <li>بروتوكولات فحص المواد عند الاستلام (IQC).</li>
+                <li>اختبارات الجودة المتقدمة.</li>
+                <li>التفاصيل المالية الميدانية.</li>
+                <li>مواصفات بيئة العمل.</li>
+                <li>سجل الدروس المستفادة.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title" id="sec1" style="margin-top:10px;">القسم الأول: السنة الأولى – التفصيل الكامل</h2>
+        <div class="section" id="bab1">
+            <h2 class="section-title">الباب الأول: التجهيزات التقنية والبنية التحتية للورشة</h2>
+            <h3 class="subsection-title" id="b1-1-1">1.1 قائمة الآلات وخطوط الإنتاج الرئيسية</h3>
+
+            <!-- آلة 1: الكبس والبرشمة -->
+            <div class="machine-card">
+                <div class="machine-icon"><i class="fas fa-cogs"></i></div>
+                <div class="machine-content">
+                    <h4>(أ) ماكينة الكبس والبرشمة (LED Bulb Riveting &amp; Pressing Machine)</h4>
+                    <p><strong>الوظيفة:</strong> الربط الميكانيكي بين القاعدة المعدنية (E27/B22) وهيكل المصباح البلاستيكي.</p>
+                    <p><strong>القدرة الإنتاجية:</strong> <span class="ltr-num">100–120</span> وحدة/ساعة.</p>
+                    <p><strong>المعايير التقنية:</strong> ضبط الأسطوانة الهوائية لتحقيق عمق تداخل لا يقل عن 0.8 ملم، مع ضمان صمود القاعدة أمام عزم دوران 3 نيوتن متر (IEC 60968).</p>
+                    <p><strong>واجهة التحكم:</strong> نظام PLC مع شاشة لمس لتقليل الأخطاء اليدوية وضبط القوة بدقة (تكلفة ترقية: 50,000 دج – مورد: Spectra Dz).</p>
+                    <p><strong>الميزة الميدانية:</strong> نتوءات برشام جانبية تمنع دوران القاعدة أو سقوطها – نسبة ثبات 99.9%.</p>
+                    <p><strong>التكامل الرقمي:</strong> إمكانية ربط الجهاز بنظام ERP لإنتاج تقارير إحصائية يومية وتتبع الأعطال. كل آلة مزودة بـ QR Code مخصص يفتح سجل الصيانة على Google Sheet.</p>
+                    <p><strong>التكلفة التقديرية (2026):</strong> 337,500 دج (+50,000 دج تكلفة ترقية = 387,500 دج إجمالي).</p>
+                    <p><strong>✦ السر التقني:</strong> نتوءات جانبية = 99.9% ثبات – يُطبَّق العزم بشكل تدريجي وليس مفاجئاً لتفادي إتلاف القاعدة.</p>
+                    <p><strong>قطع الغيار الأساسية</strong> (مدرجة في ميزانية قطع الغيار الشاملة): رؤوس كبس (Punching Heads) وقوالب متغيرة، حلقات إحكام (O-Rings) للأسطوانة الهوائية، زيوت تشحيم ميكانيكية متوافقة.</p>
+                    <p style="margin-top:10px;"><strong>جدول الصيانة – ماكينة الكبس:</strong></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                            <tbody>
+                                <tr><td>فحص سلامة حلقة O-Ring</td><td>أسبوعياً</td><td>500</td></tr>
+                                <tr><td>تشحيم المكبس الهوائي (زيت هيدروليكي خفيف)</td><td>كل 6 أشهر</td><td>2,000</td></tr>
+                                <tr><td>فحص ضغط الهواء (4-6 بار)</td><td>يومياً</td><td>0</td></tr>
+                                <tr><td>معايرة منظم الضغط</td><td>شهرياً</td><td>1,000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- آلة 2: فرن اللحام -->
+            <div class="machine-card">
+                <div class="machine-icon"><i class="fas fa-fire"></i></div>
+                <div class="machine-content">
+                    <h4>(ب) اللحام الرقمي – «فرن الذهب» (Solder Pot SB PTC 500-D)</h4>
+                    <p><strong>الوظيفة:</strong> لحام نقاط التوصيل والأسلاك بالـ PCB عن طريق التغطيس السريع (Dip Soldering).</p>
+                    <p><strong>بروتوكول التشغيل المفصل:</strong></p>
+                    <ul>
+                        <li>قشط الأكسيد (Dross Skimming): إجراء إلزامي قبل كل عملية غمر بملعقة معدنية خاصة لإزالة طبقة الأكسدة.</li>
+                        <li>التسخين الأولي (Pre-heating): وضع البوردة فوق سطح الحوض 3-5 ثوانٍ لتقليل الصدمة الحرارية على مكونات LED.</li>
+                        <li>درجة الحرارة المثلى للقصدير التقليدي Sn63Pb37: 250-280°C، وللقصدير الخالي من الرصاص SAC305: 300-350°C.</li>
+                        <li>زمن الغمر الذهبي: 2-4 ثوانٍ فقط لمنع تلف المسارات النحاسية أو انصهار العوازل.</li>
+                    </ul>
+                    <p><strong>المواصفات الفنية التفصيلية:</strong> سعة حوض القصدير 4.5 كغ، قدرة التسخين 700-750 واط، مدى درجة الحرارة حتى 450°C مع دقة تحكم رقمي ±5°C، مادة الحوض فولاذ مقاوم للصدأ SS304.</p>
+                    <p><strong>التكلفة التقديرية (2026):</strong> 54,000 دج. <strong>التأريض:</strong> تأريض كامل للهيكل (Earthing) – إلزامي.</p>
+                    <p><strong>✦ سبب تقني (Popcorn Effect):</strong> الرطوبة داخل الـ LED تتبخر فجأة عند دخول فرن اللحام (230-250°C)، مسببةً انفجاراً مجهرياً يكسر التوصيلات الداخلية. المكون قد يعمل في البداية ثم يفشل بعد أيام.</p>
+                    <p class="warning">⚠ إلزامية: ارتداء القفازات الحرارية، النظارات الواقية، والمئزر الجلدي عند التشغيل.</p>
+                    <p><strong>قطع الغيار الأساسية:</strong> عناصر تسخين إضافية (Heating Elements)، ملاعق قشط أكسيد إضافية (Skimming Spatulas)، فوهات شفط الأبخرة.</p>
+                    <p style="margin-top:10px;"><strong>جدول الصيانة – حوض اللحام:</strong></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>الإجراء / المعيار</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                            <tbody>
+                                <tr><td>قشط الأكسيد (Dross Skimming)</td><td>قبل كل غمر</td><td>500 (شهرياً)</td></tr>
+                                <tr><td>تنظيف الحوض من بقايا القصدير</td><td>يومياً</td><td>1,000</td></tr>
+                                <tr><td>تسجيل درجة الحرارة وزمن الغمر</td><td>يومياً (بداية الوردية)</td><td>0</td></tr>
+                                <tr><td>معايرة حساس الحرارة (Thermocouple)</td><td>أسبوعياً</td><td>2,000</td></tr>
+                                <tr><td>فحص نظام شفط الأبخرة</td><td>أسبوعياً</td><td>1,000</td></tr>
+                                <tr><td>فحص التأريض (Earthing)</td><td>شهرياً</td><td>500</td></tr>
+                                <tr><td>فحص تسرب / تآكل الحوض</td><td>كل 3 أشهر</td><td>1,500</td></tr>
+                                <tr><td>تدوير الحوض 90° لتوزيع الحرارة</td><td>نصف سنوي</td><td>0</td></tr>
+                                <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>6,000 دج</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- آلة 3: الكبس بالهواء المضغوط -->
+            <div class="machine-card">
+                <div class="machine-icon"><i class="fas fa-compress"></i></div>
+                <div class="machine-content">
+                    <h4>(ت) آلة الكبس بالهواء المضغوط (Pneumatic Press Machine)</h4>
+                    <p><strong>الوظيفة:</strong> تُستخدم للضغط وتجميع أجزاء المصباح (تثبيت القاعدة والمكونات المعدنية). تعمل بالهواء المضغوط، مما يضمن دقة عالية وسرعة في الإنتاج.</p>
+                    <p><strong>السعر التقديري:</strong> 1,800–2,500 دولار (243,000–337,500 دج).</p>
+                    <p><strong>المستلزمات المرتبطة بالآلة:</strong></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>الصنف</th><th>الاستخدام</th></tr></thead>
+                            <tbody>
+                                <tr><td>ضاغط هواء (Air Compressor)</td><td>تشغيل الأسطوانة الهوائية</td></tr>
+                                <tr><td>خراطيم هواء وقطع غيار للأسطوانة</td><td>التوصيل والتشغيل الدوري</td></tr>
+                                <tr><td>قوالب معدنية (Molds/Fixtures)</td><td>تكييف الآلة حسب نوع القاعدة (E27, E14)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="font-size:0.85rem; color:#999;">(منقولة حرفياً من ملف «الآلات المستهدفة JLT»؛ تكلفتها 337,500 دج محسوبة ضمن سطر «آلة كبس هوائية» في جدول الميزانية 2.1 أدناه — وليست تكلفة إضافية منفصلة)</p>
+                </div>
+            </div>
+
+            <!-- آلة 4: توزيع الغراء -->
+            <div class="machine-card">
+                <div class="machine-icon"><i class="fas fa-syringe"></i></div>
+                <div class="machine-content">
+                    <h4>(ث) آلة توزيع الغراء (Glue Dispenser Machine)</h4>
+                    <p><strong>الوظيفة:</strong> توزيع السيليكون الحراري بدقة متناهية لتثبيت الناشر الضوئي (Diffuser) والمكونات الداخلية.</p>
+                    <p><strong>الاستهلاك المعياري:</strong> 0.15-0.20 غرام لكل لمبة (تُقاس بميزان دقيق ±0.01 غرام بداية كل وردية).</p>
+                    <p><strong>ضغط الهواء:</strong> 4-5 بار ثابت (أي تذبذب بـ 0.1 بار يفسد مسار الغراء).</p>
+                    <p><strong>التكلفة التقديرية (2026):</strong> 877,000 دج.</p>
+                    <p><strong>مواصفات السيليكون:</strong> مقاوم للرطوبة، يتحمل حتى 150°C، متصل بلا فراغات هوائية.</p>
+                    <p><strong>✦ السر التقني (ثبات النقطة):</strong> سر نجاح التوزيع ليس في قوة الضغط بل في ثباته. أي تغيير بـ 0.1 بار قد يؤدي لفيضان الغراء على المسارات النحاسية (Pads) مما يمنع اللحام لاحقاً.</p>
+                    <p class="warning">⚠ تنبيه حرج: لا تترك الغراء داخل الإبرة إذا توقفت الآلة لأكثر من 30 دقيقة – الجفاف يغير قطرها الداخلي للأبد.</p>
+                    <p class="warning">⚠ تنبيه الأمان (وحدة FRL): تأكد من كفاءة وحدة الهواء المضغوط – قطرة ماء واحدة تُفسد المحقنة بالكامل.</p>
+                    <p><strong>قطع الغيار الأساسية:</strong> إبر حقن (Needles/Nozzles) بمقاسات مختلفة، خراطيش غراء (Glue Cartridges) وأنابيب توصيل، حلقات إحكام (O-Rings) لمنع التسرب داخل الصمام، محاليل تنظيف متخصصة.</p>
+                    <p style="margin-top:10px;"><strong>جدول الصيانة – آلة توزيع الغراء:</strong></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                            <tbody>
+                                <tr><td>معايرة ضغط التوزيع (4-5 بار)</td><td>يومياً (قبل البدء)</td><td>0</td></tr>
+                                <tr><td>فحص تجانس الغراء داخل المحقنة</td><td>عند كل تعبئة</td><td>0</td></tr>
+                                <tr><td>تفريغ الهواء من المحقنة (Degassing)</td><td>عند كل تعبئة</td><td>0</td></tr>
+                                <tr><td>تنظيف رأس الإبرة بالكحول (Isopropanol 99%)</td><td>كل 4 ساعات تشغيل</td><td>300</td></tr>
+                                <tr><td>تشحيم السكك الحديدية (Linear Rails)</td><td>أسبوعياً</td><td>1,500</td></tr>
+                                <tr><td>تنظيف صمام التوزيع (Dispense Valve)</td><td>أسبوعياً</td><td>1,000</td></tr>
+                                <tr><td>معايرة حساس الارتفاع Z-Sensor (0.5 ملم)</td><td>أسبوعياً</td><td>0</td></tr>
+                                <tr><td>فحص خراطيم الهواء</td><td>شهرياً</td><td>500</td></tr>
+                                <tr><td>تبديل فلاتر الهواء الداخلية</td><td>كل 3 أشهر</td><td>1,200</td></tr>
+                                <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>4,500 دج</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive" style="margin-bottom:25px;">
+                <p style="font-size:0.85rem; color:#999; margin-bottom:6px;">جدول صيانة دوري إضافي (كما ورد في النص الأصلي للدليل بين قسم آلة الغراء وقسم الليزر، دون عنوان آلة محدد):</p>
+                <table class="data-table">
+                    <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>معايرة جهاز قياس القدرة (Power Meter)</td><td>شهرياً</td><td>2,000</td></tr>
+                        <tr><td>تنظيف مجسات التوصيل (الكونكتورات)</td><td>يومياً</td><td>0</td></tr>
+                        <tr><td>فحص كابلات الاختبار من التآكل</td><td>أسبوعياً</td><td>500</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>2,500 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive" style="margin-bottom:25px;">
+                <table class="data-table">
+                    <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>فحص O-Rings وخراطيم الهواء</td><td>أسبوعياً</td><td>500</td></tr>
+                        <tr><td>تشحيم المكونات الميكانيكية</td><td>أسبوعياً</td><td>1,000</td></tr>
+                        <tr><td>معايرة مجسات الاختبار الكهربائي</td><td>شهرياً</td><td>1,500</td></tr>
+                        <tr><td>فحص رؤوس الكبس من التآكل</td><td>شهرياً</td><td>0</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>3,000 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- آلة 4: الليزر -->
+            <div class="machine-card">
+                <div class="machine-icon"><i class="fas fa-qrcode"></i></div>
+                <div class="machine-content">
+                    <h4>(ج) ماكينة الوسم والاختبار بالليزر (Laser Marking &amp; Testing Machine)</h4>
+                    <p><strong>الوظيفة:</strong> الفحص الكهربائي (جهد، تيار، استطاعة) + الوسم بالليزر (شعار، قدرة، رقم دفعة، QR ضمان).</p>
+                    <p><strong>نوع المصدر:</strong> Fiber Laser – عمر تشغيلي حتى 100,000 ساعة. مطابق لمعيار EN 60825.</p>
+                    <p><strong>شرط الأمان الرقمي:</strong> ربط إلزامي بـ UPS Online Double Conversion لحماية مصدر الليزر من الطفرات الكهربائية.</p>
+                    <p><strong>التكلفة التقديرية (2026):</strong> 1,215,000 دج.</p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>المادة</th><th>القوة (Power)</th><th>السرعة (Speed)</th><th>الميزة</th></tr></thead>
+                            <tbody>
+                                <tr><td>بلاستيك PC (Polycarbonate)</td><td>20-25%</td><td>250 مم/ثا</td><td>ترقيم متسلسل فريد لكل لمبة</td></tr>
+                                <tr><td>ألومنيوم (مؤكسد/مطلي)</td><td>45-50%</td><td>200 مم/ثا</td><td>يمنع مسح البيانات مع الوقت</td></tr>
+                                <tr><td>فولاذ مقاوم للصدأ</td><td>تجريبياً</td><td>تجريبياً</td><td>حسب السماكة</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><strong>قطع الغيار الأساسية:</strong> عدسات احتياطية (Lenses) لضمان دقة الوسم، مصدر ليزر بديل (Laser Source) للحالات الطارئة، أدوات معايرة دقيقة (Calibration Tools) لضبط القوة والوضوح.</p>
+                    <p style="margin-top:10px;"><strong>جدول الصيانة – ماكينة الليزر:</strong></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                            <tbody>
+                                <tr><td>تنظيف عدسة الليزر (قطعة قطنية + Isopropanol)</td><td>أسبوعياً</td><td>2,000</td></tr>
+                                <tr><td>فحص نظام شفط الأبخرة</td><td>شهرياً</td><td>500</td></tr>
+                                <tr><td>معايرة مسار الشعاع (Beam Alignment)</td><td>سنوياً</td><td>بفني متخصص</td></tr>
+                                <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>2,500 دج</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="warning">⚠ تنبيه أمان: إلزامية ارتداء النظارات الواقية المخصصة لفلترة طول موجة الليزر وتشغيل نظام شفط الأبخرة عند التشغيل.</p>
+                </div>
+            </div>
+
+            <div class="table-responsive" style="margin-bottom:25px;">
+                <p style="font-size:0.85rem; color:#999; margin-bottom:6px;">جدول صيانة دوري إضافي (كما ورد في النص الأصلي بين قسم الليزر وقسم التلميع، دون عنوان آلة محدد):</p>
+                <table class="data-table">
+                    <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>معايرة جهاز Wattmeter بمرجع ±1%</td><td>شهرياً</td><td>0</td></tr>
+                        <tr><td>معايرة جهاز Lux Meter</td><td>سنوياً</td><td>0</td></tr>
+                        <tr><td>فحص فلاتر HEPA نظام الشفط</td><td>كل 3-6 أشهر</td><td>حسب الاستهلاك</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>يُحدد حسب الاستهلاك الدوري</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- آلة 5: التلميع والصنفرة -->
+            <div class="machine-card">
+                <div class="machine-icon"><i class="fas fa-brush"></i></div>
+                <div class="machine-content">
+                    <h4>(خ) آلة التلميع والصنفرة (Buffer Polisher XLBP 9)</h4>
+                    <p style="font-size:0.85rem; color:#999;">(تُذكر في جدول الميزانية 2.1 باسم: «آلة تنظيف PCB – البافر»)</p>
+                    <p><strong>الوظيفة:</strong> إزالة النتوءات الزائدة وتلميع الأسطح الخارجية للهيكل والمشتت الحراري، مما يضمن مظهراً جمالياً احترافياً وجودة نهائية عالية للمصباح.</p>
+                    <p><strong>المواصفات التقنية:</strong> آلة تلميع صناعية ذات عزم دوران عالٍ، مجهزة بنظام تثبيت دقيق ومنافذ لشفط الغبار الدقيق.</p>
+                    <p><strong>التكلفة التقديرية (2026):</strong> 33,750 دج.</p>
+                    <p><strong>قطع الغيار الأساسية</strong> (مدرجة في ميزانية قطع الغيار الشاملة): أقراص صنفرة وتلميع (Polishing/Sanding Discs) متنوعة القياسات، محامل (Bearings) للمحرك لضمان سلاسة الحركة، أدوات تنظيف الفرش والأسطح الميكانيكية.</p>
+                    <p style="margin-top:10px;"><strong>جدول الصيانة – آلة التلميع:</strong></p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                            <tbody>
+                                <tr><td>استبدال أقراص الصنفرة والتلميع</td><td>حسب الاستهلاك</td><td>25,000 (إجمالي مخصصات قطع الغيار)</td></tr>
+                                <tr><td>تنظيف وحدة شفط الغبار</td><td>يومياً</td><td>0</td></tr>
+                                <tr><td>تشحيم المحامل والمفاصل المتحركة</td><td>شهرياً</td><td>0</td></tr>
+                                <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>يُحدد حسب الاستهلاك الدوري</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="subsection-title" id="b1-2-1">2.1 الميزانية التقنية الإجمالية (2026)</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الآلة</th><th>التكلفة (دج)</th><th>المورد</th></tr></thead>
+                    <tbody>
+                        <tr><td>آلة متعددة الوظائف (Pressing + Assembly + Testing)</td><td>861,250</td><td>Zhongshan Dashuo – الصين</td></tr>
+                        <tr><td>فرن تغطيس بالقصدير (Solder Pot SB PTC 500-D)</td><td>54,000</td><td>Ouedkniss / القبائل</td></tr>
+                        <tr><td>آلة توزيع الغراء (Glue Dispenser Semi-Auto)</td><td>877,000</td><td>Jumia DZ / برج بوعريريج</td></tr>
+                        <tr><td>آلة كبس هوائية (Pneumatic Press Machine)</td><td>337,500</td><td>Ouedkniss / القبائل</td></tr>
+                        <tr><td>آلة اختبار ووسم بالليزر (Laser Marking &amp; Testing)</td><td>1,215,000</td><td>AliExpress / DXTECH</td></tr>
+                        <tr><td>آلة تنظيف PCB – البافر (PCB Brushing Machine) ✔ مصحح من 710,000 دج</td><td>33,750</td><td>مورد معتمد – الجزائر</td></tr>
+                        <tr style="background: rgba(212,175,55,0.15);"><td><strong>الإجمالي الصحيح المعتمد (6 آلات)</strong></td><td><strong>3,378,500 دج</strong></td><td><strong>–</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="subsection-title" id="b1-3-1">3.1 معايير المناخ الداخلي وبيئة العمل (Environment &amp; Safety)</h3>
+            <p><strong>الحرارة والرطوبة:</strong> درجة حرارة الورشة 18°C – 30°C (تُقاس يومياً بجهاز Hygrometer). الرطوبة النسبية أقل من 60% لمنع تكثف الرطوبة على البطاقات الإلكترونية وأكسدة أطراف المكونات. يُركَّب Hygrometer في مكان بارز وتُسجَّل القراءة في السجل اليومي.</p>
+            <p><strong>الإضاءة والتهوية:</strong> إضاءة LED بيضاء بقوة 500 لوكس (lux) على جميع طاولات التجميع واللحام والفحص البصري. نظام شفط أبخرة مركزي (Fume Extractor) بفلاتر HEPA + كربوني، يُشغَّل إجبارياً أثناء اللحام. تغيير الفلتر الأولي (Pre-filter) شهرياً، والفلتر الرئيسي كل 3-6 أشهر حسب الاستهلاك. تركيب مراوح سقف + تهوية جانبية لتقليل الحرارة والغبار.</p>
+            <p><strong>السلامة المهنية والمواد الخطرة:</strong> نظارات واقية متخصصة (للحام وللليزر). قفازات حرارية مقاومة للحرارة العالية. مطافئ CO₂ حصراً بجانب الأجهزة الحساسة (الفرن، الليزر، لوحة الكهرباء) – ممنوع الماء أو البودرة. تخزين Isopropanol ومواد التنظيف في خزائن معدنية مخصصة مغلقة بعيداً عن مصادر الحرارة والشرار. توفير مادة ماصة للتعامل مع أي انسكاب كيميائي.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الإجراء التقني والبيئي</th><th>الوتيرة</th><th>التكلفة المعيارية (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>تسجيل درجة الحرارة والرطوبة النسبية للورشة</td><td>يومياً</td><td>0</td></tr>
+                        <tr><td>تغيير الفلتر الأولي لشفط الأبخرة (Pre-filter)</td><td>شهرياً</td><td>1,500</td></tr>
+                        <tr><td>استبدال الفلتر الرئيسي عالي الكفاءة (HEPA)</td><td>كل 3-6 أشهر</td><td>4,500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title" id="b1-4-1">4.1 بروتوكول الحماية من الشحنات الساكنة (ESD Control)</h3>
+            <p><strong>سوار المعصم (ESD Wrist Strap):</strong> إلزامي لكل عامل يتعامل مع PCBs أو رقائق LED.</p>
+            <p><strong>الفحص اليومي الإلزامي:</strong> قياس مقاومة السوار بجهاز Multimeter ≈ 1 MΩ – القراءة 0 = خطر صعق، القراءة ∞ = سوار مقطوع لا يفرغ الشحنات.</p>
+            <p><strong>طاولات العمل:</strong> ذات سطح ESD-Safe مؤرضة، خالية من المواد البلاستيكية المولدة للشحنات. التأريض: ربط أساور المعصم بالطاولة المؤرضة المتصلة بنظام التأريض العام للورشة.</p>
+            <p><strong>فحص السجاد المضاد للشحنات (ESD Mat):</strong> فحص أسبوعي لقياس مقاومة السجادة الأرضية ضمن النطاق المقبول (1 ميجا أوم إلى 10 ميجا أوم). أي قيمة خارج هذا النطاق تعني فقدان الحماية وتستوجب الاستبدال الفوري.</p>
+            <p><strong>التدريب الشهري على بيئة ESD:</strong> إلزامية تدريب جميع العمال شهرياً على إجراءات التعامل مع مكونات ESD-Sensitive، بما يشمل كيفية ارتداء السوار واختباره، والحفاظ على نظافة الطاولات وخلوها من المواد البلاستيكية المولدة للشحنات.</p>
+            <p><strong>اختبار EMI عند تغيير المكونات:</strong> إلزامية إعادة اختبار EMI Pre-Check عند كل تغيير في نوع الـ Driver أو أي تحديث في الدائرة الكهربائية، مع تسجيل النتائج في سجل EMI الخاص.</p>
+            <p><strong>توثيق:</strong> تسجيل نتائج فحص ESD يومياً في «سجل الجودة والسلامة».</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>فحص استمرارية وسلامة أساور المعصم للعمال</td><td>يومياً</td><td>0</td></tr>
+                        <tr><td>فحص مقاومة سجاد ESD الأرضي وعوازل الطاولات</td><td>أسبوعياً</td><td>0</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>إجمالي تكاليف الصيانة والحماية الدورية</strong></td><td><strong>شهرياً</strong></td><td><strong>0 دج (حماية ذاتية)</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title" id="b1-5-1">5.1 منظومة الطاقة واستمرارية العمل (Power Utility)</h3>
+            <p><strong>المولد الاحتياطي (5 KW):</strong> يعمل أوتوماتيكياً خلال 30 ثانية من انقطاع التيار، يغذي: الفرن، شفط الأبخرة، الإضاءة الأساسية. تشغيل تجريبي أسبوعياً لمدة 10 دقائق للتأكد من الجاهزية وفحص الزيت والوقود. فحص شهري لمستوى الزيت والوقود ومستوى ماء البطارية. يُنصح بنظام ATS (Automatic Transfer Switch) للتحويل التلقائي الآمن دون إيقاف الإنتاج.</p>
+            <p><strong>منظم الجهد (Voltage Stabilizer 5000W):</strong> يُركَّب عند مدخل الكهرباء الرئيسي للحفاظ على 220V ±10%. يوضع قبل المولد والـ UPS لحماية جميع الآلات من الطفرات الكهربائية.</p>
+            <p><strong>نظام UPS (Online Double Conversion):</strong> إلزامي لماكينة الليزر، محطات القياس (Testing Bench)، وأجهزة الكمبيوتر. النوع المطلوب: Online Double Conversion حصراً (المتوافق مع IEEE 446-1995). السبب التقني: الأجهزة الرخيصة (Offline) لا تحمي من تذبذب التردد عند تشغيل المولد؛ الـ Online Double Conversion يعيد إنتاج كهرباء نقية 100% ويزيل الطفرات (Voltage Spikes). اختبار بطاريات UPS كل 6 أشهر، والاستبدال كل 3 سنوات كحد أقصى (تكلفة ≈ 50,000 دج).</p>
+            <p><strong>قواطع الحماية:</strong> GFCI لمنع الصعق الكهربائي – إلزامية على محطات العمل. AFCI لمنع الحرائق الناتجة عن القوس الكهربائي.</p>
+            <p><strong>خطة الطوارئ الكهربائية التدريجية:</strong></p>
+            <ul>
+                <li><strong>المرحلة 1:</strong> حماية الـ UPS اللحظية للأجهزة الحساسة لمدة 15 دقيقة (ليزر + قياس).</li>
+                <li><strong>المرحلة 2:</strong> تشغيل المولد 5KW لتوفير طاقة تشغيل مستمرة لـ 8 ساعات (الفرن + الشفاطات + الإضاءة).</li>
+                <li><strong>المرحلة 3 (عند نفاد الوقود):</strong> التحول للحام اليدوي ومحطات العمل الثنائية، 50 وحدة/يوم + بيع من مخزون الأمان.</li>
+            </ul>
+            <p><strong>توثيق:</strong> سجل خاص لصيانة الطاقة يشمل تاريخ تشغيل المولد، فحص البطاريات، وأي أعطال.</p>
+
+            <h3 class="subsection-title" id="b1-6-1">6.1 جدول التحقق اليومي لبيئة العمل (Daily Checklist + EMI Pre-Check)</h3>
+            <p>يُعد تعبئة هذا الجدول صباح كل يوم عمل إجراءً سياديًا إلزاميًا قبل بدء أي إنتاج. يُعتبر هذا السجل وثيقة قانونية وتقنية تثبت التزام المصنع بمعايير ISO و IEC في كل وحدة منتجة.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>رقم</th><th>البند التنفيذي (Daily Checklist)</th><th>الحالة (✓/✗)</th><th>ملاحظات المشرف المسؤول</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>معدات الوقاية الشخصية كاملة (PPE) + اختبار سوار ESD (≈1MΩ)</td><td></td><td></td></tr>
+                        <tr><td>2</td><td>درجة حرارة الورشة ورطوبتها ضمن النطاق (18-30°C / &lt;60%)</td><td></td><td></td></tr>
+                        <tr><td>3</td><td>نظام شفط الأبخرة ومصابيح الإضاءة الصناعية (500 lux) يعملان بكفاءة</td><td></td><td></td></tr>
+                        <tr><td>4</td><td>ضغط الهواء المستقر في الشبكة الرئيسية (6-8 بار)</td><td></td><td></td></tr>
+                        <tr><td>5</td><td>المولد الاحتياطي (فحص الوقود ومستوى الزيت + تشغيل تجريبي 10 دقائق – أسبوعياً)</td><td></td><td></td></tr>
+                        <tr><td>6</td><td>فلاتر نظام الهواء والغاز (Clean / غير مسدودة)</td><td></td><td></td></tr>
+                        <tr><td>7</td><td>صمام أمان الهواء (Safety Relief Valve) يعمل بسحب حلقة الاختبار (Test Ring)</td><td></td><td></td></tr>
+                        <tr><td>8</td><td>عدم وجود تسريبات هواء أو زيوت هيدروليكية في الوصلات والمرابط</td><td></td><td></td></tr>
+                        <tr><td>9</td><td>عدم وجود أصوات غريبة أو اهتزازات غير طبيعية في المكابس والآلات</td><td></td><td></td></tr>
+                        <tr><td>10</td><td>خلو الأرضية من الزيوت والسوائل المنسكبة ومسارات الحركة نظيفة</td><td></td><td></td></tr>
+                        <tr><td>11</td><td>EMI Pre-Check: تشغيل 5 لمبات عشوائية قرب راديو AM، وحرارة الدريفر &lt; 70°C</td><td></td><td></td></tr>
+                        <tr><td>12</td><td>QR Scan لآلات الورشة (تحديث سجل الصيانة الرقمي والباركود)</td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 15px;">التوقيع: _______________  التاريخ: _______________</p>
+
+            <h3 class="subsection-title" id="b1-7-1">7.1 منظومة الهواء المضغوط (Pneumatic System)</h3>
+            <p><strong>المواصفات الفنية:</strong> الضاغط المركزي سعة 300 لتر، ضغط تشغيل 8-10 بار، محرك 3 حصان. وحدة المعالجة (FRL): تتكون من مجفف هواء (Air Dryer) + مرشحات دقيقة (5 ميكرون و0.01 ميكرون) + منظم ضغط + مزلّق زيت.</p>
+            <p><strong>ضغوط التشغيل المعايرة:</strong> ماكينة الكبس والبرشمة تضبط على 6 بار ثابت. آلة توزيع الغراء 4-5 بار ثابت.</p>
+            <p><strong>معيار جودة الهواء:</strong> الالتزام بمعيار ISO 8573-1 (Class 2.2.1 كحد أدنى) لضمان هواء خالٍ من الرطوبة، الجسيمات الدقيقة، والزيوت المتسربة.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>عنصر الفحص</th><th>التكرار</th><th>القيمة المقبولة / الإجراء</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>ضغط الضاغط المركزي (Compressor)</td><td>يومياً</td><td>8-10 بار مستقر</td><td>0</td></tr>
+                        <tr><td>ضغط مدخل آلة الكبس</td><td>يومياً</td><td>6 بار ثابت</td><td>0</td></tr>
+                        <tr><td>ضغط محقنة توزيع الغراء</td><td>يومياً</td><td>4-5 بار ثابت</td><td>0</td></tr>
+                        <tr><td>تفريغ الصرف وتكثف الرطوبة (Drainage)</td><td>يومياً (صيفاً)</td><td>تفريغ يدوي كامل لصمام خزان الرطوبة</td><td>0</td></tr>
+                        <tr><td>سلامة صمام الأمان (Safety Valve)</td><td>أسبوعياً</td><td>سحب حلقة الاختبار (Test Ring) يدوياً</td><td>0</td></tr>
+                        <tr><td>التسربات الميكانيكية في الوصلات الأنبوبية</td><td>أسبوعياً</td><td>عدم وجود أي صوت تسريب أو تصفير بالشبكة</td><td>0</td></tr>
+                        <tr><td>زيت الضاغط والمكبس الهيدروليكي</td><td>كل 6 أشهر</td><td>تغيير الزيت بالكامل (زيت هيدروليكي خفيف 32)</td><td>1,500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title" id="b1-8-1">8.1 المعدات المساعدة، الأدوات اليدوية ووحدة الإمداد</h3>
+            <p><strong>أولاً – تجهيزات محطات العمل:</strong> 4-6 طاولات صناعية مؤرضة (ESD-Safe) مزودة بإضاءة LED بيضاء (500 lux) ورفوف علوية. أدوات اللحام: 8 كاويات رئيسية (320-350°C) + 2 احتياطية، مع مشابك مساعدة (Helping Hands) لضمان دقة التجميع.</p>
+            <p><strong>ثانياً – الأدوات اليدوية والصيانة (المهام اليومية):</strong> أطقم أدوات: مفكات دقيقة (Precision Set)، كماشات متنوعة (قاطعة، طويلة الأنف)، ومتعريات أسلاك متخصصة. أدوات التعامل مع الـ PCB: ملاقط ESD (مضادة للشحنات)، فرش تنظيف (Anti-Static)، ومضخة نزع اللحام (Desoldering Pump) مع فتائل نحاسية (Desoldering Wick) لتصحيح الأخطاء. مواد التنظيف: استهلاك دوري لمادة Isopropanol 99% لتنظيف المسارات الإلكترونية من بقايا اللحام (Flux).</p>
+            <p><strong>ثالثاً – السلامة والطوارئ (تكملة تخصصية):</strong> إسعافات أولية: حقيبة مخصصة تحتوي على مراهم وعلاجات فورية للحروق. حماية بيئية: سدادات أذن (Earplugs) للوقاية من ضوضاء الضاغط، وكمامات (N95/FFP2).</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>البند / الأداة</th><th>الوتيرة</th><th>الإجراء</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>طقم المفكات والدقة</td><td>كل 6 أشهر</td><td>فحص الجاهزية</td><td>0</td></tr>
+                        <tr><td>كماشات ومتعريات أسلاك</td><td>كل 6 أشهر</td><td>فحص العزل</td><td>0</td></tr>
+                        <tr><td>ملاقط ESD</td><td>عند التلف</td><td>استبدال دوري</td><td>حسب الحاجة</td></tr>
+                        <tr><td>فتائل/مضخات نزع اللحام</td><td>حسب الاستهلاك</td><td>توفير مخزون استراتيجي</td><td>حسب الحاجة</td></tr>
+                        <tr><td>Isopropanol 99%</td><td>شهرياً</td><td>توفير 5 لتر/شهر</td><td>حسب الحاجة</td></tr>
+                        <tr><td>معايرة الأجهزة (ISO 17025)</td><td>سنوياً</td><td>معايرة علمية معتمدة</td><td>(لم تُحدَّد القيمة في النص الأصلي)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">ملخص التكاليف التقديرية (للمشروع كاملاً)</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>#</th><th>القسم</th><th>التكلفة التقديرية (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>الآلات الأساسية (6 آلات)</td><td>3,378,500</td></tr>
+                        <tr><td>2</td><td>قطع الغيار الأساسية</td><td>315,000</td></tr>
+                        <tr><td>3</td><td>المكونات الإلكترونية والمواد الخام (مخزون 6 أشهر)</td><td>1,790,000</td></tr>
+                        <tr><td>4</td><td>المعدات المساندة والملحقات الدقيقة</td><td>1,347,892</td></tr>
+                        <tr><td>5</td><td>معدات السلامة والطوارئ واللوجستيك</td><td>370,000</td></tr>
+                        <tr><td>6</td><td>مواد التغليف (مخزون تشغيلي لـ 6 أشهر)</td><td>900,000</td></tr>
+                        <tr><td>7</td><td>تكاليف التشغيل والإنتاج (مرحلة الانطلاق التجريبي)</td><td>805,000</td></tr>
+                        <tr><td>8</td><td>مصاريف التأسيس والتراخيص القانونية</td><td>50,000</td></tr>
+                        <tr style="background: rgba(212,175,55,0.15);"><td colspan="2"><strong>الإجمالي العام</strong></td><td><strong>8,956,392 دج</strong></td></tr>
+                        <tr><td colspan="2">سقف التمويل المصرح به</td><td>10,000,000 دج</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">تفصيل بند المعدات المساندة والملحقات الدقيقة (1,347,892 دج)</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>المعدة</th><th>السعر (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>ضاغط هواء + شبكة</td><td>270,000</td></tr>
+                        <tr><td>طاولات صناعية (6)</td><td>324,000</td></tr>
+                        <tr><td>كراسي صناعية (8)</td><td>64,000</td></tr>
+                        <tr><td>رفوف تخزين</td><td>80,000</td></tr>
+                        <tr><td>خزائن كهربائية</td><td>150,000</td></tr>
+                        <tr><td>أدوات قياس ومعايرة</td><td>120,000</td></tr>
+                        <tr><td>طاولة فحص QC</td><td>60,000</td></tr>
+                        <tr><td>مفكات هوائية وثابتة العزم</td><td>160,000</td></tr>
+                        <tr><td>ملحقات دقيقة</td><td>119,892</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>المجموع الفرعي</strong></td><td><strong>1,347,892 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">تفصيل بند معدات السلامة والطوارئ واللوجستيك (370,000 دج)</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الصنف</th><th>السعر (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>مولد كهرباء 3 kVA</td><td>50,000</td></tr>
+                        <tr><td>طفايات حريق CO₂</td><td>100,000</td></tr>
+                        <tr><td>أدوات حماية شخصية</td><td>80,000</td></tr>
+                        <tr><td>إضاءة طوارئ + إسعافات</td><td>60,000</td></tr>
+                        <tr><td>سجادة ESD</td><td>50,000</td></tr>
+                        <tr><td>منطقة انتظار وتنظيم</td><td>30,000</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>المجموع الفرعي</strong></td><td><strong>370,000 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">تفصيل بند مواد التغليف (900,000 دج)</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>المادة</th><th>السعر (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>علب كرتونية فردية (150,000 عبوة)</td><td>600,000</td></tr>
+                        <tr><td>كرتون شحن + حشوات + سيليكا جيل + ملصقات</td><td>300,000</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>المجموع الفرعي</strong></td><td><strong>900,000 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">تفصيل بند تكاليف التشغيل والإنتاج – مرحلة الانطلاق التجريبي (805,000 دج)</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>البند</th><th>السعر (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>إيجار المصنع والورشة (شهران)</td><td>200,000</td></tr>
+                        <tr><td>رواتب 8 عمال (شهر ونصف)</td><td>420,000</td></tr>
+                        <tr><td>كهرباء صناعية (شهران)</td><td>35,000</td></tr>
+                        <tr><td>نقل ولوجستيك داخلي</td><td>150,000</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>المجموع الفرعي</strong></td><td><strong>805,000 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">تفصيل بند مصاريف التأسيس والتراخيص القانونية (50,000 دج)</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>البند</th><th>السعر (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>سجل تجاري، توثيق، حماية مدنية، تأمين</td><td>50,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">تفصيل بند قطع الغيار الأساسية (315,000 دج)</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>القطعة</th><th>السعر (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>آلة متعددة الوظائف (مستشعرات، قوالب)</td><td>50,000</td></tr>
+                        <tr><td>ضاغط الهواء (فلاتر، زيوت)</td><td>15,000</td></tr>
+                        <tr><td>آلة الغراء (إبر، خراطيش)</td><td>50,000</td></tr>
+                        <tr><td>فرن القصدير (عناصر تسخين)</td><td>40,000</td></tr>
+                        <tr><td>آلة الكبس (رؤوس، حلقات)</td><td>30,000</td></tr>
+                        <tr><td>آلة الليزر (عدسات، مصدر ليزر)</td><td>60,000</td></tr>
+                        <tr><td>آلة التلميع (أقراص، محامل)</td><td>25,000</td></tr>
+                        <tr><td>محطات لحام يدوي</td><td>45,000</td></tr>
+                        <tr style="background: rgba(212,175,55,0.1);"><td><strong>المجموع الفرعي</strong></td><td><strong>315,000 دج</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="sub-subtitle">ماكينات مستقبلية – مرحلة التوسع</h4>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الماكينة</th><th>السعر التقديري (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>ماكينة سنفرة أوتوماتيكية</td><td>405,000 – 810,000</td></tr>
+                        <tr><td>ماكينة تغليف أوتوماتيكي</td><td>540,000 – 1,620,000</td></tr>
+                        <tr><td>ماكينة تلميع صناعي</td><td>600,000 – 810,000</td></tr>
+                        <tr><td>خط إنتاج أوتوماتيكي إضافي</td><td>1,620,000 – 2,700,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title" id="b1-9-1">9.1 استراتيجية التوريد والموردين</h3>
+            <p>تعتمد استراتيجية التوريد لمشروع جَنَّة لايت على مبدأ التنويع بين الموردين المحليين لسرعة الاستجابة، والموردين الدوليين لضمان التكنولوجيا والجودة.</p>
+            <p><strong>أولاً – المرحلة الأولى (محلياً):</strong> مناطق الإمداد عبر ولايات العلمة، برج بوعريريج، والجزائر العاصمة لضمان استمرارية المخزون. التعاون مع مصانع البلاستيك المحلية مثل Rouiba Éclairage و VAM Electric و Ounelec لتوريد الأغطية (Diffusers) والقواعد. تعزيز الشراكات مع مصانع الرويبة، الحراش، وحسين داي لتأمين الملحقات البلاستيكية والأغلفة.</p>
+            <p><strong>ثانياً – المرحلة الثانية (دولياً):</strong> المورد الرسمي للآلات: شركة Zhongshan Dashuo Intelligent Equipment Co., Ltd. – مدينة غوزين، مقاطعة غوانغدونغ، الصين. البريد الإلكتروني: dashuo@163.com — الموقع: www.dashuoled.com</p>
+            <p><strong>ثالثاً – الخيار الاستراتيجي المستقبلي (للتوسع):</strong> المورد البديل/المستقبلي: شركة Kinglan Press (Zhejiang Jinaolan Machine Tool Co., Ltd.). البريد الإلكتروني: sales@kinglanpress.com — الموقع: www.kinglanpress.com<br>
+            أرقام التواصل: <span class="ltr-num">+86-571-88988111 / +86-21-5410-0878</span></p>
+
+            <h3 class="subsection-title" id="b1-10-1">10.1 إدارة المخزون الذكي</h3>
+            <p><strong>المبدأ:</strong> نظام FIFO – «ما يدخل أولاً يُصنع أولاً».</p>
+            <p><strong>التتبع الرقمي:</strong> تسجيل رقم الدفعة (Batch Number) وتواريخ الاستلام والفتح.</p>
+            <p><strong>تخزين المكونات الحساسة:</strong> في أكياس Moisture Barrier مع أكياس Silica Gel. درجة حرارة التخزين 20-25°C، والرطوبة ≤ 60%.</p>
+            <p><strong>إعادة الطلب:</strong> عند وصول المخزون لـ 20% من الكمية القصوى. الجرد الدوري شهرياً.</p>
+            <p><strong>فحص Silica Gel شهرياً:</strong> إذا تحوّل اللون من الأزرق للوردي = تشبع بالرطوبة → تنشيط في الفرن 120°C ساعة. استبدال كامل كل 6 أشهر.</p>
+
+            <h3 class="subsection-title" id="b1-11-1">11.1 خطة الصيانة الوقائية العامة</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الوتيرة</th><th>الآلة / الأداة</th><th>الإجراء المطلوب</th></tr></thead>
+                    <tbody>
+                        <tr><td>يومياً</td><td>فرن SB PTC 500-D</td><td>تنظيف بقايا القصدير، قشط الأكسيد، تفريغ الصينية السفلية</td></tr>
+                        <tr><td>يومياً</td><td>طاولات العمل</td><td>مسح الأسطح بـ Isopropanol وتفريغ الحاويات الصغيرة</td></tr>
+                        <tr><td>أسبوعياً</td><td>الفرن (حرارة)</td><td>معايرة بترمومتر خارجي معتمد (235-245°C)</td></tr>
+                        <tr><td>أسبوعياً</td><td>المكبس الهوائي</td><td>فحص خراطيم الهواء، تشحيم الأجزاء، فحص O-Rings</td></tr>
+                        <tr><td>أسبوعياً</td><td>مولد الكهرباء</td><td>فحص الزيت والوقود، تشغيل تجريبي 10 دقائق</td></tr>
+                        <tr><td>أسبوعياً</td><td>نظام شفط الأبخرة</td><td>تنظيف Pre-filter وفحص مرور الهواء</td></tr>
+                        <tr><td>شهرياً</td><td>أجهزة القياس</td><td>معايرة Multimeter و Lux Meter بجهاز مرجعي</td></tr>
+                        <tr><td>شهرياً</td><td>آلة الليزر</td><td>تنظيف العدسة، فحص مستويات الحبر، معايرة القوة</td></tr>
+                        <tr><td>كل 3 أشهر</td><td>آلة توزيع الغراء</td><td>تنظيف كامل للفوهات والأنابيب وتغيير الحشيات</td></tr>
+                        <tr><td>كل 6 أشهر</td><td>الضاغط (Compressor)</td><td>تغيير الزيت، تنظيف فلتر الهواء، تفريغ خزان الرطوبة</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section" id="bab2">
+            <h2 class="section-title">الباب الثاني: استراتيجية الإنتاج والجدول الزمني (خطة السنة الأولى)</h2>
+            <h3 class="subsection-title">2.1 الهدف الاستراتيجي وتحديد المنتج</h3>
+            <p><strong>تخصص الإنتاج:</strong> التركيز الحصري في السنة الأولى على المصابيح الكروية (LED Bulbs) بقدرات 9W، 12W، 18W.</p>
+            <p><strong>الهدف التراكمي:</strong> 60,000 وحدة بنهاية السنة الأولى.</p>
+            <p><strong>مخزون الأمان (Buffer Stock):</strong> الحفاظ الدائم على 5,000 وحدة PCB جاهزة لضمان استمرارية التوريد والبيع شهراً كاملاً.</p>
+            <p><strong>الرقابة المالية:</strong> ربط الإنتاج الشهري بتكلفة المواد الخام مع تسجيل سعر التكلفة للوحدة شهرياً في السجل المالي الداخلي.</p>
+
+            <h3 class="subsection-title">2.2 مراحل التصعيد الإنتاجي الشهري</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>المرحلة / الملاحظة</th><th>الإنتاج المستهدف (وحدة)</th><th>الشهر</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">تعلم، أخطاء، تصحيح، بناء مخزون الأمان</td><td>5,000</td><td>1</td></tr>
+                        <tr><td style="color:#d4af37;">استمرار مرحلة التأسيس والضبط</td><td>5,000</td><td>2</td></tr>
+                        <tr><td style="color:#d4af37;">مرحلة التعلم والضبط – نهاية الربع الأول</td><td>6,000</td><td>3</td></tr>
+                        <tr><td style="color:#d4af37;">مرحلة الاستقرار التشغيلي</td><td>6,000</td><td>4</td></tr>
+                        <tr><td style="color:#d4af37;">تراكمي 29,000 وحدة</td><td>7,000</td><td>5</td></tr>
+                        <tr><td style="color:#d4af37;">36,000 وحدة تراكمية – نهاية النصف الأول</td><td>7,000</td><td>6</td></tr>
+                        <tr><td style="color:#d4af37;">مرحلة الكفاءة القصوى</td><td>7,000</td><td>7</td></tr>
+                        <tr><td style="color:#d4af37;">-</td><td>8,000</td><td>8</td></tr>
+                        <tr><td style="color:#d4af37;">-</td><td>8,000</td><td>9</td></tr>
+                        <tr><td style="color:#d4af37;">-</td><td>8,000</td><td>10</td></tr>
+                        <tr><td style="color:#d4af37;">-</td><td>9,000</td><td>11</td></tr>
+                        <tr><td style="color:#d4af37;">الهدف السنوي: ≈ 60,000 وحدة</td><td>9,000</td><td>12</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">3.2 إدارة الموارد البشرية ورفع الكفاءة</h3>
+            <p><strong>الطاقة الحالية:</strong> <span class="ltr-num">7 عمال × 30 وحدة/يوم = 210</span> وحدة/يوم إجمالاً.</p>
+            <p><strong>الهدف:</strong> رفع الطاقة إلى 400 وحدة/يوم وفق التخصص الوظيفي: فريق خط PCB + فريق التجميع النهائي. التدرج الزمني: رفع تدريجي على مدى 3 أشهر لتفادي ثغرات الجودة.</p>
+            <p><strong>نظام الساعات الإضافية:</strong> تفعيل منظم لمواجهة ذروة الطلب.</p>
+            <p><strong>نظام المتابعة:</strong> بطاقات أداء يومية تُجمع أسبوعياً مع تحليل مسببات التباطؤ.</p>
+
+            <h3 class="subsection-title">4.2 إدارة الأعطال والإيقافات (Downtime Management)</h3>
+            <p><strong>التوثيق:</strong> أي توقف يتجاوز 30 دقيقة يوثَّق مع ذكر السبب (تقني / بشري / بيئي / مورد).</p>
+            <p><strong>الاستجابة:</strong> تسجيل وقت بداية العطل ووقت التدخل بالدقائق لتقييم سرعة الاستجابة.</p>
+            <p><strong>التصنيف:</strong> تصنيف الأعطال باستخدام مخطط Ishikawa (آلة، إنسان، مادة، بيئة).</p>
+            <p><strong>التحليل:</strong> استخدام منهجية «5 Whys» للوصول إلى السبب الجذري.</p>
+            <p><strong>الإجراء التصحيحي الفوري:</strong> إيقاف الخط، عزل الدفعة، والإصلاح اليدوي عند الحاجة.</p>
+            <p><strong>الإجراءات الوقائية:</strong> تحديث إجراءات العمل القياسية (SOP)، تدريب العمال، مراجعة الموردين، وتحسين خطة الصيانة.</p>
+            <p><strong>التحليل الدوري:</strong> مراجعة سجل الأعطال شهرياً، عقد اجتماع «الدروس المستفادة»، وتحديث خطة الصيانة.</p>
+
+            <h3 class="subsection-title">5.2 سياسة الطلبات الخاصة ومرونة الخط</h3>
+            <p><strong>الحصة المتاحة:</strong> 10% من الطاقة الإنتاجية (600-900 وحدة شهرياً) للطلبات الخاصة.</p>
+            <p><strong>التسعير:</strong> تخضع الطلبات الخاصة لهيكل تسعير مخصص يتناسب مع تكاليف إعادة ضبط خط الإنتاج (Setup Costs).</p>
+            <p><strong>الطلبات ≤ 300 وحدة:</strong> نصف يوم عمل (الجمعة/السبت) بتكليف 2-3 عمال من خط التجميع.</p>
+            <p><strong>الطلبات 300-500 وحدة:</strong> يوم عمل كامل مع إخطار الزبون بمهلة 5-7 أيام.</p>
+            <p><strong>الطلبات &gt; 500 وحدة:</strong> لا تُقبل قبل بلوغ 50,000 وحدة من المنتج الأساسي.</p>
+            <p><strong>القيود الفنية:</strong> يُسمح بالتعديلات التي لا تؤثر على السلامة الهيكلية للمنتج أو تتطلب تغييراً جذرياً في المكونات الأساسية.</p>
+            <p><strong>الجودة:</strong> إلزامية اختبار Burn-in وفحص الجودة لكل طلب خاص قبل التسليم.</p>
+            <p><strong>التوثيق:</strong> تسجيل جميع الطلبات في «سجل الإنتاج الخاص» مع تفاصيل الزبون، والكمية، والتاريخ، والمواصفات الفنية المعتمدة.</p>
+            <p><strong>الشروط القانونية:</strong> لا تتحمل المؤسسة أي مسؤولية عن تأخير الطلبات الخاصة في حال عدم تقديم الزبون للبيانات الفنية كاملة في الوقت المحدد.</p>
+        </div>
+        <div class="section" id="bab3">
+            <h2 class="section-title">الباب الثالث: البطاقات الفنية التفصيلية للماكينات والصيانة الوقائية</h2>
+            <h3 class="subsection-title">1.1 ماكينة الكبس والبرشمة (LED Bulb Riveting &amp; Pressing Machine)</h3>
+            <p><strong>ضغط العمل المثالي:</strong> 4-6 بار (يُضبط عبر منظم الضغط الملحق).</p>
+            <p><strong>معيار الكبس المجهري:</strong> عمق تداخل المعدن مع البلاستيك ≥ 0.8 ملم.</p>
+            <p><strong>زمن الكبس:</strong> 1.2 ثانية لتفادي الشروخ المجهرية الناتجة عن الكبس المفاجئ.</p>
+            <p><strong>اختبار الوردية:</strong> فحص أول قطعة صباحاً؛ عند اهتزاز القاعدة → رفع الضغط 0.5 بار فوراً.</p>
+            <p><strong>معيار التحمل:</strong> صمود أمام عزم دوران 3 نيوتن متر وفقاً لمعيار (IEC 60968).</p>
+            <p><strong>في حال القواعد غير المثبتة بالغراء:</strong> الحركة النسبية المسموحة ≤ 10 درجات.</p>
+            <p><strong>نظام الطوارئ:</strong> زر إيقاف طوارئ (Emergency Stop) يجب اختباره عند بدء كل وردية.</p>
+            <p><strong>الصيانة:</strong> فحص O-Ring أسبوعياً، وتغيير الزيت الهوائي كل 6 أشهر.</p>
+            <p><strong>التوثيق:</strong> تسجيل نتائج اختبار الوردية يومياً في سجل الجودة وربطها بسجل الأعطال.</p>
+
+            <h3 class="subsection-title">2.2 حوض اللحام (Solder Pot SB PTC 500-D)</h3>
+            <p><strong>الدور:</strong> لحام نقاط التوصيل والأسلاك بالـ PCB عن طريق التغطيس (Dip Soldering).</p>
+            <p><strong>درجات الحرارة:</strong> القصدير التقليدي 250-280°C، والخالي من الرصاص 300-350°C.</p>
+            <p><strong>التسخين الأولي:</strong> 3-5 ثوانٍ قبل الغمر الكامل.</p>
+            <p><strong>زمن الغمر المثالي:</strong> 2-4 ثوانٍ (تجاوز هذا الزمن يؤدي لتآكل مسارات النحاس).</p>
+            <p><strong>الزاوية عند الخروج:</strong> 45 درجة لمنع تكوّن رؤوس الإبر (Solder Icicles).</p>
+            <p><strong>معيار جودة اللحام (IPC-A-610):</strong> لحام مقعّر ومكتمل؛ أي لحام بزاوية 90 درجة أو أكثر، أو بمظهر باهت أو متجعد، يُعتبر مرفوضاً.</p>
+            <p><strong>مراقبة جودة القصدير (IPC-J-STD-006):</strong> نسبة النحاس Cu ≤ 0.4%، الذهب Au ≤ 0.1%، والفضة Ag ≤ 0.1%.</p>
+            <p><strong>إجراءات السلامة:</strong> إلزامية ارتداء قفازات حرارية ومريلة حماية، مع توفر مطفأة حريق CO₂ في محيط العمل لضمان سلامة المكونات الإلكترونية.</p>
+            <p><strong>الصيانة:</strong> التنظيف اليومي للحوض، ومعايرة أسبوعية للحساس الحراري.</p>
+            <p><strong>التوثيق:</strong> تسجيل درجة الحرارة، زمن الغمر، وفحص نتائج القصدير في سجل الإنتاج اليومي.</p>
+
+            <h3 class="subsection-title">2.3 آلة الكبس بالهواء المضغوط (Pneumatic Press Machine)</h3>
+            <p><strong>الوظيفة:</strong> تُستخدم للضغط وتجميع أجزاء المصباح (تثبيت القاعدة والمكونات المعدنية). تعمل بالهواء المضغوط، مما يضمن دقة عالية وسرعة في الإنتاج.</p>
+            <p><strong>السعر التقديري:</strong> 1,800–2,500 دولار (243,000–337,500 دج).</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الصنف</th><th>الاستخدام</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">ضاغط هواء (Air Compressor)</td><td>تشغيل الأسطوانة الهوائية</td></tr>
+                        <tr><td style="color:#d4af37;">خراطيم هواء وقطع غيار للأسطوانة</td><td>التوصيل والتشغيل الدوري</td></tr>
+                        <tr><td style="color:#d4af37;">قوالب معدنية (Molds/Fixtures)</td><td>تكييف الآلة حسب نوع القاعدة (E27, E14)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">3.3 موزع الغراء (Glue Dispensing)</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الاختبار / المعيار</th><th>القيمة المستهدفة</th><th>أداة القياس</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">الوزن الصافي للغراء</td><td>0.15-0.20 غرام</td><td>ميزان حساس ±0.01 غرام</td></tr>
+                        <tr><td style="color:#d4af37;">اختبار العزل المائي</td><td>غمر عينة عشوائية في الماء</td><td>التأكد من عدم وجود فراغات في مسار الغراء</td></tr>
+                        <tr><td style="color:#d4af37;">التنظيف الدوري للفوهة</td><td>كل 4 ساعات + نهاية الوردية</td><td>Isopropanol 99%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">3.4 ماكينة الوسم والاختبار بالليزر (Laser Marking &amp; Testing Machine)</h3>
+            <p style="font-size:0.85rem; color:#999;">(آلة واحدة بوظيفتين: الطباعة/الوسم بالليزر + الفحص الكهربائي النهائي — مدمجتان هنا في بند واحد بدل بندين منفصلين)</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>نوع المادة</th><th>القوة</th><th>السرعة</th><th>الميزة</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">بلاستيك PC</td><td>20-25%</td><td>250 مم/ثانية</td><td>ترقيم متسلسل فريد</td></tr>
+                        <tr><td style="color:#d4af37;">ألومنيوم</td><td>45-50%</td><td>200 مم/ثانية</td><td>يمنع مسح البيانات</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><strong>الحماية الرقمية:</strong> ربط إلزامي بـ UPS Online Double Conversion لحماية عدسة الليزر.</p>
+            <p><strong>صيانة الليزر:</strong> تنظيف العدسة أسبوعياً بقطنة مشبعة بـ Isopropanol.</p>
+            <p><strong>إجراءات السلامة:</strong> إلزامية ارتداء النظارات الواقية وتشغيل نظام شفط الأبخرة أثناء التشغيل.</p>
+            <p><strong>الدور الاختباري:</strong> الفحص الكهربائي النهائي ووسم قبول المنتج.</p>
+            <p><strong>معايرة Wattmeter:</strong> شهرياً بجهاز مرجعي (هامش خطأ ±1%).</p>
+            <p><strong>فحص فلاتر HEPA:</strong> كل 3-6 أشهر لضمان سلامة بيئة العمل.</p>
+            <p><strong>التوثيق:</strong> تسجيل نتائج الاختبار (جهد، واط) يومياً مع توقيع المشرف.</p>
+            <p><strong>وسم القبول:</strong> إضافة ختم «QC Passed» أو ملصق ضمان بعد اجتياز الاختبارات.</p>
+
+            <h3 class="subsection-title">3.5 آلة التلميع والصنفرة (Buffer Polisher XLBP 9)</h3>
+            <p><strong>الوظيفة:</strong> إزالة النتوءات الزائدة وتلميع الأسطح الخارجية للهيكل والمشتت الحراري، مما يضمن مظهراً جمالياً احترافياً وجودة نهائية عالية للمصباح.</p>
+            <p><strong>المواصفات التقنية:</strong> آلة تلميع صناعية ذات عزم دوران عالٍ، مجهزة بنظام تثبيت دقيق ومنافذ لشفط الغبار الدقيق.</p>
+            <p><strong>قطع الغيار الأساسية:</strong> أقراص صنفرة وتلميع متنوعة القياسات، محامل (Bearings) للمحرك، أدوات تنظيف الفرش والأسطح الميكانيكية.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الإجراء التقني</th><th>الوتيرة</th><th>التكلفة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td>استبدال أقراص الصنفرة والتلميع</td><td>حسب الاستهلاك</td><td>25,000 (إجمالي مخصصات قطع الغيار)</td></tr>
+                        <tr><td>تنظيف وحدة شفط الغبار</td><td>يومياً</td><td>0</td></tr>
+                        <tr><td>تشحيم المحامل والمفاصل المتحركة</td><td>شهرياً</td><td>0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size:0.85rem; color:#999;">(منقول من بطاقتها في الباب الأول؛ لم يكن لها بند مستقل في الباب الثالث بالنص المصدر)</p>
+        </div>
+        <div class="section" id="bab4">
+            <h2 class="section-title">الباب الرابع: بروتوكول الرقابة عند الاستلام (IQC) والامتثال العالمي</h2>
+            <h3 class="subsection-title">4.1 فحص الحماية الكهربائية (Fusible + Zener Diode)</h3>
+            <p><strong>إلزامية التأكد من وجود Fusible و Zener Diode في كل دفعة لوحات PCB.</strong> أي دفعة غير مجهزة بعناصر الحماية الكهربائية تُرفض فوراً.</p>
+            <p><strong>موقع Fusible:</strong> مدخل التغذية على PCB قبل دخول التيار لباقي الدائرة – يقطع التيار عند القصر أو الحمل الزائد.</p>
+            <p><strong>موقع Zener Diode:</strong> بعد الفيوز وقبل IC Driver – يمتص الجهود المفاجئة (Surge) وطفرات الشبكة.</p>
+            <p><strong>معيار الجودة Fusible:</strong> IEC 60127 (Miniature Fuses) – تحمل 0.5-2A حسب القدرة.</p>
+            <p><strong>معيار الجودة Zener:</strong> IEC 61643-321 – قدرة 12V-24V حسب التصميم.</p>
+            <p><strong>✦ الميزة التنافسية:</strong> إدراج هذه العناصر يعالج مشكلة 80% من المصابيح غير المطابقة في السوق الجزائري – مادة تسويقية: «حماية كهربائية مدمجة – ضمان سنتين».</p>
+            <p>يتم تسجيل نتائج الفحص في سجل الموردين مع توقيع المشرف.</p>
+
+            <h3 class="subsection-title">4.2 شرائح الـ LED (LED Chips)</h3>
+            <p><strong>الشرط الأساسي:</strong> إلزام المورد بشهادة LM-80 – شدة الإضاءة لا تنخفض &gt; 30% بعد 6,000 ساعة (يُفضَّل 9,000-10,000 ساعة).</p>
+            <p><strong>الفحص البصري:</strong> عينة عشوائية 5% من الكمية تحت المجهر الضوئي – تحقق من خلو الرقائق من البقع أو تغير لون الفسفور.</p>
+            <p><strong>مستوى الحساسية للرطوبة:</strong> MSL Level 1 (للتخزين والتصنيع).</p>
+            <p><strong>إجراء الرفض الصريح:</strong> أي شريحة بها عيب خارجي (كسر/تشوه) أو بدون شهادة LM-80 ← رفض الدفعة كاملة.</p>
+
+            <h3 class="subsection-title">4.3 المكثفات (Electrolytic Capacitors)</h3>
+            <p><strong>المعيار الحراري:</strong> نوع يتحمل 105°C حصراً (السبب: درجة الحرارة الداخلية للمصباح في صيف الجزائر تصل 90°C). رفض قاطع: أي مكثف بمواصفة 85°C ← رفض الدفعة كاملة.</p>
+            <p><strong>العمر الافتراضي:</strong> بيانات تثبت عمر تشغيلي فعلي ≥ 5,000-8,000 ساعة.</p>
+            <p><strong>المعيار:</strong> IEC 60384-4 مع اختبار عمر عند 105°C لمدة ≥ 2,000 ساعة. فحص ESR (Equivalent Series Resistance) ≤ 50 mΩ عند 100 kHz.</p>
+
+            <h3 class="subsection-title">4.4 الهياكل البلاستيكية (PC Housing)</h3>
+            <p><strong>اختبار الكسر:</strong> الضغط باليد – يجب مرونة قليلة بدون تشقق (PC أصيل لا معاد تدويره). أي تشقق ← رفض.</p>
+            <p><strong>اختبار الحرارة:</strong> تعريض عينة لـ 120°C ساعة كاملة – يجب ألا تلين أو تتشوه أو يتغير لونها.</p>
+            <p><strong>اختبار مقاومة اللهب:</strong> مطابقة UL94-V0 (يُغلق اللهب خلال 10 ثوانٍ، لا قطرات مشتعلة).</p>
+            <p><strong>اختبار UV Resistance:</strong> ISO 4892-2 – مقاومة الاصفرار والتشقق عند التعرض المطول للشمس.</p>
+            <p><strong>إلزام المورد:</strong> شهادة تبين درجة المادة (PC Virgin) وتصنيف UL94 + شهادة RoHS.</p>
+
+            <h3 class="subsection-title">4.5 إجراءات الفحص العامة ورفض الدفعات</h3>
+            <p><strong>فحص العينة الأولى (First Article Inspection):</strong> أول 5-10% من الكمية عند استلام أي دفعة جديدة.</p>
+            <p><strong>نسبة العيوب المسموحة (AQL):</strong> ≤ 2% في العينة. عند التجاوز ← رفض الدفعة كاملة. يُفضَّل AQL = 1.0% للعيوب الحرجة. التطبيق وفق ANSI/ASQ Z1.4 أو ISO 2859-1.</p>
+            <p><strong>درجات العيوب:</strong></p>
+            <ul>
+                <li>عيب خطير (Critical Defect): يمنع المنتج من العمل أو يُشكّل خطراً – رفض فوري حتى لو النسبة &lt; 2%.</li>
+                <li>عيب رئيسي (Major Defect): يؤثر على الأداء أو العمر الافتراضي – نسبة مسموحة ≤ 1.5%.</li>
+                <li>عيب ثانوي (Minor Defect): يقلل الجودة البصرية فقط – نسبة مسموحة ≤ 2.5%.</li>
+            </ul>
+            <p><strong>إجراءات الرفض:</strong> إشعار كتابي للمورد مع أسباب الرفض مدعومة بصور أو تقارير فحص. إعادة الدفعة للمورد أو تلفها على نفقته. تسجيل الرفض في «سجل الموردين» مع توثيق التاريخ ورقم الدفعة ونوع العيوب. تكرار الرفض مرتين: تعليق مؤقت حتى تقديم Corrective Action Plan. المرة الرابعة: تصنيف المورد «غير معتمد» واستبعاده.</p>
+
+            <h3 class="subsection-title">4.6 جدول الخلاصة الإجرائية – القبول والرفض السريع</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>المكوّن</th><th>شرط القبول الأساسي</th><th>شروط الرفض القاطعة</th><th>المرجع المعياري</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">شرائح LED</td><td>شهادة LM-80، فحص مجهري سليم، MSL ≤ 1</td><td>غياب الشهادة، بقع، تغير لون، كسر ظاهر</td><td>LM-80 / IEC 62471</td></tr>
+                        <tr><td style="color:#d4af37;">المكثفات</td><td>مواصفة 105°C، عمر ≥ 5,000 س، ESR ≤ 50mΩ</td><td>مواصفة 85°C، انتفاخ، عمر &lt; 5,000 س</td><td>IEC 60384-4</td></tr>
+                        <tr><td style="color:#d4af37;">الهياكل (PC)</td><td>UL94-V0، ثبات 120°C، مقاومة UV</td><td>تشقق، تشوه بعد التسخين، غياب RoHS</td><td>UL94 / ISO 4892</td></tr>
+                        <tr><td style="color:#d4af37;">جميع المكونات</td><td>مطابقة RoHS، شهادة CE/CEE، توثيق المورد</td><td>وجود رصاص/زئبق أو غياب الشهادات</td><td>RoHS / CE / CEE</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">4.7 معايير الامتثال الدولية</h3>
+            <ul>
+                <li><strong>RoHS:</strong> خلو المكونات من الرصاص، الزئبق، الكادميوم، الكروم سداسي التكافؤ، PBB، PBDE. مع شهادة TÜV أو SGS.</li>
+                <li><strong>IEC 62471 (السلامة الضوئية):</strong> المصابيح خالية من خطر «الضوء الأزرق» – تصنيف 0RG (Exempt) أو 1RG (Low Risk). ضبط CCT ≥ 4000K.</li>
+                <li><strong>روح ISO 9001:</strong> توثيق يومي دقيق لكل العمليات والأخطاء + مبدأ التحسين المستمر + تدقيق داخلي كل 6 أشهر.</li>
+                <li><strong>روح ISO 14001:</strong> فرز النفايات الإلكترونية (PCBs التالفة، بقايا القصدير، المكونات التالفة) وإرسالها لمعامل معتمدة كل 6-12 شهر.</li>
+                <li><strong>CEE/CEEE (السوق الجزائري):</strong> شهادة من IANOR أو جهة معتمدة من OREE – تشمل السلامة الكهربائية، الأداء الوظيفي، التوافق الكهرومغناطيسي (EMC).</li>
+            </ul>
+        </div>
+        <div class="section" id="bab5">
+            <h2 class="section-title">الباب الخامس: التفصيل المجهري للعمليات الإنتاجية (Micro-SOP) والاختبارات المتقدمة</h2>
+            <h3 class="subsection-title">5.1 بروتوكول تحضير الـ PCB (ما قبل اللحام)</h3>
+            <ul>
+                <li>المعاينة البصرية: فحص مسارات النحاس وفق IPC-A-610. أي خدش عميق يقطع مسار النحاس ← رفض فوري.</li>
+                <li>الأكسدة الخفيفة: مسح بممحاة تقنية ناعمة ثم تنظيف بـ Isopropanol 99%.</li>
+                <li>يُفضَّل استخدام كاميرا AOI عند التوسع لفحص أكثر دقة.</li>
+                <li>بروتوكول ESD: سوار المعصم إلزامي لجميع العمال مع فحص مقاومة يومي (≈ 1 MΩ).</li>
+                <li>وضع عجينة اللحام (إن استُخدمت يدوياً): قطر ≥ 0.5 ملم فوق كل Pad.</li>
+                <li>تموضع المكونات: بملقط ESD بحيث تغطي رقاقة LED كامل الـ Pad.</li>
+                <li>يُمنع لمس المكونات باليد مباشرة لتفادي التلوث والشحنات.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.2 بروتوكول اللحام بفرن SB PTC 500-D (حوض الغمر)</h3>
+            <ul>
+                <li>قشط الأكسيد (Dross Skimming): إلزامي قبل كل غمر – مرجع: IPC-A-610 / IEC 61192-2.</li>
+                <li>التسخين الأولي (Pre-heating): 3-5 ثوانٍ – مرجع: IPC-7530.</li>
+                <li>القصدير التقليدي Sn63/Pb37: 230-250°C. القصدير الخالي من الرصاص SAC305: 260-280°C.</li>
+                <li>زمن الغمر الذهبي: 2-4 ثوانٍ فقط – أي زيادة تؤدي لتآكل النحاس (Copper Dissolution).</li>
+                <li>زاوية الخروج: 45° لمنع تكوّن «رؤوس الإبر».</li>
+                <li>التبريد الطبيعي: دقيقتان في الهواء – يُمنع استخدام المروحة (يسبب تشققات مجهرية).</li>
+                <li>التوثيق: تسجيل درجة الحرارة وزمن الغمر في سجل الجودة اليومي.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.3 بروتوكول التنظيف الكيميائي (Chemical Cleaning)</h3>
+            <ul>
+                <li>المادة: Isopropanol 99% – مطابق لـ ASTM D770.</li>
+                <li>الأداة: فرشاة بلاستيكية صلبة ESD-Safe. يُمنع استخدام فرشاة معدنية أو ورق الصنفرة.</li>
+                <li>الطريقة: رش خفيف ← مسح دائري متدرج ← مسح نهائي بقطعة Lint-free.</li>
+                <li>نافذة الـ 30 دقيقة: إلزامية التنظيف خلال 30 دقيقة من خروج الـ PCB من الفرن.</li>
+                <li>التجفيف القسري: هواء مضغوط جاف نظيف (Clean Dry Air).</li>
+                <li>الممنوعات المطلقة: الأسيتون، المذيبات العشوائية، ورق الصنفرة.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.4 بروتوكول اختبار الحرق المتقدم (Burn-in Test)</h3>
+            <ul>
+                <li>العينة: 5% عشوائية من كل دفعة (عينتان على الأقل للدفعات الصغيرة).</li>
+                <li>المرحلة الأولى: 265V لمدة ساعتين – محاكاة الجهد المرتفع في الشبكة الجزائرية.</li>
+                <li>المرحلة الثانية: 170V لمدة ساعتين – اختبار الاستقرار عند انخفاض الجهد (Brown-out).</li>
+                <li>معايير القبول: رفض أي منتج يُظهر وميضاً (Flicker)، إطفاءً ذاتياً، صوت شرارة، أو سخونة زائدة.</li>
+                <li>Power Factor ≥ 0.9 أثناء الاختبار. CRI ≥ 80.</li>
+                <li>التوثيق: رقم الدفعة، عدد العينات، نتائج كل مرحلة في سجل الجودة اليومي.</li>
+                <li>يُفضَّل التنفيذ في غرفة محكمة التهوية مع مراقبة درجة الحرارة المحيطة (25-30°C).</li>
+            </ul>
+
+            <h3 class="subsection-title">5.5 اختبار التبديل السريع (Switching Test)</h3>
+            <ul>
+                <li>الإجراء: تشغيل/إطفاء 500 دورة متتالية (1-2 ثانية لكل حالة).</li>
+                <li>حجم العينة: 20 عينة أو 5% من الدفعة (أيهما أكبر).</li>
+                <li>الهدف: كشف ضعف اللحام أو احتراق المقاومات أو أي خلل في دائرة التغذية.</li>
+                <li>بعد الانتهاء: تشغيل المصباح 5 دقائق متواصلة للتأكد من عدم وجود وميض أو سخونة زائدة.</li>
+                <li>فشل عينة واحدة = رفض الدفعة فوراً + Root Cause Analysis.</li>
+                <li>يُمكن استخدام Relay Controller أو PLC لأتمتة عملية التشغيل والإطفاء.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.6 اختبار التوافق الكهرومغناطيسي (EMI/EMC)</h3>
+            <ul>
+                <li>الإجراء: راديو AM محمول بالبطارية على مسافة 30-50 سم من المصباح العامل.</li>
+                <li>ضبط الراديو على نقطة «نظيفة» بدون محطة على الموجة المتوسطة/القصيرة.</li>
+                <li>معيار القبول: لا تغيير ملحوظ في صوت الراديو عند تشغيل المصباح.</li>
+                <li>معيار الرفض: طنين أو شوشرة قوية تحجب الصوت الأصلي ← عزل فوري.</li>
+                <li>التحسين المستقبلي: RTL-SDR + هوائي حلقي صغير + مقارنة مع EN 55015 / CISPR 15.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.7 اختبار السقوط (Drop Test)</h3>
+            <ul>
+                <li>الإجراء: إسقاط عينات عشوائية من ارتفاع 1 متر على أرضية صلبة (خرسانة/فولاذ).</li>
+                <li>مواضع السقوط: زوايا، أطراف، وجوه رئيسية – 3 مرات لكل عينة.</li>
+                <li>حجم العينة: عينتان لكل 500 وحدة (≈ 0.5%).</li>
+                <li>معايير القبول: لا ينفصل الناشر الضوئي، لا يتكسر الهيكل، لا تتضرر الدائرة الداخلية.</li>
+                <li>الفحص الكهربائي بعد السقوط: تشغيل بنجاح دون وميض أو سخونة زائدة.</li>
+                <li>مقاومة العزل بعد الاختبار: ≥ 2 MΩ (IEC 60598-1:2021).</li>
+            </ul>
+
+            <h3 class="subsection-title">5.8 اختبار دورات الحرارة (Thermal Cycling)</h3>
+            <ul>
+                <li>الإجراء: 50 دورة بين 0°C و +65°C مع وقت ثبات 30 دقيقة عند كل طرف.</li>
+                <li>المرجع الدولي: IEC 60068-2-14 (Test Nb) / GB/T 2423.22.</li>
+                <li>السيناريو الميداني البديل للورشات الصغيرة: تعريض العينات للشمس المباشرة (+50°C) ثم الإدخال في مكيف (4°C) – 10 مرات.</li>
+                <li>التوثيق: سجل اختبارات المناخ مع التاريخ، رقم الدفعة، درجات الحرارة، عدد الدورات.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.9 اختبار الحماية الكهربائية (Electrical Protection Test)</h3>
+            <ul>
+                <li>الهدف: التحقق من فعالية عناصر الحماية (Fusible، Zener، Converter Boost) لضمان عدم احتراق المنتج.</li>
+                <li>الاعتماد على شهادة المورد لاختبار Surge الكهربائي وفق IEC 61000-4-5 و IEC 60598-1.</li>
+                <li>المقاومة الفيوزية: تُحدد قيمتها بين 100-1000 أوم حسب التطبيق.</li>
+                <li>الزينر: يُوضع في دوائر Boost Converter لحماية الترانزستور الرئيسي.</li>
+                <li>الاختبار يُجرى على عينتين لكل 500 وحدة بإشراف مباشر.</li>
+                <li>شروط القبول: عدم احتراق أو تفحم، المصباح يضيء شكلاً طبيعياً لعدة دقائق بعد الاختبار.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.10 اختبار العزل الكهربائي (Hi-Pot / Dielectric Strength Test)</h3>
+            <ul>
+                <li>الهدف: ضمان سلامة المستخدم من الصعقات والتأكد من أن العوازل بين المكونات وهيكل المصباح قادرة على تحمل جهود مرتفعة.</li>
+                <li>المرجع: IEC 60598-1 المادة 10.2.2.</li>
+                <li>جهد الاختبار المعملي: 1440 فولت AC (2U + 1000V حيث U=220V) لمدة 60 ثانية.</li>
+                <li>جهد الاختبار الميداني المبسط: 1440 فولت لمدة 2-3 ثوانٍ فقط لحماية الـ LED.</li>
+                <li>حد تسرب التيار الأقصى: 5 mA.</li>
+                <li>العينة: عينتان لكل 500 وحدة.</li>
+                <li>شروط القبول: عزل كهربائي ≥ 2 MΩ، لا انهيار عازل، لا شرارات، لا تسرب &gt; 5mA، المصباح يعمل طبيعياً بعد الاختبار.</li>
+                <li><span class="warning">⚠ يُجرى الاختبار على منصة معزولة ومحمية تحت إشراف مباشر. إذا تجاوزت نسبة الفشل 5% من الدفعة → إيقاف الخط فوراً.</span></li>
+            </ul>
+
+            <h3 class="subsection-title">5.11 بروتوكول إصلاح المرتجعات (RMA &amp; Repair Protocol)</h3>
+            <ul>
+                <li>تخصيص فني متخصص (أو عامل مدرَّب) لاستقبال المصابيح التالفة وإعادة تأهيلها.</li>
+                <li>بيانات يُسجَّلها عند الاستقبال: رقم الدفعة وتاريخ الإنتاج، تاريخ البيع وتاريخ العودة، وصف دقيق للعطل (انطفاء تام، وميض، تغير لون، تلف ميكانيكي).</li>
+                <li>محطة الإصلاح: معزولة عن خط الإنتاج. مجهزة بـ: Multimeter True RMS، كاوية احترافية، عدسة مكبرة، طاولة ESD-Safe.</li>
+                <li>تحليل الفشل (Failure Analysis): تصنيف سبب الفشل (عيب لحام، تلف Driver، احتراق مكثف، عيب خارجي).</li>
+                <li>إعادة التأهيل والاختبار: كل منتج مُصلَّح يمر ببروتوكول التنظيف الكيميائي (5.3) ثم Burn-in Test 4 ساعات قبل إعادته للمخزن.</li>
+                <li>الربط الفني: جميع العينات الفاشلة تخضع لاختبار العزل (البند 5.10) لتحديد ما إذا كان الانهيار بسبب عيب لحام أو خلل في العازل.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.12 بروتوكولات الإجراءات التصحيحية الطارئة (CAPA Protocol)</h3>
+            <ul>
+                <li>حالة الاستنفار (Red Flag): إذا تجاوزت نسبة المرتجعات أو الأعطال في «اختبار الحرق» 5% من إجمالي الدفعة.</li>
+                <li>الخطوة الأولى (Stop Line): إيقاف وتغليف الدفعة فوراً لحين صدور تقرير «فريق المرتجعات».</li>
+                <li>التحقيق الجذري: إعادة فحص المواد الخام (LEDs &amp; Driver) للتأكد من سلامة التوريد. مراجعة درجة حرارة اللحام لكل الدفعة.</li>
+                <li>العلاج الدائم: تحديث «الدستور» (SOP) بإضافة تنبيه جديد يمنع تكرار هذا الخلل.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.13 معايير الأمان الرقمي واستمرارية الموقع (jannahlight-prog.github.io/jannah-light)</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الإجراء</th><th>التفاصيل</th><th>الهدف</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">النسخ الاحتياطي</td><td>قاعدة 3-2-1: 3 نسخ، 2 وسيط، 1 خارج (Google Drive/Dropbox). UpdraftPlus أو WPvivid يومياً.</td><td>استرجاع كامل عند أي خلل</td></tr>
+                        <tr><td style="color:#d4af37;">التحديث والأمان</td><td>مراجعة أسبوعية لتحديثات WordPress والإضافات الأمنية. تفعيل Wordfence Security.</td><td>سد الثغرات البرمجية</td></tr>
+                        <tr><td style="color:#d4af37;">حماية الحساب (2FA)</td><td>تفعيل المصادقة الثنائية لحساب الإدارة والبريد الإلكتروني.</td><td>منع الاختراق</td></tr>
+                        <tr><td style="color:#d4af37;">شهادة SSL</td><td>HTTPS إلزامي لتأمين نقل البيانات.</td><td>حماية الزوار والبيانات</td></tr>
+                        <tr><td style="color:#d4af37;">المراقبة المستمرة</td><td>UptimeRobot للإشعار الفوري عند عطل الموقع.</td><td>استمرارية العلامة التجارية</td></tr>
+                        <tr><td style="color:#d4af37;">بروتوكول التحديث</td><td>نسخة احتياطية يدوية «قبيل» أي تحديث أو إضافة.</td><td>منع انهيار الموقع (White Screen)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section" id="ch6">
+            <h2 class="section-title">الفصل السادس: الموارد البشرية والنظام التشغيلي المرحلي</h2>
+            <h3 class="subsection-title">6.1 هيكلة الكادر البشري (مرحلة الانطلاق الأولى)</h3>
+            <p>يبدأ المشروع بـ 8 عمال أساسيين – معيار الاختيار: الانضباط والقدرة على التعلم (لا تشترط خبرة سابقة).</p>
+            <p><strong>توزيع العمال في أول 20 يوم عمل (مرحلة التأسيس):</strong></p>
+            <ul>
+                <li>7 عمال إنتاج: مسؤولون حصراً عن تركيب المكونات الإلكترونية يدوياً على PCBs (مقاومات، مكثفات، ديودات، Driver).</li>
+                <li>1 عامل دعم تقني: مسؤول عن 5 مهام: تشغيل الفرن، تسجيل الأعطال، توثيق استهلاك المواد، تشغيل فلاتر الشفط، تنظيف الآلات نهاية الوردية.</li>
+            </ul>
+            <p><strong>الهدف التأسيسي للشهر الأول:</strong> إنتاج 5,000 بطاقة PCB كاملة (ملحومة، منظفة، مختبرة بصرياً) كمخزون أمان (Stock Tampon).</p>
+
+            <h3 class="subsection-title">6.2 نموذج التشغيل المرحلي</h3>
+            <p><strong>المرحلة الثانية (الأشهر 2-3) – التشغيل شبه المتوازي:</strong> 3 عمال يبقون على خط PCB، 3 عمال ينتقلون لخط التجميع النهائي (هيكل، Driver، كبس، ناشر)، 1 عامل مسؤول عن اختبار الجودة (QC) والفحص البصري، 1 عامل دعم تقني (فرن، صيانة، تسجيل استهلاك).</p>
+            <p><strong>المرحلة الثالثة (بعد الاستقرار) – التشغيل المتوازي الكامل:</strong> خط إنتاج مصغر متسلسل: PCB ← تجميع نهائي ← اختبار ← تغليف. إمكانية إضافة ورديات صباحية ومسائية عند زيادة الإنتاج.</p>
+
+            <h3 class="subsection-title">6.3 التوزيع الوظيفي المتكامل (المهام اليومية التفصيلية)</h3>
+            <p>يتم تدوير المهام بين العمال أسبوعياً (Job Rotation) لضمان أن يصبح كل عامل خبيراً في جميع المراحل.</p>
+            <ul>
+                <li><strong>لحام الـ PCB:</strong> تثبيت LED Chips، مقاومات، مكثفات، Driver + لحام يدوي بالكاوية + تشغيل الفرن + التحقق من عدم وجود جسور قصدير.</li>
+                <li><strong>التجميع النهائي:</strong> توصيل أسلاك Driver + تثبيت Diffuser بالغراء (0.15-0.20 غرام، معايرة يومية) + كبس القاعدة E27/E14 (عمق 0.8 ملم على الأقل).</li>
+                <li><strong>اختبار الجودة:</strong> فحص بصري بعدسة ×10 + اختبار كهربائي لكل وحدة + Burn-in 5% + Hi-Pot على عينات دورية.</li>
+                <li><strong>التغليف:</strong> علبة كرتونية فردية بشعار Jannah Light + رقم الدفعة + QR ضمان + حشوات واقية + كرتون تجميع (20-50 حبة).</li>
+                <li><strong>تشغيل الفرن وتوثيق الأعطال:</strong> معايرة أسبوعية بترمومتر خارجي + تسجيل ارتفاع حرارة/توقف/تذبذب تيار في سجل الأعطال.</li>
+                <li><strong>تسجيل استهلاك المواد:</strong> قصدير (غرام/يوم)، Isopropanol (لتر)، PCBs، Drivers، غراء، تغليف – إخطار عند بلوغ 20% من المخزون.</li>
+                <li><strong>السلامة:</strong> إبلاغ فوري عن أي خطر + نظام 5S يومياً + PPE كاملة قبل البدء.</li>
+            </ul>
+
+            <h3 class="subsection-title">6.4 الإنتاجية الفردية ومؤشرات الأداء (KPIs)</h3>
+            <ul>
+                <li>الإنتاجية الفردية المستهدفة: 28-30 بطاقة PCB يومياً لكل عامل.</li>
+                <li>نسبة العيوب (Defect Rate): المستهدف &lt; 2% في المتوسط. الخط الأحمر: 5% في أي وردية ← إيقاف الخط فوراً.</li>
+                <li>زمن الدورة (Cycle Time): قياس وقت إنتاج وحدة واحدة من البداية للتغليف.</li>
+                <li>نسبة الحضور والانضباط: تُتابع أسبوعياً.</li>
+            </ul>
+
+            <h3 class="subsection-title">6.5 نظام التحفيز والمكافآت (الإنتاج بالقطعة)</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>الإنتاج اليومي (بطاقات سليمة)</th><th>المكافأة</th><th>الملاحظة</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">25-27 بطاقة</td><td>5% من الأجر اليومي</td><td></td></tr>
+                        <tr><td style="color:#d4af37;">28-30 بطاقة</td><td>10% من الأجر اليومي</td><td>الهدف الأساسي</td></tr>
+                        <tr><td style="color:#d4af37;">31-35 بطاقة</td><td>15% من الأجر اليومي</td><td></td></tr>
+                        <tr><td style="color:#d4af37;">مكافأة «القطعة الذهبية»</td><td>500 دج إضافية فوراً</td><td>لكل عامل ينتج 30 بطاقة سليمة في يوم واحد</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>تُسجَّل المكافآت في «سجل التحفيز الشهري» ويوقع عليها المشرف والعامل.</p>
+
+            <h3 class="subsection-title">6.6 برنامج التدريب العملي (JLT Academy)</h3>
+            <ul>
+                <li>المقدمة (اليوم الأول): تعريف بجميع الآلات، شرح SOPs، التأكيد على الجودة والسلامة.</li>
+                <li>العروض العملية (الأيام 2-4): تنفيذ عروض حية لكل مهمة تحت إشراف مباشر مع تصحيح الأخطاء فوراً.</li>
+                <li>الوحدات التدريبية (الأسبوع الثاني): تقسيم كل مهمة لـ 5-10 خطوات صغيرة + صور توضيحية (ملصق على الطاولة).</li>
+                <li>التقييم الأسبوعي (كل سبت): اختبارات عملية + مراجعة سجل الأعطال + تدريب متقدم للمتميزين.</li>
+                <li>التدريب بين الزملاء (Shadowing): العمال ذوو الخبرة (بعد 3 أشهر) يدربون العمال الجدد. مكافأة 2,000 دج للمدرِّب عند إتقان العامل الجديد.</li>
+            </ul>
+
+            <h3 class="subsection-title">6.6.ب الجدول التفصيلي لبرنامج JLT Academy (المدة، المحتوى، التقييم)</h3>
+            <p>يفصّل الجدول التالي برنامج تدريب العامل الجديد على مدى أسبوعين كاملين (10 أيام عمل)، بما يشمل المدة الزمنية لكل مرحلة، محتواها التفصيلي، وطريقة التقييم المعتمدة لقبول العامل في خط الإنتاج الفعلي.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>اليوم / المرحلة</th><th>المدة</th><th>المحتوى التفصيلي</th><th>طريقة التقييم</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">اليوم 1</td><td>8 ساعات</td><td>تعريف بجميع الآلات الست + شرح SOPs + قواعد السلامة (PPE، ESD، إخلاء الحريق) + جولة ميدانية كاملة بالورشة.</td><td>اختبار شفوي قصير (10 أسئلة) في نهاية اليوم.</td></tr>
+                        <tr><td style="color:#d4af37;">اليوم 2</td><td>8 ساعات</td><td>مراقبة فقط (Shadowing) لعامل خبير على محطة تركيب PCB دون أي تدخل يدوي.</td><td>تقرير ملاحظة مكتوب يُسلَّم للمشرف.</td></tr>
+                        <tr><td style="color:#d4af37;">اليوم 3</td><td>8 ساعات</td><td>تنفيذ أول 5 بطاقات PCB تحت إشراف مباشر، مع تصحيح فوري للأخطاء.</td><td>نسبة العيوب في الـ 5 بطاقات (يجب ≤ 40%).</td></tr>
+                        <tr><td style="color:#d4af37;">الأيام 4-5</td><td>16 ساعة</td><td>تكرار العملية تدريجياً بمعدل 10-15 بطاقة/يوم، تقليل التدخل المباشر للمدرِّب.</td><td>نسبة العيوب (يجب ≤ 20% بنهاية اليوم 5).</td></tr>
+                        <tr><td style="color:#d4af37;">الأسبوع 2 (أيام 6-9)</td><td>32 ساعة</td><td>تقسيم كل مهمة لـ 5-10 خطوات صغيرة مع صور توضيحية على الطاولة + تدريب على محطة ثانية (تجميع نهائي أو اختبار).</td><td>إنتاجية يومية تصل تدريجياً إلى 20-25 بطاقة سليمة/يوم.</td></tr>
+                        <tr><td style="color:#d4af37;">اليوم 10 (السبت)</td><td>4 ساعات</td><td>التقييم الأسبوعي النهائي: اختبار عملي كامل + مراجعة سجل الأعطال الشخصي + مقابلة قصيرة مع المشرف.</td><td>معيار القبول النهائي: 25 بطاقة سليمة/يوم بنسبة عيوب ≤ 10%.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="warning">⚠ العامل الذي لا يحقق معيار القبول النهائي (25 بطاقة/يوم، عيوب ≤ 10%) في اليوم 10 يُمدَّد تدريبه أسبوعاً إضافياً مع مدرِّب مختلف قبل اتخاذ قرار نهائي بشأن استمراريته.</p>
+
+            <h3 class="subsection-title">6.7 حقيبة التدريب السريع (JLT FastTrack)</h3>
+            <ul>
+                <li>لتأهيل عامل جديد في حالة طوارئ (مرض/إجازة مفاجئة) خلال يومين فقط.</li>
+                <li>تتضمن: فيديوهات 3-5 دقائق لكل مهمة + دليل مطبوع A4 بأهم 8 نقاط لكل آلة.</li>
+                <li>اليوم الأول: مراقبة فقط (ظل) + تدريب على محطة واحدة.</li>
+                <li>اليوم الثاني: تنفيذ تحت إشراف مباشر مع تصحيح الأخطاء فوراً.</li>
+            </ul>
+
+            <h3 class="subsection-title">6.8 صندوق الولاء والقرض الحسن</h3>
+            <ul>
+                <li>يُستقطع 0.5% من صافي أرباح الورشة الشهرية (من حصة المالك) ويُودع في الصندوق.</li>
+                <li>يحق للعامل (بعد 6 أشهر عمل متواصل) اقتراض مبلغ بلا فوائد في حالات الطوارئ.</li>
+                <li>السداد: أقساط شهرية لا تتجاوز 6 أشهر.</li>
+                <li>الإدارة: لجنة داخلية (3 عمال + المشرف) – تُسجَّل كل العمليات في «سجل صندوق الولاء».</li>
+            </ul>
+
+            <h3 class="subsection-title">6.9 السلامة المهنية وإدارة الطوارئ البشرية</h3>
+            <p><strong>PPE الإلزامية للجميع:</strong> قفازات حرارية، نظارات واقية، كمامات كربونية، مآزر قطنية، نظارات الليزر، أساور ESD.</p>
+            <p><strong>بروتوكولات السلامة اليومية:</strong> تشغيل شفط الأبخرة قبل الفرن أو اللحام. فحص أعين السوائل والأسلاك يومياً. أرضية الورشة خالية من الزيوت. إغلاق جميع الآلات وفصل التيار نهاية كل وردية.</p>
+            <p><strong>خطة الطوارئ البشرية:</strong></p>
+            <ul>
+                <li>عطل الفرن &gt; نصف يوم: التحول فوراً للتجميع النهائي + لحام يدوي (30-40 وحدة/يوم).</li>
+                <li>نقص عاملين+: إعادة توزيع المهام بالتناوب + استدعاء عامل خارجي مؤقت (تدريب يومين).</li>
+                <li>انقطاع التيار: مولد 5KW ← إنتاج يدوي 50 وحدة/يوم ← مخزون أمان 5,000 وحدة.</li>
+            </ul>
+
+            <h3 class="subsection-title">6.10 نمط الحوكمة في المرحلة التأسيسية</h3>
+            <ul>
+                <li>السنة الأولى: إدارة ميدانية مباشرة – المالك أو المشرف 4 ساعات يومياً في الورشة.</li>
+                <li>بعد 12 شهراً: الانتقال لنمط «تفويض المهام» – تعيين مشرف إنتاج من العمال المتميزين.</li>
+                <li>تقليل التدخل المباشر للمالك مع التركيز على التخطيط ومراقبة الأداء العام.</li>
+            </ul>
+        </div>
+        <div class="section" id="ch7">
+            <h2 class="section-title">الفصل السابع: استراتيجية الإنتاج والجدول الزمني والمالي</h2>
+            <h3 class="subsection-title">7.1 الروتين الإنتاجي اليومي (الوردية الواحدة)</h3>
+            <p>يبدأ العمل في الوردية الصباحية (08:00–17:00 مع استراحة 12:00–13:00):</p>
+            <ul>
+                <li>اجتماع الوقوف (15 دقيقة): أهداف اليوم، توزيع الأدوار، فتح سجل الأعطال، التذكير بالسلامة.</li>
+                <li>تجهيز المحطات: تنظيف الطاولات، تجهيز الصواني بالمكونات، تشغيل الفرن قبل 20 دقيقة.</li>
+                <li>تنفيذ الإنتاج: تركيب مكونات PCB ← لحام ← تنظيف كيميائي (30 دقيقة من الفرن) ← تجميع نهائي ← اختبار أولي ← اختبار العينة ← تغليف.</li>
+                <li>نهاية الوردية: تسجيل الأعطال واستهلاك المواد.</li>
+                <li>تنظيف الآلات وإغلاقها وتجهيزها لليوم التالي.</li>
+                <li>نظام الوردات القصيرة (Sprints): عمل 2 ساعة + راحة 15 دقيقة إجبارية.</li>
+            </ul>
+
+            <h3 class="subsection-title">7.2 المرونة في الإنتاج وتلبية الطلبات الخاصة</h3>
+            <p><strong>الحصة المتاحة:</strong> 10% من الطاقة الإنتاجية (600-900 وحدة شهرياً) للطلبات الخاصة (شرائط LED، كشافات خارجية، قدرات نادرة).</p>
+            <ul>
+                <li>≤ 300 وحدة: نصف يوم عمل (الجمعة/السبت).</li>
+                <li>300-500 وحدة: يوم كامل + إخطار زبون 5-7 أيام.</li>
+                <li>&gt; 500 وحدة: لا تُقبل قبل بلوغ 50,000 وحدة أساسية.</li>
+            </ul>
+
+            <h3 class="subsection-title">7.3 خطة التوسع وتطوير المنتجات (السنوات 1-5)</h3>
+            <ul>
+                <li>السنة 1: LED Bulbs كروية 9-24W.</li>
+                <li>السنة 2: LED Strip 5-20W/m + Panel Lights 12-40W.</li>
+                <li>السنة 3: Floodlights IP65 10-50W + LED Tubes + دراسة PIR Motion Sensors.</li>
+                <li>السنة 4-5: Smart Lighting (WiFi/BT) + Emergency LED + High Bay للمصانع + Street Lighting عند التوسع.</li>
+            </ul>
+
+            <h3 class="subsection-title">7.4 الهندسة المالية (الحسابات والأرقام الثابتة)</h3>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>البند</th><th>القيمة</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">تكلفة الوحدة (تراجع كل 3 أشهر)</td><td>575 دج (مواد خام + عمالة + كهرباء + تغليف + هامش أمان 10% + هالك 3-5%)</td></tr>
+                        <tr><td style="color:#d4af37;">سعر البيع للجملة</td><td>1,000 دج (ثابت طوال السنة الأولى عدا ظروف قاهرة)</td></tr>
+                        <tr><td style="color:#d4af37;">هامش الربح الصافي المستهدف</td><td>≈ 31% (حوالي 18,500,000 دج عند بيع 60,000 وحدة). ملاحظة: هامش الربح الإجمالي قبل المصاريف الإدارية والضرائب يبلغ حوالي 42.5%، يُخصم منه 11.5% لتغطية الأعباء الإدارية والتسويقية والضريبية، فينتج صافي ≈ 31%.</td></tr>
+                        <tr><td style="color:#d4af37;">إعادة الاستثمار (قاعدة 20%)</td><td>20% من صافي الربح الشهري → «حساب تطوير الآلات» (صندوق منفصل)</td></tr>
+                        <tr><td style="color:#d4af37;">هامش الأمان المالي</td><td>10% مضمَّن في سعر التكلفة لمواجهة تقلبات الصرف والشحن</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">7.4.أ هيكلة التمويل الثلاثي</h3>
+            <p>الإجمالي العام لتكلفة تأسيس المشروع (الآلات + قطع الغيار + المكونات + المعدات المساندة + السلامة + التغليف + تكاليف التشغيل الأولية + التأسيس والتراخيص) = <strong>8,956,392 دج</strong>، يقع تحت سقف التمويل المصرح به البالغ <strong>10,000,000 دج</strong>، بهامش أمان متبقٍ <strong>1,043,608 دج</strong>.</p>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead><tr><th>مصدر التمويل</th><th>النسبة</th><th>القيمة (دج)</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#d4af37;">مساهمة شخصية</td><td>5%</td><td>447,820</td></tr>
+                        <tr><td style="color:#d4af37;">قرض NESDA بدون فائدة</td><td>25%</td><td>2,239,098</td></tr>
+                        <tr><td style="color:#d4af37;">قرض بنكي</td><td>70%</td><td>6,269,474</td></tr>
+                        <tr style="background: rgba(212,175,55,0.15);"><td colspan="2"><strong>إجمالي التمويل</strong></td><td><strong>8,956,392 دج</strong></td></t

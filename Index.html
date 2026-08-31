@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>جَنَّة لايت | Jannah Light – إضاءة جزائرية مبتكرة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+    
+        .hero-logo {
+            width: 180px;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            filter: drop-shadow(0 0 20px rgba(212,175,55,0.5));
+        }
+
+        .arabic-title {
+            font-family: 'Amiri', serif;
+            font-size: 3.5rem;
+            color: #d4af37;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+    
+    /* ============================================================
+       VARIABLES
+    ============================================================ */
+    :root {
+        --gold: #d4af37;
+        --gold-light: #f0d060;
+        --gold-dark: #aa841b;
+        --dark: #1a1a1a;
+        --bg-deep: #04040f;
+        --bg-mid: #080818;
+        --glass: rgba(10, 10, 28, 0.55);
+        --glass-border: rgba(212,175,55,0.18);
+        --text-primary: #f0f0f0;
+        --text-muted: #a0a0b0;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        background-color: var(--bg-deep);
+        font-family: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050510; }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    @keyframes float {
+        0%   { transform: translateY(0px); }
+        50%  { transform: translateY(-6px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes floatGlow {
+        0%   { transform: translateY(0px);  box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+        50%  { transform: translateY(-8px); box-shadow: 0 0 40px rgba(212,175,55,0.6); }
+        100% { transform: translateY(0px);  box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+    }
+
+    @keyframes iconGlow {
+        0%   { text-shadow: 0 0 2px #ffcc44; }
+        100% { text-shadow: 0 0 14px #ffaa22, 0 0 6px #ffcc44; }
+    }
+
+    @keyframes wave {
+        0%,100% { transform: rotate(0deg); }
+        50%     { transform: rotate(10deg); }
+    }
+
+    @keyframes pulseGold {
+        0%,100% { box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        50%     { box-shadow: 0 0 45px rgba(212,175,55,0.6); }
+    }
+
+    @keyframes whatsappPulse {
+        0%,100% { box-shadow: 0 6px 25px rgba(37,211,102,0.45); }
+        50%     { box-shadow: 0 6px 35px rgba(37,211,102,0.7), 0 0 0 12px rgba(37,211,102,0.08); }
+    }
+
+    /* ============================================================
+       CANVAS BACKGROUND
+    ============================================================ */
+    #canvas-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .container {
+        position: relative;
+        z-index: 2;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* shared glass card style */
+    .top-bar,
+    .hero,
+    .welcome-section,
+    .products-section,
+    .components-section,
+    .workshop-img,
+    .strategy-map,
+    .trust-section,
+    .infographic-container,
+    .contact-section,
+    .stats-section {
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 32px;
+        border: 1px solid var(--glass-border);
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .product-card,
+    .strategy-map a,
+    .contact-info,
+    .contact-interactive {
+        background: rgba(18, 18, 36, 0.72);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* ============================================================
+       TOP BAR
+    ============================================================ */
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .lang-switcher {
+        background: rgba(26,26,26,0.8);
+        padding: 6px 14px;
+        border-radius: 30px;
+        border: 1px solid rgba(212,175,55,0.25);
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .lang-switcher a {
+        color: #aaa;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s;
+    }
+
+    .lang-switcher a.active { color: var(--gold); font-weight: bold; }
+    .lang-switcher a:hover  { color: var(--gold-light); }
+
+    .btn-catalog {
+        background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        color: #000;
+        padding: 8px 22px;
+        border-radius: 40px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+        font-family: 'Cairo', sans-serif;
+        box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+    }
+
+    .btn-catalog:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212,175,55,0.5);
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 30px 20px;
+    }
+
+    .hero-banner {
+        width: 100%;
+        max-width: 850px;
+        border-radius: 20px;
+        border: 1px solid rgba(212,175,55,0.35);
+        margin-bottom: 25px;
+        box-shadow: 0 0 40px rgba(212,175,55,0.15);
+    }
+
+    .arabic-title {
+        color: var(--gold);
+        font-size: 3.2rem;
+        font-weight: 900;
+        margin: 10px 0;
+        font-family: 'Tajawal', sans-serif;
+        text-shadow: 0 0 30px rgba(212,175,55,0.4), 0 0 60px rgba(212,175,55,0.15);
+        letter-spacing: 2px;
+    }
+
+    .english-title {
+        color: var(--gold);
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin: 5px 0;
+        letter-spacing: 4px;
+        text-shadow: 0 0 20px rgba(212,175,55,0.3);
+    }
+
+    .algerian-flag {
+        font-size: 3rem;
+        margin: 10px 0;
+        animation: wave 1s ease-in-out infinite;
+        display: inline-block;
+    }
+
+    .hero-tagline {
+        margin-top: 18px;
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        font-family: 'Cairo', sans-serif;
+        position: relative;
+        display: inline-block;
+        padding: 0 30px;
+    }
+
+    .hero-tagline::before,
+    .hero-tagline::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold));
+    }
+
+    .hero-tagline::before { right: 100%; margin-right: -25px; }
+    .hero-tagline::after  { left: 100%;  margin-left: -25px; background: linear-gradient(90deg, var(--gold), transparent); }
+
+    .status-box {
+        margin-top: 20px;
+        padding: 12px 20px;
+        background: rgba(0,0,0,0.4);
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.06);
+        display: inline-block;
+    }
+
+    .status-box p { color: #888; font-size: 0.85rem; margin: 0; }
+
+    /* ============================================================
+       STATS SECTION
+    ============================================================ */
+    .stats-section {
+        text-align: center;
+        padding: 35px 20px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+    .stat-card {
+        background: rgba(18,18,36,0.75);
+        padding: 28px 20px;
+        border-radius: 22px;
+        border: 1px solid #333;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 0 30px rgba(212,175,55,0.2); }
+
+    .stat-card.active {
+        border-color: var(--gold);
+        box-shadow: 0 0 30px rgba(212,175,55,0.35);
+        animation: pulseGold 2.5s infinite;
+    }
+
+    .stat-card .stat-icon { font-size: 2.6rem; margin-bottom: 10px; }
+    .stat-card h3 { font-size: 1.9rem; margin: 8px 0 5px; font-family: 'Tajawal', sans-serif; }
+    .stat-card p  { color: #bbb; font-size: 0.88rem; }
+
+    /* ============================================================
+       SECTION TITLE
+    ============================================================ */
+    .section-title {
+        color: var(--gold);
+        font-size: 1.9rem;
+        border-right: 5px solid var(--gold);
+        padding-right: 20px;
+        display: inline-block;
+        margin-bottom: 30px;
+        font-family: 'Tajawal', sans-serif;
+        font-weight: 700;
+    }
+
+    /* ============================================================
+       WELCOME SECTION
+    ============================================================ */
+    .welcome-section { padding: 30px 25px; }
+
+    .welcome-text h2 {
+        color: var(--gold);
+        font-size: 2rem;
+        margin-bottom: 20px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .welcome-text p {
+        font-size: 1rem;
+        line-height: 1.9;
+        margin-bottom: 20px;
+        color: var(--text-muted);
+    }
+
+    .welcome-badges {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 15px;
+    }
+
+    .welcome-badge {
+        background: rgba(212,175,55,0.1);
+        border: 1px solid var(--gold);
+        padding: 7px 20px;
+        border-radius: 40px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--gold);
+        transition: 0.25s;
+        cursor: default;
+    }
+
+    .welcome-badge:hover {
+        background: var(--gold);
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(212,175,55,0.35);
+    }
+
+    /* ============================================================
+       PRODUCTS SECTION
+    ============================================================ */
+    .products-section {
+        text-align: center;
+        padding: 35px 20px;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 28px;
+        margin-top: 20px;
+    }
+
+    .product-card {
+        border: 1px solid #252535;
+        border-radius: 22px;
+        overflow: hidden;
+        transition: all 0.35s;
+        padding: 22px;
+        text-align: center;
+        animation: float 4s infinite ease-in-out;
+        position: relative;
+    }
+
+    .product-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        background: radial-gradient(ellipse at top, rgba(212,175,55,0.06), transparent 60%);
+        pointer-events: none;
+    }
+
+    .product-card:hover {
+        animation: none;
+        transform: translateY(-12px) scale(1.02);
+        border-color: var(--gold);
+        box-shadow: 0 0 35px rgba(212,175,55,0.45);
+    }
+
+    .product-img {
+        width: 100%;
+        height: 180px;
+        object-fit: contain;
+        background: rgba(30,30,46,0.8);
+        border-radius: 14px;
+        margin-bottom: 15px;
+        transition: all 0.4s;
+    }
+
+    .product-img:hover {
+        transform: scale(1.05) rotate(2deg);
+        filter: drop-shadow(0 0 12px rgba(212,175,55,0.7));
+    }
+
+    .product-card h3 {
+        color: var(--gold);
+        font-size: 1.7rem;
+        margin-bottom: 10px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .product-desc { font-size: 0.9rem; color: #bbb; margin-bottom: 14px; }
+
+    .product-badge {
+        background: rgba(46,74,48,0.9);
+        display: inline-block;
+        padding: 4px 13px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #fff;
+        margin: 3px 2px;
+        animation: iconGlow 1.5s infinite alternate;
+    }
+
+    /* ============================================================
+       STRATEGY MAP
+    ============================================================ */
+    .strategy-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 25px;
+    }
+
+    .strategy-map a {
+        display: block;
+        color: var(--gold);
+        text-decoration: none;
+        padding: 22px;
+        border: 1px solid rgba(212,175,55,0.4);
+        border-radius: 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+        animation: float 4s infinite ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .strategy-map a::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(212,175,55,0.05), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .strategy-map a:hover::before { opacity: 1; }
+
+    .strategy-map a:hover {
+        animation: none;
+        background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        color: var(--dark);
+        transform: translateY(-10px);
+        box-shadow: 0 0 30px rgba(212,175,55,0.55);
+    }
+
+    .strategy-map a h3 { font-size: 1.05rem; margin-bottom: 8px; font-family: 'Tajawal', sans-serif; }
+    .strategy-map a p  { font-size: 0.82rem; opacity: 0.8; }
+
+    /* ============================================================
+       TRUST SECTION
+    ============================================================ */
+    .trust-section { text-align: center; }
+
+    .badges-grid {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 20px;
+    }
+
+    .badge-card {
+        background: rgba(31,31,46,0.8);
+        border: 1px dashed rgba(212,175,55,0.5);
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        transition: 0.25s;
+    }
+
+    .badge-card:hover { background: rgba(212,175,55,0.12); transform: translateY(-2px); }
+
+    /* ============================================================
+       WORKSHOP IMAGE
+    ============================================================ */
+    .workshop-img { text-align: center; }
+
+    .workshop-img img {
+        max-width: 90%;
+        border-radius: 18px;
+        border: 1px solid var(--gold);
+        box-shadow: 0 0 30px rgba(212,175,55,0.2);
+    }
+
+    /* ============================================================
+       INFOGRAPHIC CONTAINER
+    ============================================================ */
+    .infographic-container {
+        padding: 25px;
+        border: 1px dashed rgba(212,175,55,0.4);
+        text-align: center;
+    }
+
+    .infographic-container h3 {
+        color: var(--gold);
+        margin-bottom: 15px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .infographic-container img {
+        max-width: 100%;
+        border-radius: 14px;
+        margin: 10px 0;
+        border: 1px solid #2a2a3a;
+    }
+
+    .two-imgs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .two-imgs img { flex: 1; min-width: 250px; border-radius: 14px; }
+
+    /* ============================================================
+       TECH ANATOMY CARDS
+    ============================================================ */
+    .tech-anatomy-card {
+        background: rgba(18,18,36,0.8);
+        border: 1px solid rgba(212,175,55,0.25);
+        padding: 22px;
+        border-radius: 18px;
+        width: 260px;
+        transition: all 0.35s;
+        backdrop-filter: blur(8px);
+    }
+
+    .tech-anatomy-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--gold);
+        box-shadow: 0 12px 30px rgba(212,175,55,0.25);
+    }
+
+    /* ============================================================
+       COMPONENTS SECTION
+    ============================================================ */
+    .components-section { padding: 35px 20px; }
+
+    .components-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .components-image { flex: 1; min-width: 280px; text-align: center; }
+
+    .comp-img {
+        max-width: 100%;
+        border-radius: 26px;
+        border: 2px solid var(--gold);
+        box-shadow: 0 0 25px rgba(212,175,55,0.35);
+        transition: all 0.4s ease;
+        animation: floatGlow 4s infinite ease-in-out;
+    }
+
+    .comp-img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 50px rgba(212,175,55,0.65);
+    }
+
+    .components-list { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 18px; }
+
+    .comp-item {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: rgba(18,18,36,0.75);
+        backdrop-filter: blur(6px);
+        padding: 16px 22px;
+        border-radius: 20px;
+        border: 1px solid rgba(212,175,55,0.2);
+        transition: all 0.3s;
+        animation: float 3s infinite ease-in-out;
+        animation-delay: calc(var(--order, 0) * 0.2s);
+    }
+
+    .comp-item:nth-child(1) { --order: 0; }
+    .comp-item:nth-child(2) { --order: 1; }
+    .comp-item:nth-child(3) { --order: 2; }
+    .comp-item:nth-child(4) { --order: 3; }
+    .comp-item:nth-child(5) { --order: 4; }
+
+    .comp-item:hover {
+        border-color: var(--gold);
+        box-shadow: 0 0 25px rgba(212,175,55,0.3);
+        transform: translateX(-6px) scale(1.02);
+    }
+
+    .comp-item i {
+        font-size: 2rem;
+        color: var(--gold);
+        text-shadow: 0 0 10px #ffcc44;
+        animation: iconGlow 1.8s infinite alternate;
+    }
+
+    .comp-text h4 {
+        color: var(--gold);
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .comp-text p { color: #bbb; font-size: 0.85rem; line-height: 1.5; }
+
+    /* ============================================================
+       CONTACT SECTION
+    ============================================================ */
+    .contact-section {
+        padding: 35px;
+        background: linear-gradient(145deg, rgba(12,12,22,0.9), rgba(6,6,16,0.9));
+        border-radius: 40px;
+        border: 1px solid rgba(212,175,55,0.2);
+    }
+
+    .contact-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: center;
+    }
+
+    .contact-info,
+    .contact-interactive {
+        flex: 1;
+        min-width: 280px;
+        background: rgba(18,18,36,0.65);
+        backdrop-filter: blur(10px);
+        padding: 28px;
+        border-radius: 32px;
+        border: 1px solid rgba(212,175,55,0.15);
+    }
+
+    .contact-info h3,
+    .assistant-box h3,
+    .rating-box h3 {
+        color: var(--gold);
+        margin-bottom: 20px;
+        font-size: 1.35rem;
+        border-right: 3px solid var(--gold);
+        padding-right: 12px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 18px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .contact-item i {
+        font-size: 1.8rem;
+        color: var(--gold);
+        min-width: 40px;
+        text-align: center;
+    }
+
+    .contact-item a {
+        color: #00d4ff;
+        text-decoration: none;
+        transition: 0.2s;
+        direction: ltr;
+        unicode-bidi: plaintext;
+        display: inline-block;
+    }
+
+    .contact-item a:hover { color: var(--gold); text-decoration: underline; }
+
+    .maps-btn {
+        display: inline-block;
+        margin-top: 5px;
+        background: rgba(212,175,55,0.15);
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        color: var(--gold) !important;
+        border: 1px solid rgba(212,175,55,0.3);
+        direction: rtl;
+    }
+
+    /* ============================================================
+       QR / RATING BOXES
+    ============================================================ */
+    .qr-box {
+        text-align: center;
+        margin-bottom: 28px;
+        padding-bottom: 22px;
+        border-bottom: 1px dashed rgba(212,175,55,0.3);
+    }
+
+    .qr-code {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        background: white;
+        padding: 6px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 20px rgba(212,175,55,0.2);
+    }
+
+    .assistant-box { text-align: center; margin-bottom: 28px; }
+
+    .assistant-btn {
+        background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        color: #000;
+        border: none;
+        padding: 11px 26px;
+        border-radius: 40px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        margin: 12px 0 8px;
+        transition: 0.25s;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    .assistant-btn:hover {
+        transform: scale(1.04);
+        box-shadow: 0 0 20px rgba(212,175,55,0.55);
+    }
+
+    .rating-box { text-align: center; }
+
+    .bulb-rating {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        font-size: 2rem;
+        cursor: pointer;
+        margin: 15px 0;
+    }
+
+    .bulb-rating i { color: #555; transition: all 0.2s ease; }
+
+    .bulb-rating i.active,
+    .bulb-rating i:hover {
+        color: var(--gold);
+        text-shadow: 0 0 18px #ffcc44;
+        transform: scale(1.15);
+    }
+
+    /* ============================================================
+       WHATSAPP FLOAT
+    ============================================================ */
+    .whatsapp-float {
+        position: fixed;
+        bottom: 28px;
+        left: 28px;
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .whatsapp-btn {
+        width: 58px;
+        height: 58px;
+        background: linear-gradient(135deg, #25d366, #128c7e);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 25px rgba(37,211,102,0.45);
+        text-decoration: none;
+        transition: all 0.3s;
+        animation: whatsappPulse 2.5s infinite;
+    }
+
+    .whatsapp-btn:hover {
+        transform: scale(1.12) translateY(-3px);
+        box-shadow: 0 10px 35px rgba(37,211,102,0.6);
+    }
+
+    .whatsapp-btn i { color: #fff; font-size: 1.7rem; }
+
+    .whatsapp-label {
+        background: rgba(10,10,20,0.85);
+        color: #25d366;
+        font-size: 0.72rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(37,211,102,0.35);
+        font-family: 'Cairo', sans-serif;
+        white-space: nowrap;
+    }
+
+    /* ============================================================
+       GOLD DIVIDER
+    ============================================================ */
+    .gold-divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        margin: 10px 0 20px;
+        opacity: 0.4;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+        background: linear-gradient(180deg, rgba(0,0,0,0.95), #000);
+        text-align: center;
+        padding: 35px 20px;
+        margin-top: 50px;
+        border-top: 1px solid rgba(212,175,55,0.2);
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .social-btn {
+        background: rgba(26,26,40,0.9);
+        padding: 10px 22px;
+        border-radius: 40px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+        border: 1px solid #333;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    .social-btn i { font-size: 1.2rem; }
+    .social-btn.youtube { color: #ff4444; }
+    .social-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+
+    .copyright { color: #555; font-size: 0.8rem; line-height: 2; }
+
+    .footer-tagline {
+        color: var(--gold);
+        font-size: 0.95rem;
+        margin: 12px 0;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 700px) {
+        .arabic-title   { font-size: 2.1rem; }
+        .english-title  { font-size: 1.6rem; }
+        .btn-catalog    { padding: 7px 16px; font-size: 0.8rem; }
+        .product-card h3 { font-size: 1.35rem; }
+        .welcome-text h2 { font-size: 1.5rem; }
+        .section-title  { font-size: 1.5rem; }
+        .whatsapp-float { bottom: 20px; left: 16px; }
+    }
+    /* === تطوير strategy-map === */
+.strategy-map a {
+    position: relative;
+    padding-top: 28px !important;
+    overflow: hidden;
+}
+
+.strategy-map .card-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    background: radial-gradient(circle, rgba(212,175,55,0.15), transparent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(212,175,55,0.3);
+    transition: all 0.3s ease;
+}
+
+.strategy-map .card-icon i {
+    font-size: 1.5rem !important;
+    color: var(--gold);
+}
+
+.strategy-map a:hover .card-icon {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 0 25px rgba(212,175,55,0.5);
+    background: radial-gradient(circle, rgba(212,175,55,0.25), transparent);
+}
+
+.strategy-map a:hover .card-icon i {
+    animation: iconBounce 0.5s ease;
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--gold);
+    color: #000;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.card-primary {
+    border: 1.5px solid var(--gold) !important;
+}
+
+.strategy-map a::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(212,175,55,0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s;
+    opacity: 0;
+}
+
+.strategy-map a:hover::after {
+    right: 100%;
+    opacity: 1;
+}
+  /* ============================================================
+   الخارطة الذهنية - جَنَّة لايت (الألوان المطلوبة)
+============================================================ */
+.mindmap-section {
+    background: rgba(10,10,20,0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 32px;
+    padding: 30px 20px;
+    margin: 40px 0;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.jlt-mindmap-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    background: transparent;
+    padding: 20px;
+}
+
+.mindmap-wrapper {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 25px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.branch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 130px;
+}
+
+.node {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    padding: 12px;
+}
+
+.center-node {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #d4af37, #aa841b);
+    border-radius: 50%;
+    color: #000;
+    font-weight: 900;
+    font-size: 1rem;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+    z-index: 10;
+    margin-bottom: 20px;
+}
+.center-node i { font-size: 2.2rem; margin-bottom: 6px; color: #000; text-shadow: none; }
+
+.main-branch {
+    width: 110px;
+    min-height: 110px;
+    border: 2px solid rgba(212, 175, 55, 0.6);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin-bottom: 10px;
+}
+.main-branch span { color: #d4af37; }
+
+/* ألوان الأيقونات حسب الطلب */
+.branch-container#branch-sovereignty .main-branch i {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    color: #50C878;
+    text-shadow: 0 0 8px #50C878, 0 0 3px #50C878;
+}
+.branch-container#branch-production .main-branch i {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    color: #4169E1;
+    text-shadow: 0 0 8px #4169E1, 0 0 3px #4169E1;
+}
+.branch-container#branch-tech .main-branch i {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    color: #aa00ff;
+    text-shadow: 0 0 8px #aa00ff, 0 0 3px #aa00ff;
+}
+.branch-container#branch-quality .main-branch i {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    color: #d4af37;
+    text-shadow: 0 0 8px rgba(212,175,55,0.8), 0 0 3px #d4af37;
+}
+
+.sub-nodes {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.branch-container.active .sub-nodes {
+    max-height: 250px;
+    opacity: 1;
+    margin-top: 10px;
+}
+.sub-node {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(184, 134, 11, 0.4);
+    color: #e0e0e0;
+    font-size: 0.75rem;
+    border-radius: 40px;
+    padding: 6px 12px !important;
+    backdrop-filter: blur(4px);
+}
+.sub-node i {
+    color: #d4af37;
+    margin-left: 5px;
+}
+.node:hover { transform: scale(1.05); }
+
+  
+     </style>
+    
+</head>
+<body>
+
+<!-- ============================================================
+     THREE.JS AMBIENT BACKGROUND
+============================================================ -->
+<canvas id="canvas-bg"></canvas>
+
+<!-- ============================================================
+     WHATSAPP FLOAT BUTTON
+============================================================ -->
+<div class="whatsapp-float">
+    <a href="https://wa.me/213558085645" class="whatsapp-btn" target="_blank" title="تواصل معنا واتساب">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <div class="whatsapp-label">تواصل واتساب</div>
+</div>
+
+<!-- ============================================================
+     MAIN CONTAINER
+============================================================ -->
+<div class="container">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="lang-switcher">
+            <span style="font-size:1.1rem;">🌐</span>
+            <a href="index.html" class="active">العربية</a>
+            <span style="color:#444;">|</span>
+            <a href="index-fr.html">Français</a>
+            <span style="color:#444;">|</span>
+            <a href="index-en.html">English</a>
+            <span style="color:#444;">|</span>
+            <a href="index-zh.html">中文</a>
+        </div>
+        <a href="products.html" class="btn-catalog">
+            <i class="fas fa-book-open"></i> 📖 كتالوج المنتجات
+        </a>
+    </div>
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+<div class="hero" style="text-align: center; padding: 20px;">
+    <img src="jannahdark.jpg" alt="Jannah Light" style="width:100%; max-width:850px; margin-bottom:25px; border-radius:20px;">
+    <div style="margin: 20px 0 10px; font-size: 2.5rem; color: #d4af37; font-weight: bold;">جَنَّة لايت</div>
+    <div style="margin: 10px 0; font-size: 2rem; color: #d4af37;">🇩🇿</div>
+    <div style="margin: 10px 0; font-size: 2rem; color: #d4af37; font-weight: bold;">JANNAH LIGHT</div>
+    <div style="margin: 5px 0 20px; font-size: 1.2rem;">Innovation et Lumière</div>
+    <div style="margin: 20px 0; color: #a0a0b0;">نصنع الجودة، لنضيء المستقبل بعقول جزائرية</div>
+    <div style="margin-top: 20px; padding: 8px 20px; background: rgba(0,0,0,0.4); display: inline-block; border-radius: 20px;">
+        <i class="fas fa-tools"></i> المشروع قيد التأسيس - لم يبدأ الإنتاج بعد
+    </div>
+</div>
+    <!-- ============================================================
+         ROADMAP + FUNDING STRUCTURE
+    ============================================================ -->
+    <div class="stats-section" style="margin-top:50px;">
+        <div class="section-title" style="border-right:none;">🗓️ roadmap مُحدّث + هيكل التمويل</div>
+        <p style="text-align:center; color:#bbb; margin-bottom:25px; font-size:1.05rem;">
+            مراحل التأسيس واضحة والتمويل مُهَيّكل بثلاث ركائز لضمان الاستمرارية
+        </p>
+
+        <!-- هيكلة التمويل -->
+        <div style="margin-bottom:28px; padding:22px; background:rgba(212,175,55,0.06); border-radius:14px; border:1px solid rgba(212,175,55,0.25);">
+            <h4 style="color:var(--gold); margin-bottom:14px; font-family:'Tajawal',sans-serif; font-size:1rem; text-align:center;">
+                <i class="fas fa-shield-alt" style="margin-left:6px;"></i> هيكلة التمويل
+            </h4>
+            <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:20px;">
+                <div style="text-align:center;">
+                    <div style="width:52px; height:52px; margin:0 auto 6px; background:radial-gradient(circle,rgba(212,175,55,0.2),transparent); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(212,175,55,0.3);">
+                        <i class="fas fa-user-tie" style="color:var(--gold); font-size:1.2rem;"></i>
+                    </div>
+                    <span style="color:#ddd; font-size:0.78rem;">مساهمة شخصية</span>
+                </div>
+                <span style="color:var(--gold); font-size:1.3rem;">+</span>
+                <div style="text-align:center;">
+                    <div style="width:52px; height:52px; margin:0 auto 6px; background:radial-gradient(circle,rgba(212,175,55,0.2),transparent); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(212,175,55,0.3);">
+                        <i class="fas fa-hand-holding-usd" style="color:var(--gold); font-size:1.2rem;"></i>
+                    </div>
+                    <span style="color:#ddd; font-size:0.78rem;">تمويل بدون فائدة</span>
+                </div>
+                <span style="color:var(--gold); font-size:1.3rem;">+</span>
+                <div style="text-align:center;">
+                    <div style="width:52px; height:52px; margin:0 auto 6px; background:radial-gradient(circle,rgba(212,175,55,0.2),transparent); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(212,175,55,0.3);">
+                        <i class="fas fa-university" style="color:var(--gold); font-size:1.2rem;"></i>
+                    </div>
+                    <span style="color:#ddd; font-size:0.78rem;">قرض بنكي</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- مراحل Roadmap -->
+        <div class="stats-grid">
+            <div class="stat-card" style="border-color:#4CAF50;">
+                <div class="stat-icon"><i class="fas fa-check-circle" style="color:#4CAF50;"></i></div>
+                <h3 style="color:#4CAF50;">مكتمل</h3>
+                <p><strong>دراسة الجدوى</strong><br>أفريل 2026</p>
+            </div>
+            <div class="stat-card" style="border-color:#4a90e2; position:relative; overflow:hidden;">
+    <!-- خط متحرك في الخلفية -->
+    <div style="position:absolute; top:0; right:-100%; width:100%; height:2px; background:linear-gradient(90deg, transparent, #4a90e2, transparent); animation: slideLine 2s linear infinite;"></div>
+    
+    <div class="stat-icon">
+        <i class="fas fa-sync-alt" style="color:#4a90e2; animation: spin 3s linear infinite;"></i>
+    </div>
+    <h3 style="color:#4a90e2;">قيد المراجعة</h3>
+    <p><strong>المصادقة على الشراكة التقنية</strong><br>الربع الثاني 2026</p>
+</div>
+            <div class="stat-card active">
+                <div class="stat-icon"><i class="fas fa-cogs fa-spin" style="color:var(--gold);"></i></div>
+                <h3 style="color:var(--gold);">نحن هنا</h3>
+                <p><strong>طلب التمويل</strong><br>فيفري 2027</p>
+            </div>
+            <div class="stat-card" style="border-color:#555;">
+                <div class="stat-icon"><i class="fas fa-flask" style="color:#888;"></i></div>
+                <h3 style="color:#888;">قريباً</h3>
+                <p><strong>تركيب الورشة</strong><br>جويلية 2027</p>
+            </div>
+            <div class="stat-card" style="border-color:#555;">
+                <div class="stat-icon"><i class="fas fa-boxes" style="color:#888;"></i></div>
+                <h3 style="color:#888;">بعد ذلك</h3>
+                <p><strong>بدء الإنتاج</strong><br>سبتمبر 2028</p>
+            </div>
+        </div>
+    </div><!-- /stats-section (roadmap) -->
+    
+    <!-- ============================================================
+         WORKSHOP IMAGE
+    ============================================================ -->
+    <div class="workshop-img">
+        <img src="workshop.jpg" alt="ورشة جَنَّة لايت">
+    </div>
+<div class="section-title" style="text-align:center; border:none; margin: 10px 0 30px 0;">
+    ⚡ المنصة الرقمية المتكاملة لورشة جَنَّة لايت
+</div>
+    <!-- ============================================================
+         STRATEGY MAP
+    ============================================================ -->
+    <div class="strategy-map">
+    
+    <!-- مجموعة 1: التعريف بالهوية -->
+    <a href="jlt_v5_corrected.html" class="strategy-card card-primary">
+        <div class="card-icon"><i class="fas fa-id-badge"></i></div>
+        <h3>دليل الهوية المؤسسية V.9.2</h3>
+        <p>البيانات الرسمية والهوية البصرية والترميز الرقمي</p>
+        <span class="card-badge">رسمي</span>
+    </a>
+    
+    <a href="comparison.html" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-trophy"></i></div>
+        <h3>لماذا جَنَّة لايت تتفوق؟</h3>
+        <p>مقارنة الأسعار والجودة + الميزات التقنية الحصرية</p>
+    </a>
+
+    <a href="video.html" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-video"></i></div>
+        <h3>معرض الفيديو التعريفي</h3>
+        <p>العرض البصري الكامل لهوية ومشروع جَنَّة لايت</p>
+    </a>
+
+    <!-- مجموعة 2: الإنتاج والتشغيل -->
+    <a href="production_3d.html" class="strategy-card card-primary">
+        <div class="card-icon"><i class="fas fa-cube"></i></div>
+        <h3>عرض الإنتاج التفاعلي 3D</h3>
+        <p>نموذج ثلاثي الأبعاد لخط الإنتاج الكامل</p>
+        <span class="card-badge">تفاعلي</span>
+    </a>
+
+    <a href="machines.html" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-microchip"></i></div>
+        <h3>دليل الآلات الصناعية</h3>
+        <p>عرض حي لتشغيل وتفاصيل الآلات الثمانية</p>
+    </a>
+
+    <a href="launch-batches.html" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+        <h3>جدولة دفعات الإنتاج</h3>
+        <p>الخطة التنفيذية لتشغيل 8 عمال وتجهيز 50,000 وحدة</p>
+    </a>
+
+    <!-- مجموعة 3: التحليلات والوثائق -->
+    <a href="analytics.html" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>لوحة التحليلات الحية</h3>
+        <p>متابعة بيانات الإنتاج والجودة والرسوم البيانية</p>
+    </a>
+
+    <a href="operational_guide.html" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-book-open"></i></div>
+        <h3>الدليل التشغيلي المعياري</h3>
+        <p>المرجع الكامل لعمليات الإنتاج والجودة والصيانة</p>
+    </a>
+
+    <a href="fiches_techniques.pdf" target="_blank" class="strategy-card">
+        <div class="card-icon"><i class="fas fa-file-pdf"></i></div>
+        <h3>الوثائق التقنية PDF</h3>
+        <p>المخططات الهندسية والمواصفات الفنية المعتمدة</p>
+        <span class="card-badge">PDF</span>
+    </a>
+
+    <!-- مجموعة 4: المالية -->
+    <a href="finance.html" class="strategy-card card-primary">
+        <div class="card-icon"><i class="fas fa-coins"></i></div>
+        <h3>التقرير المالي الشامل</h3>
+        <p>مؤشرات الربحية وهيكل التكاليف ونقطة التعادل</p>
+        <span class="card-badge">هام</span>
+    </a>
+    <!-- الخاتمة: الكتالوج التجاري -->
+    <a href="catalog-pro.html" class="strategy-card card-primary" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(0,0,0,0.3));">
+    <div class="card-icon" style="background: radial-gradient(circle, rgba(212,175,55,0.3), transparent);">
+        <i class="fas fa-book"></i>
+    </div>
+    <h3>الكتالوج التجاري الرسمي 2026</h3>
+    <p>الدليل الشامل للمنتجات - المواصفات والأسعار وشهادات الجودة</p>
+    <span class="card-badge" style="background:#d4af37;">الخاتمة</span>
+</a>
+        
+</div><!-- /strategy-map -->
+    
+    <!-- ============================================================
+         PRODUCTS SECTION
+    ============================================================ -->
+    <div class="products-section">
+        <div class="section-title">💡 منتجاتنا الرائدة وخطة الإنتاج</div>
+
+        <!-- صورة مجمّعة للمنتجات -->
+        <div style="text-align:center; margin-bottom:25px;">
+            <img src="Produit.jpg" alt="منتجات جَنَّة لايت" class="product-img"
+                 style="width:100%; max-width:300px; height:180px; object-fit:contain;">
+        </div>
+
+        <!-- شبكة المنتجات -->
+        <div class="products-grid">
+
+            <!-- 5 واط -->
+            <div class="product-card">
+                <img src="jannah5w.jpg" alt="5W" class="product-img" style="width:90%; object-fit:cover;">
+                <h3>5 واط</h3>
+                <p class="product-desc">إضاءة هادئة وموفرة، تعادل لمبة 40 واط تقليدية.</p>
+                <span class="product-badge">توفير طاقة 90%</span>
+                <span class="product-badge">3 ألوان (3000K · 4000K · 6500K)</span>
+            </div>
+
+            <!-- 9 واط - مرحلة الانطلاق -->
+            <div class="product-card" style="border:2px solid var(--gold); box-shadow:0 0 15px rgba(212,175,55,0.3);">
+                <span style="position:absolute; top:10px; left:10px; background:#27ae60; color:#fff; padding:4px 10px; border-radius:8px; font-size:0.75rem; font-weight:bold; z-index:10;">
+                    🎯 مرحلة الانطلاق الأولى
+                </span>
+                <img src="jannah9w.jpg" alt="9W" class="product-img">
+                <h3>9 واط (E27)</h3>
+                <p class="product-desc">المنتج الرئيسي للانطلاق. إضاءة دافئة ممتازة، مناسبة للمنازل والمكاتب والأكثر طلباً في السوق الجزائري.</p>
+                <span class="product-badge" style="background-color:var(--gold); color:#000; font-weight:bold;">مستهدف: 25,000 وحدة</span>
+                <span class="product-badge">جودة عالية</span>
+                <span class="product-badge">3 ألوان (3000K · 4000K · 6500K)</span>
+            </div>
+
+            <!-- 12 واط - مرحلة الانطلاق -->
+            <div class="product-card" style="border:2px solid var(--gold); box-shadow:0 0 15px rgba(212,175,55,0.3);">
+                <span style="position:absolute; top:10px; left:10px; background:#27ae60; color:#fff; padding:4px 10px; border-radius:8px; font-size:0.75rem; font-weight:bold; z-index:10;">
+                    🎯 مرحلة الانطلاق الأولى
+                </span>
+                <img src="jannah12w.jpg" alt="12W" class="product-img" style="width:80%; object-fit:cover;">
+                <h3>12 واط (E27)</h3>
+                <p class="product-desc">توازن مثالي بين السطوع واستهلاك الطاقة. مستهدف أساسي لتلبية الطلب التجاري والمنزلي واسع النطاق.</p>
+                <span class="product-badge" style="background-color:var(--gold); color:#000; font-weight:bold;">مستهدف: 25,000 وحدة</span>
+                <span class="product-badge">معيار IEC</span>
+                <span class="product-badge">3 ألوان (3000K · 4000K · 6500K)</span>
+            </div>
+
+            <!-- 18 واط -->
+            <div class="product-card">
+                <img src="jannah18w.jpg" alt="18W" class="product-img" style="width:80%; object-fit:cover;">
+                <h3>18 واط</h3>
+                <p class="product-desc">إضاءة قوية للمساحات الكبيرة والمرافق العامة.</p>
+                <span class="product-badge">ضمان سنتين</span>
+                <span class="product-badge">3 ألوان (3000K · 4000K · 6500K)</span>
+            </div>
+
+        </div><!-- /products-grid -->
+
+        <!-- استراتيجية التشغيل -->
+        <div style="margin-top:30px; padding:20px; background:rgba(255,255,255,0.03); border-radius:16px; border:1px dashed rgba(212,175,55,0.3);">
+            <h4 style="color:var(--gold); margin-bottom:10px; font-family:'Tajawal',sans-serif;">
+                <i class="fas fa-users"></i> استراتيجية التشغيل الصناعي (8 عمال):
+            </h4>
+            <p style="font-size:0.9rem; color:#ccc; line-height:1.7;">
+                سيتم تقسيم خط تجميع الـ 50,000 وحدة الأولى عبر نظام متكامل:
+                <strong>عاملان</strong> للتركيب الميكانيكي والمشتت الحراري،
+                <strong>عاملان</strong> للحام الدوائر الإلكترونية (Driver)،
+                <strong>عامل</strong> لكبس القاعدة المعدنية والتقفيل،
+                <strong>عامل</strong> لفحص الجودة والاختبار الفني، و<strong>عاملان</strong> للتعبئة والتغليف النهائي.
+            </p>
+        </div>
+
+    </div><!-- /products-section -->
+
+    <!-- ============================================================
+         GUARANTEE + JANNAH ASSISTANT
+    ============================================================ -->
+    <div class="stats-section" style="padding:35px 20px;">
+        <div class="section-title" style="border-right:none;">🛡️ ضمان 2 سنة + استدامة Eco-Friendly</div>
+        <p style="text-align:center; color:#bbb; margin-bottom:28px; font-size:1.05rem;">
+            ثقة بالجودة، دعم فني مباشر، وتوفير طاقة يصل إلى 90% مع مواد قابلة لإعادة التدوير
+        </p>
+
+        <div class="badges-grid">
+            <div class="badge-card"><i class="fas fa-check-circle" style="color:#4CAF50; margin-left:6px;"></i> ضمان 2 سنة</div>
+            <div class="badge-card"><i class="fas fa-leaf"         style="color:#4CAF50; margin-left:6px;"></i> Eco-Friendly (توفير 90% طاقة)</div>
+            <div class="badge-card"><i class="fas fa-headset"      style="color:var(--gold); margin-left:6px;"></i> دعم فني مباشر</div>
+            <div class="badge-card"><i class="fas fa-recycle"      style="color:#4CAF50; margin-left:6px;"></i> مواد قابلة لإعادة التدوير</div>
+        </div>
+
+        <!-- مساعد جَنَّة -->
+        <div class="assistant-box" style="margin-top:36px;">
+            <h3><i class="fas fa-robot"></i> جَنَّة مساعد – اختر إضاءة مثالية</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+                <div>
+                    <label style="font-size:0.85rem; color:#bbb;">مساحة المكان (م²)</label>
+                    <input id="area-m2" type="number" min="1" value="12"
+                           style="width:100%; padding:8px 10px; margin-top:6px; border-radius:10px; border:1px solid rgba(212,175,55,0.25); background:rgba(10,10,28,0.6); color:#fff; font-family:'Cairo';">
+                </div>
+                <div>
+                    <label style="font-size:0.85rem; color:#bbb;">درجة اللون</label>
+                    <select id="color-temp"
+                            style="width:100%; padding:8px 10px; margin-top:6px; border-radius:10px; border:1px solid rgba(212,175,55,0.25); background:rgba(10,10,28,0.6); color:#fff; font-family:'Cairo';">
+                        <option value="3000">3000K (دافئ)</option>
+                        <option value="4000" selected>4000K (طبيعي)</option>
+                        <option value="6500">6500K (أبيض بارد)</option>
+                    </select>
+                </div>
+            </div>
+            <button class="assistant-btn" onclick="jannahAssist()">احصل على التوصية</button>
+            <div id="assist-result" style="margin-top:14px; font-size:0.92rem; color:#bbb; min-height:44px;"></div>
+        </div>
+    </div><!-- /stats-section (guarantee) -->
+
+    <!-- ============================================================
+         TECH ANATOMY (قلب العملية الصناعية)
+    ============================================================ -->
+    <div class="infographic-container">
+        <h3 style="font-size:1.4rem; margin-bottom:10px;">🔬 قلب العملية الصناعية 🇩🇿</h3>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:25px;">
+            اكتشف المكونات التي تجعل جَنَّة لايت تدوم طويلاً
+        </p>
+        <div style="display:flex; justify-content:center; gap:22px; flex-wrap:wrap;">
+            <div class="tech-anatomy-card">
+                <div style="font-size:2.4rem; margin-bottom:12px;">🔌</div>
+                <h4 style="color:var(--gold); margin:8px 0; font-family:'Tajawal',sans-serif; font-size:1.05rem;">التوازن الكهربائي</h4>
+                <p style="font-size:0.85rem; color:#bbb; line-height:1.6;">نستخدم الزّنر ديود والملف النحاسي لضمان استقرار الجهد وحماية الدائرة.</p>
+            </div>
+            <div class="tech-anatomy-card">
+                <div style="font-size:2.4rem; margin-bottom:12px;">🔥</div>
+                <h4 style="color:var(--gold); margin:8px 0; font-family:'Tajawal',sans-serif; font-size:1.05rem;">التحمل الحراري</h4>
+                <p style="font-size:0.85rem; color:#bbb; line-height:1.6;">مشتتات حرارية من الألومنيوم وتصميم يضمن توزيع الحرارة بكفاءة عالية.</p>
+            </div>
+            <div class="tech-anatomy-card">
+                <div style="font-size:2.4rem; margin-bottom:12px;">🛡️</div>
+                <h4 style="color:var(--gold); margin:8px 0; font-family:'Tajawal',sans-serif; font-size:1.05rem;">أمان مضاعف</h4>
+                <p style="font-size:0.85rem; color:#bbb; line-height:1.6;">كل لوحة تحتوي على فيوز للحماية، وتخضع لفحص شامل للجهد وشدة الإضاءة.</p>
+            </div>
+        </div>
+    </div><!-- /infographic-container (tech anatomy) -->
+
+    <!-- ============================================================
+         COMPONENTS SECTION
+    ============================================================ -->
+    <div class="components-section">
+        <div class="section-title">🔧 مكونات المصباح LED – جودة تصنيع عالية</div>
+        <div class="components-container">
+            <div class="components-image">
+                <img src="Housing.jpg" alt="LED Components" class="comp-img">
+            </div>
+            <div class="components-list">
+                <div class="comp-item">
+                    <i class="fas fa-microchip"></i>
+                    <div class="comp-text">
+                        <h4>قاعدة لولبية (Screw Base)</h4>
+                        <p>قاعدة E27/E14 من النحاس الأصفر</p>
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <i class="fas fa-thermometer-half"></i>
+                    <div class="comp-text">
+                        <h4>مُبدد حراري (Heat Sink)</h4>
+                        <p>مصنوع من الألومنيوم، يبدد الحرارة</p>
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <i class="fas fa-bolt"></i>
+                    <div class="comp-text">
+                        <h4>محول الطاقة (LED Driver)</h4>
+                        <p>يحول التيار المتردد 220V إلى تيار مستمر</p>
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <div class="comp-text">
+                        <h4>رقائق LED (LED Chips)</h4>
+                        <p>رقائق SMD LM-80 عالية الكفاءة</p>
+                    </div>
+                </div>
+                <div class="comp-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="comp-text">
+                        <h4>غطاء ناشر ضوئي (Diffuser Cover)</h4>
+                        <p>بولي كربونات شفاف أو فاتر</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /components-section -->
+
+    <!-- ============================================================
+         TRUST / STANDARDS
+    ============================================================ -->
+    <div class="trust-section">
+        <h4 style="color:var(--gold); font-family:'Tajawal',sans-serif; font-size:1.2rem;">📜 المطابقة والمعايير المستهدفة</h4>
+        <div class="badges-grid">
+            <div class="badge-card">المعهد الجزائري للتقييس IANOR</div>
+            <div class="badge-card">معايير الجودة ISO 9001</div>
+            <div class="badge-card">شراكة تكنولوجية DASHUO</div>
+            <div class="badge-card">RoHS • IEC • LM-80</div>
+        </div>
+    </div><!-- /trust-section -->
+
+    <!-- ============================================================
+         STRATEGIC MAP + TECHNICAL CARDS (infographic)
+    ============================================================ -->
+   <div class="infographic-container">
+    <h3>🗺️ الخارطة الاستراتيجية والبطاقات التقنية</h3>
+    <p style="color:#bbb;">ملخص بصري لعمليات الإنتاج والمؤشرات المالية والجودة</p>
+    <div class="two-imgs">
+        <img src="delete.jpg" 
+     alt="Jannah Light - إضاءة جزائرية مبتكرة" 
+     class="hero-banner"
+     style="width:100%; max-width:850px; height:auto; border-radius:20px; border:1px solid rgba(212,175,55,0.35); box-shadow:0 0 40px rgba(212,175,55,0.15);">
+           <img src="cards.jpg" 
+             alt="البطاقات التقنية" 
+             class="jannah-light-brand"
+             style="width:100%; height:auto;">
+    </div>
+</div><!-- /infographic-container (strategic map) --> 
+    
+    <div class="mindmap-section">
+    <div class="section-title" style="border-right: none; text-align: center; margin-bottom: 20px;">🗺️ الخارطة الذهنية – جَنَّة لايت</div>
+    <div class="jlt-mindmap-container">
+        <div class="mindmap-wrapper">
+            <div class="node center-node" onclick="toggleBranch('all')">
+                <i class="fas fa-lightbulb"></i>
+                <span>جَنَّة لايت</span>
+            </div>
+            <div class="branch-container" id="branch-sovereignty">
+                <div class="node main-branch" onclick="toggleBranch('sovereignty')">
+                    <i class="fas fa-crown"></i>
+                    <span>السيادة الصناعية</span>
+                </div>
+                <div class="sub-nodes">
+                    <div class="node sub-node">مصنع مصغر (Micro-Factory)</div>
+                    <div class="node sub-node">تصميم PCB محلي</div>
+                    <div class="node sub-node">إحلال الواردات</div>
+                </div>
+            </div>
+            <div class="branch-container" id="branch-production">
+                <div class="node main-branch" onclick="toggleBranch('production')">
+                    <i class="fas fa-industry"></i>
+                    <span>خط الإنتاج</span>
+                </div>
+                <div class="sub-nodes">
+                    <div class="node sub-node">6 آلات تقنية</div>
+                    <div class="node sub-node">8 عمال (تدريب ميداني)</div>
+                    <div class="node sub-node">فرن الذهب (Solder Pot)</div>
+                </div>
+            </div>
+            <div class="branch-container" id="branch-tech">
+                <div class="node main-branch" onclick="toggleBranch('tech')">
+                    <i class="fas fa-microchip"></i>
+                    <span>التفوق التقني</span>
+                </div>
+                <div class="sub-nodes">
+                    <div class="node sub-node">حماية (Zener + Fuse)</div>
+                    <div class="node sub-node">مكثفات 105°C</div>
+                    <div class="node sub-node">معيار CRI ≥ 80</div>
+                </div>
+            </div>
+            <div class="branch-container" id="branch-quality">
+                <div class="node main-branch" onclick="toggleBranch('quality')">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>نظام الجودة</span>
+                </div>
+                <div class="sub-nodes">
+                    <div class="node sub-node">بروتوكول الفحص الثلاثي</div>
+                    <div class="node sub-node">ضمان 24 شهراً</div>
+                    <div class="node sub-node">تتبع QR Code</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      <!-- ============================================================
+         CONTACT SECTION
+    ============================================================ -->
+    <div class="contact-section">
+        <div class="section-title" style="border-right:none; text-align:center;">📞 تواصل معنا</div>
+        <div class="contact-grid">
+
+            <!-- بيانات الاتصال -->
+            <div class="contact-info">
+                <h3><i class="fas fa-address-card"></i> بيانات الاتصال الرسمية</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <span style="color:#bbb;">هاتف:</span><br>
+                        <a href="tel:0558085645">0558 08 56 45</a>
+                        <a href="https://wa.me/213558085645" class="maps-btn" target="_blank">واتساب</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <span style="color:#bbb;">بريد:</span><br>
+                        <a href="mailto:contact.jannahlight@gmail.com">contact.jannahlight@gmail.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <span style="color:#bbb;">الموقع:</span><br>
+                        Algiers, Algeria
+                        <a href="https://maps.google.com" class="maps-btn" target="_blank">خريطة</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR + تقييم -->
+            <div class="contact-interactive">
+                <div class="qr-box">
+                    <img src="qr.png" alt="QR واتساب" class="qr-code" onerror="this.style.display='none'">
+                    <p style="color:#bbb; font-size:0.85rem;">مسح QR للوصول السريع إلى واتساب</p>
+                    <img src="qrwhatsapp.jpg" alt="QR واتساب"
+                         style="width:100%; max-width:200px; margin-top:15px; border-radius:12px;">
+                </div>
+                <div class="rating-box">
+                    <h3><i class="fas fa-star"></i> قيمة تقييمك</h3>
+                    <div class="bulb-rating" id="bulb-rating">
+                        <i class="fas fa-lightbulb" data-val="1"></i>
+                        <i class="fas fa-lightbulb" data-val="2"></i>
+                        <i class="fas fa-lightbulb" data-val="3"></i>
+                        <i class="fas fa-lightbulb" data-val="4"></i>
+                        <i class="fas fa-lightbulb" data-val="5"></i>
+                    </div>
+                    <p style="color:#bbb; font-size:0.85rem;">اضغط على اللامبات لتقييم التجربة</p>
+                </div>
+            </div>
+
+        </div><!-- /contact-grid -->
+    </div><!-- /contact-section -->
+
+</div><!-- /container -->
+
+<!-- ============================================================
+     FOOTER  (خارج container)
+============================================================ -->
+<footer>
+    <div class="social-links">
+        <a href="https://www.facebook.com/"  class="social-btn" target="_blank"><i class="fab fa-facebook"></i> فيسبوك</a>
+        <a href="https://www.instagram.com/" class="social-btn" target="_blank"><i class="fab fa-instagram"></i> إنستغرام</a>
+        <a href="https://www.youtube.com/watch?v=_anL4dmEsF0" class="social-btn youtube" target="_blank"><i class="fab fa-youtube"></i> يوتيوب</a>
+    </div>
+    <p class="footer-tagline">جَنَّة لايت – إضاءة جزائرية مبتكرة 🇩🇿</p>
+    <p class="copyright">© 2026 جَنَّة لايت. جميع الحقوق محفوظة.</p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
+<script>
+    /* ---------- Three.js ambient particles ---------- */
+    (function () {
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+
+        function resize() {
+            W = canvas.width  = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+
+        function rand(min, max) { return Math.random() * (max - min) + min; }
+
+        function init() {
+            particles = [];
+            const count = Math.floor((W * H) / 14000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: rand(0, W), y: rand(0, H),
+                    r: rand(0.4, 1.8),
+                    dx: rand(-0.15, 0.15),
+                    dy: rand(-0.15, 0.15),
+                    alpha: rand(0.2, 0.7)
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212,175,55,${p.alpha})`;
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > W) p.dx *= -1;
+                if (p.y < 0 || p.y > H) p.dy *= -1;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize(); init(); draw();
+    })();
+
+    /* ---------- Jannah Assistant ---------- */
+    function jannahAssist() {
+        const rawArea = document.getElementById('area-m2').value;
+        const area    = parseFloat(rawArea) || 12;
+        const temp    = document.getElementById('color-temp').value;
+
+        let choice;
+        if      (area <= 8)  choice = '5W';
+        else if (area <= 14) choice = '9W';
+        else if (area <= 20) choice = '12W';
+        else                 choice = '18W';
+
+        const traditional = { '5W': 40, '9W': 60, '12W': 75, '18W': 100 }[choice];
+        const led  = parseInt(choice, 10);
+        const save = Math.round((1 - led / traditional) * 100);
+
+        document.getElementById('assist-result').innerHTML =
+            'التوصية: لمبة <b style="color:var(--gold);">' + choice + '</b> مع لون <b>' + temp + 'K</b>.<br>' +
+            'توفير طاقة مقارب: <b style="color:#4CAF50;">~' + save + '%</b> مقارنة بلمبة <b>' + traditional + ' واط</b> تقليدية.';
+    }
+
+    /* ---------- Bulb Rating ---------- */
+    const bulbs = document.querySelectorAll('#bulb-rating i');
+    bulbs.forEach(b => {
+        b.addEventListener('click', () => {
+            const val = +b.dataset.val;
+            bulbs.forEach(x => x.classList.toggle('active', +x.dataset.val <= val));
+        });
+    });
+   function toggleBranch(branchId) {
+    if(branchId === 'all') {
+        document.querySelectorAll('.branch-container').forEach(b => b.classList.remove('active'));
+    } else {
+        let target = document.getElementById('branch-' + branchId);
+        if(target) target.classList.toggle('active');
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.branch-container').forEach(b => b.classList.remove('active'));
+}); 
+</script>
+
+</body>
+</html>

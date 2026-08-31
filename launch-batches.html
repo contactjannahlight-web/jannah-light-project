@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخطط التأسيس وجدولة الدفعات الأولى | جَنَّة لايت</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --bg-deep: #04040f;
+            --glass: rgba(10, 10, 28, 0.65);
+            --glass-border: rgba(212,175,55,0.18);
+            --text-primary: #f0f0f0;
+            --text-muted: #a0a0b0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at bottom left, rgba(212,175,55,0.04), transparent 40%);
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container { max-width: 1050px; margin: 0 auto; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+        .back-link:hover { color: var(--gold-light); transform: translateX(5px); }
+        
+        .main-wrapper {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid var(--glass-border);
+            padding: 35px;
+            box-shadow: 0 10px 45px rgba(0,0,0,0.5);
+        }
+        .page-header { text-align: center; margin-bottom: 35px; padding-bottom: 25px; border-bottom: 1px dashed rgba(212,175,55,0.2); }
+        .page-header h1 { color: var(--gold); font-size: 2.1rem; font-weight: 900; font-family: 'Tajawal', sans-serif; }
+        .page-header p { color: var(--text-muted); margin-top: 8px; font-size: 1.05rem; }
+        
+        .timeline-box { margin: 30px 0; border-right: 3px solid rgba(212,175,55,0.3); padding-right: 20px; }
+        .timeline-step { margin-bottom: 35px; position: relative; }
+        .timeline-step::before {
+            content: ''; position: absolute; top: 5px; right: -26.5px;
+            width: 10px; height: 10px; background: var(--bg-deep);
+            border: 3px solid var(--gold); border-radius: 50%;
+        }
+        .timeline-step.active::before { border-color: #27ae60; background: #27ae60; box-shadow: 0 0 10px #27ae60; }
+        
+        .step-title { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 10px; font-family: 'Tajawal', sans-serif; }
+        .step-badge { display: inline-block; padding: 2px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin-right: 10px; vertical-align: middle; }
+        .badge-setup { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.3); }
+        .badge-run { background: rgba(39, 174, 96, 0.15); color: #2bda72; border: 1px solid rgba(39, 174, 96, 0.3); }
+        
+        .card-inner { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; padding: 20px; margin-top: 10px; }
+        .resource-alloc { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 15px; }
+        .alloc-node { background: rgba(0,0,0,0.3); border-right: 3px solid var(--gold); padding: 12px 15px; border-radius: 8px; }
+        .alloc-node.tech { border-right-color: #27ae60; }
+        .alloc-node strong { font-size: 0.95rem; color: #fff; display: block; margin-bottom: 4px; }
+        .alloc-node p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0; }
+        
+        .summary-banner {
+            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(39,174,96,0.05));
+            border: 1px dashed var(--gold); border-radius: 16px; padding: 20px; text-align: center; margin-top: 25px;
+        }
+        .summary-banner p { font-size: 1rem; color: var(--text-primary); margin-bottom: 0; }
+        .footer-credits { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- العودة للرئيسية -->
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للموقع الرئيسي</a>
+
+    <div class="main-wrapper">
+        <div class="page-header">
+            <h1>🎯 مخطط التأسيس وهندسة تجميع الدفعات القياسية</h1>
+            <p>الجدولة التنفيذية لإدارة الموارد البشرية والتحضير التجريبي لـ 50,000 مصباح LED الأولى</p>
+        </div>
+
+        <p style="margin-bottom: 20px;">يوضح هذا المخطط الاستراتيجي الخطة الزمنية لتشغيل <span style="color: var(--gold-light); font-weight: bold;">العمال الثمانية (8)</span> وتوزيع المهام الصناعية لحماية جودة المكونات الباطنية وتحقيق كفاءة التصنيع المتتالي على دفعات متسقة في الوردية الأولى.</p>
+
+        <div class="timeline-box">
+            
+            <!-- الدفعة الأولى: الشهر الأول -->
+            <div class="timeline-step active">
+                <div class="step-title">
+                    📅 الشهر الأول: مرحلة تأسيس وبناء مخزون الأمان 
+                    <span class="step-badge badge-setup"><i class="fas fa-hammer"></i> تفرغ وتجهيز ميكانيكي</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">توجيه كامل طاقة الورشة الفنية والبشرية لتصنيع وتجهيز المكونات الداخلية وتثبيت الإلكترونيات باطنياً دون البدء في تقفيل المصابيح الخارجي، لمنع هدر المواد وحماية اللوحات من الأكسدة [0.1.12، 0.1.31].</p>
+                
+                <div class="card-inner">
+                    <strong style="color: var(--gold-light); font-size: 0.95rem;"><i class="fas fa-users-cog"></i> هندسة توزيع العمال الثمانية (8 عمال) في الشهر الأول:</strong>
+                    <div class="resource-alloc">
+                        <div class="alloc-node">
+                            <strong>🛠️ تركيب الدائرة يدوياً (7 عمال)</strong>
+                            <p>التفرغ الكامل لتركيب رقائق الليد، المقاومات، ومكونات الحماية كالفيوز والزنر ديود على بوردات الـ PCB [0.1.26، 0.1.31].</p>
+                        </div>
+                        <div class="alloc-node tech">
+                            <strong>⚡ اللحام والسنفرة الفنية (عامل تقني واحد)</strong>
+                            <p>تشغيل فرن التغطيس بالقصدير SB PTC وتلميع وسنفرة المشتتات الحرارية للألومنيوم لبناء هياكل مثالية ومبردة [0.1.4، 0.1.10، 0.1.31].</p>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px; font-size: 0.9rem; border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 12px; color: #fff;">
+                        🎯 <strong>المخرجات المستهدفة:</strong> إنتاج وثبيت <span style="color: #2bda72; font-weight: bold;">5,000 بطاقة PCB مجهزة وملحومة بنجاح</span> كمخزون أمان استراتيجي باطن للورشة <span style="color: var(--gold); font-weight: bold;">(Tampon Stock)</span>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- الدفعة الثانية: الأشهر اللاحقة -->
+            <div class="timeline-step">
+                <div class="step-title">
+                    📅 الأشهر 2 و 3 فما فوق: مرحلة التجميع الشامل والتصنيع المتسلسل
+                    <span class="step-badge badge-run"><i class="fas fa-industry"></i> تشغيل ميكانيكي متوازي</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">تحويل خط الإنتاج ميكانيكياً وبشكل متسلسل لتجميع الهياكل الخارجية للمصابيح الكروية (9 واط و12 واط) وتعبئتها لشحنها للسوق فور توفر مخزون الكروت الأساسية بنجاح [0.1.21، 0.1.31].</p>
+                
+                <div class="card-inner">
+                    <strong style="color: #2bda72; font-size: 0.95rem;"><i class="fas fa-sitemap"></i> خط التجميع التوازني المتكامل (إعادة توزيع الـ 8 عمال):</strong>
+                    <div class="resource-alloc">
+                        <div class="alloc-node">
+                            <strong>⚙️ خط بوردات الـ PCB (3 عمال)</strong>
+                            <p>مواصلة تركيب ولحام الإلكترونيات يدوياً لتأمين استمرارية تدفق مخزون الأمان دون انقطاع.</p>
+                        </div>
+                        <div class="alloc-node">
+                            <strong>📦 خط التجميع والتقفيل (3 عمال)</strong>
+                            <p>توزيع السيليكون الحراري لتركيب الناشر، وكبس القاعدة المعدنية بالمكبس الهوائي بسرعة 100-120 وحدة/ساعة [0.1.4، 0.1.6، 0.1.31].</p>
+                        </div>
+                        <div class="alloc-node tech">
+                            <strong>🔬 فحص الجودة المتقدم (عامل واحد)</strong>
+                            <p>إجراء الفحص الثلاثي الكهربائي والحراري الشامل (Wattmeter) لفرز وقبول الوحدات الخالية من العيوب [0.1.7، 0.1.31].</p>
+                        </div>
+                        <div class="alloc-node tech">
+                            <strong>📊 الإشراف والتعبئة والشحن (عامل واحد)</strong>
+                            <p>مراقبة شبكة الهواء، جرد المواد، وإعداد وتغليف علب كرتون الشحن الكبيرة لتسويق المنتجات [0.1.14، 0.1.31].</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- البانر النهائي الملخص للجنة ناسدا -->
+        <div class="summary-banner">

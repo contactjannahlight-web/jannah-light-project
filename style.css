@@ -1,0 +1,21 @@
+:root {
+    --gold: #d4af37;
+    --dark: #1a1a1a;
+}
+
+.strategy-map a {
+    display: block;
+    background-color: var(--dark);
+    color: var(--gold);
+    text-decoration: none;
+    padding: 20px;
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.strategy-map a:hover {
+    background-color: var(--gold);
+    color: var(--dark);
+}
