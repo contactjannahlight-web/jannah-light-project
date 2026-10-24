@@ -1,332 +1,79 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>جَنَّة لايت - الدليل التشغيلي المعياري V.9.5 (النسخة الكاملة)</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root { --gold: #d4af37; --dark: #1a1a1a; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { background-color: #0a0a0a; }
-        body { background-color: #0a0a0a; font-family: 'Segoe UI', Tahoma, sans-serif; color: #f0f0f0; line-height: 1.6; overflow-x: hidden; }
-        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .container { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); border-radius: 48px; }
-        .section { background: rgba(10,10,20,0.65); backdrop-filter: blur(8px); border-radius: 32px; padding: 25px; margin-bottom: 35px; border: 1px solid rgba(212,175,55,0.25); transition: 0.3s; }
-        .section:hover { border-color: rgba(212,175,55,0.5); }
-        .section-title { color: var(--gold); font-size: 1.8rem; border-right: 4px solid var(--gold); padding-right: 15px; margin: 25px 0 20px 0; }
-        .subsection-title { color: var(--gold); font-size: 1.4rem; margin: 20px 0 15px; font-weight: bold; scroll-margin-top: 90px; }
-        .sub-subtitle { color: #d4af37; font-size: 1.2rem; margin: 15px 0 10px; font-weight: bold; }
-        .table-responsive { width: 100%; overflow-x: auto; margin: 15px 0; border-radius: 16px; border: 1px solid #2a2a2a; }
-        .data-table { width: 100%; border-collapse: collapse; background: rgba(18,18,30,0.8); }
-        .data-table th, .data-table td { border: 1px solid #2a2a2a; padding: 12px; text-align: right; vertical-align: middle; }
-        .data-table th { background: #1f1f1f; color: var(--gold); font-weight: bold; white-space: nowrap; }
-        .badge-list { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
-        .badge { background: rgba(212,175,55,0.12); border: 1px solid var(--gold); padding: 6px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: bold; color: var(--gold); }
-        .btn-back { background: linear-gradient(135deg, var(--gold), #aa841b); color: #000; padding: 10px 25px; border-radius: 40px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; transition: 0.3s; }
-        .btn-back:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
-        footer { background: #000; text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid #2a2a2a; color: #777; font-size: 0.8rem; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0px); } }
-        .card { animation: float 3s infinite ease-in-out; transition: 0.3s; }
-        .card:hover { transform: translateY(-6px); border-color: var(--gold); }
-        ul, .text-list { padding-right: 25px; margin: 15px 0; }
-        li { margin: 8px 0; }
-        hr { border-color: #2a2a2a; margin: 20px 0; }
-        .warning { color: #ffaa33; font-weight: bold; display: block; margin: 10px 0; }
-        .ltr-num { direction: ltr; unicode-bidi: embed; display: inline-block; }
-        @media (max-width: 700px) { .section-title { font-size: 1.4rem; } .subsection-title { font-size: 1.2rem; } }
-        .machine-card { background: rgba(18,18,36,0.75); border: 1px solid rgba(212,175,55,0.25); border-radius: 20px; padding: 20px 25px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 20px; }
-        .machine-card:hover { border-color: var(--gold); box-shadow: 0 0 25px rgba(212,175,55,0.2); transform: translateY(-3px); }
-        .machine-icon { font-size: 2.8rem; color: var(--gold); min-width: 60px; text-align: center; margin-top: 5px; flex-shrink: 0; }
-        .machine-content { flex: 1 1 240px; min-width: 0; max-width: 100%; }
-        .machine-content h4 { color: var(--gold); font-size: 1.3rem; margin-bottom: 8px; overflow-wrap: break-word; word-break: break-word; }
-        .machine-content p { color: #bbb; font-size: 0.95rem; line-height: 1.6; overflow-wrap: break-word; word-break: break-word; }
-        .machine-content .table-responsive { margin-top: 15px; max-width: 100%; }
-        .machine-content table { word-break: break-word; }
-        @media (max-width: 480px) { .machine-card { flex-direction: column; align-items: flex-start; } .machine-icon { margin-bottom: 4px; } }
-        .version-badge { display: inline-block; background: rgba(212,175,55,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 4px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: bold; }
-        .toc-box { background: rgba(18,18,30,0.6); border: 1px solid rgba(212,175,55,0.3); border-radius: 20px; padding: 20px; margin-bottom: 25px; }
-        .toc-box h3 { color: var(--gold); margin-bottom: 12px; font-size: 1.2rem; }
-        .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
-        @media (max-width: 700px) { .toc-grid { grid-template-columns: 1fr; } }
-        .toc-grid a { color: #ddd; text-decoration: none; font-size: 0.92rem; padding: 4px 0; border-bottom: 1px dotted rgba(255,255,255,0.08); display: block; overflow-wrap: break-word; }
-        .toc-grid a:hover { color: var(--gold); }
-        .toc-grid a .toc-num { color: var(--gold); margin-left: 6px; }
-        #backToTop { position: fixed; bottom: 90px; left: 20px; background: var(--gold); color: #000; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; cursor: pointer; z-index: 100; }
-        #backToTop.show { opacity: 1; pointer-events: auto; }
-        p, li, td, th { overflow-wrap: break-word; word-break: break-word; }
-        .language-links { text-align: center; margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .lang-btn { background: rgba(212,175,55,0.2); border: 1px solid var(--gold); color: var(--gold); padding: 8px 16px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .lang-btn:hover { background: rgba(212,175,55,0.4); }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jannah Light LED | Catalogue</title>
+  <style>
+    :root { --gold: #D4AF37; --navy: #0A1628; --silver: #C0C0C0; --bg: #071421; --card: rgba(10, 22, 40, 0.82); --muted: #dfe7ef; --line: rgba(212,175,55,0.38); }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #06111d 0%, #0A1628 100%); color: #f5f7fa; line-height: 1.8; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px 18px 70px; }
+    .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; padding: 16px 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(10, 22, 40, 0.8); }
+    .brand { color: var(--gold); font-weight: 700; }
+    .nav a { color: var(--silver); text-decoration: none; margin-left: 10px; }
+    .hero { padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: rgba(10, 22, 40, 0.82); }
+    h1 { margin: 0 0 8px; color: var(--gold); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 18px; margin-top: 22px; }
+    .card { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+    .card h3 { margin-top: 0; color: var(--gold); }
+    ul { margin: 0; padding-left: 18px; color: var(--muted); }
+    .footer { text-align: center; color: var(--silver); padding-top: 24px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
-    <div id="canvas-bg"></div>
-    <a id="top"></a>
-    <div class="container">
-        <div class="language-links">
-            <a href="operational_guide.html" class="lang-btn">العربية 🇩🇿</a>
-            <a href="operational_guide-en.html" class="lang-btn">English 🇬🇧</a>
-            <a href="operational_guide-fr.html" class="lang-btn">Français 🇫🇷</a>
-            <a href="operational_guide-zh.html" class="lang-btn">中文 🇨🇳</a>
-        </div>
-
-        <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i> العودة إلى الرئيسية</a>
-        <div class="section" id="sec-header">
-            <h1 class="section-title">📘 الدليل التشغيلي المعياري – ورشة Jannah Light</h1>
-            <p><span class="version-badge">الإصدار V.9.5 — النسخة المعتمدة النهائية</span></p>
-            <p style="margin-top:10px;"><strong>تاريخ الإصدار: 27 فبراير 2027</strong></p>
-            <p><strong>المؤلف:</strong> محمد جعيل – المدير التقني والمؤسس</p>
-            <p style="font-style:italic; margin-top:8px;">"نصنع الجودة، لنضيء المستقبل بعقول جزائرية"</p>
-        </div>
-
-        <nav class="toc-box" id="sec-toc">
-            <h3><i class="fas fa-list"></i> فهرس المحتويات (للتصفح السريع)</h3>
-            <div class="toc-grid">
-                <a href="#bab1"><span class="toc-num">1</span> الباب الأول: التجهيزات التقنية والبنية التحتية</a>
-                <a href="#bab2"><span class="toc-num">2</span> الباب الثاني: استراتيجية الإنتاج والجدول الزمني</a>
-                <a href="#bab3"><span class="toc-num">3</span> الباب الثالث: البطاقات الفنية والصيانة</a>
-                <a href="#bab4"><span class="toc-num">4</span> الباب الرابع: بروتوكول IQC والامتثال العالمي</a>
-                <a href="#bab5"><span class="toc-num">5</span> الباب الخامس: Micro-SOP والاختبارات المتقدمة</a>
-                <a href="#ch6"><span class="toc-num">6</span> الفصل السادس: الموارد البشرية والنظام التشغيلي</a>
-                <a href="#ch7"><span class="toc-num">7</span> الفصل السابع: استراتيجية الإنتاج والجدول المالي</a>
-                <a href="#ch8"><span class="toc-num">8</span> الفصل الثامن: مراقبة الجودة وضبط الأداء</a>
-                <a href="#ch9"><span class="toc-num">9</span> الفصل التاسع: السلامة المهنية وإدارة الطوارئ</a>
-                <a href="#ch10"><span class="toc-num">10</span> الفصل العاشر: حماية الاستمرارية (الرطوبة والطاقة)</a>
-                <a href="#ch11"><span class="toc-num">11</span> الفصل الحادي عشر: سجل الدروس المستفادة</a>
-                <a href="#ch12"><span class="toc-num">12</span> الفصل الثاني عشر: النماذج والسجلات</a>
-                <a href="#ch13"><span class="toc-num">13</span> الفصل الثالث عشر: التسويق والمبيعات والشهادات</a>
-            </div>
-        </nav>
-
-        <div class="section" id="sec-dedication">
-            <h2 class="subsection-title">الإهداء</h2>
-            <p>إلى كل عامل في ورشة «جنة لايت»،<br> إلى كل يد تبني وتضيء،<br> هذا الدليل التشغيلي وُضع ليكون مرجعاً لكم في كل مراحل العمل، وضماناً لجودة منتجاتنا التي تحمل اسم الجزائر إلى العالم.</p>
-        </div>
-
-        <div class="section" id="sec-intro">
-            <h2 class="subsection-title">مقدمة الدليل التشغيلي الداخلي – الإصدار V.9.5</h2>
-            <p>بسم الله الرحمن الرحيم.</p>
-            <p>إن نجاح أي مشروع صناعي لا يقوم على الفكرة وحدها، بل على التنظيم الدقيق، وضبط الإجراءات، والالتزام الكامل بمعايير الجودة والسلامة. هذا الدليل التشغيلي الإصدار التاسع الخماسي (V.9.5) يعكس تطوراً مستمراً في استراتيجية ورشة جَنَّة لايت منذ بداية المشروع في أواخر فبراير 2027.</p>
-            <p>ويستند هذا الدليل إلى خبرة ميدانية عملية متراكمة في مجال الكهرباء الصناعية والإلكترونيات، وصيغ في إطار الالتزام بالمعايير الدولية وأفضل الممارسات الصناعية.</p>
-            <ul>
-                <li>مرجعاً عملياً للعمال الجدد والقدامى.</li>
-                <li>أداة لمراقبة الجودة وضبط الإنتاج.</li>
-                <li>دليلاً لاتخاذ القرارات الإدارية والفنية.</li>
-                <li>إطاراً قانونياً وتنظيمياً يحمي حقوق الورشة والعاملين معاً.</li>
-            </ul>
-
-            <h3 class="sub-subtitle">ما يميز الإصدار V.9.5:</h3>
-            <ul>
-                <li><strong>التحديث المستمر:</strong> يعكس التطورات والدروس المستفادة من فترة التشغيل الأولى.</li>
-                <li><strong>واقعيته:</strong> يعتمد فقط على ما هو موجود فعلياً في الورشة من آلات ومعدات وقدرات تشغيلية.</li>
-                <li><strong>تفصيله:</strong> يقدم أرقاماً وإجراءات دقيقة، ولا يترك مجالاً للاجتهاد الشخصي.</li>
-                <li><strong>مرونته:</strong> صُمم ليكون وثيقة حية، تُراجع وتُحدَّث سنوياً وفق الخبرات الجديدة.</li>
-                <li><strong>شموليته:</strong> يربط بين الجوانب التقنية والمالية والبشرية في منظومة واحدة متكاملة.</li>
-                <li><strong>موثوقيته:</strong> بُني وفق المعايير الدولية ISO 9001 و IEC 62471 و LM-80.</li>
-            </ul>
-
-            <h3 class="sub-subtitle">تاريخ بداية المشروع:</h3>
-            <p><strong>تاريخ الانطلاق الرسمي:</strong> أواخر فبراير 2027 (نهاية الربع الأول من السنة 2027)</p>
-            <p>منذ هذا التاريخ، بدأت عمليات التجهيز والإنتاج التجريبي، وتم جمع الخبرات والدروس التي أسهمت في تطوير هذا الدليل.</p>
-        </div>
-
-        <h2 class="section-title" id="sec1" style="margin-top:10px;">القسم الأول: السنة الأولى – التفصيل الكامل</h2>
-        
-        <div class="section" id="bab1">
-            <h2 class="section-title">الباب الأول: التجهيزات التقنية والبنية التحتية للورشة</h2>
-            <h3 class="subsection-title">1.1 قائمة الآلات وخطوط الإنتاج الرئيسية</h3>
-
-            <div class="machine-card">
-                <div class="machine-icon"><i class="fas fa-cogs"></i></div>
-                <div class="machine-content">
-                    <h4>(أ) ماكينة الكبس والبرشمة (LED Bulb Riveting & Pressing Machine)</h4>
-                    <p><strong>الوظيفة:</strong> الربط الميكانيكي بين القاعدة المعدنية (E27/B22) وهيكل المصباح البلاستيكي.</p>
-                    <p><strong>القدرة الإنتاجية:</strong> <span class="ltr-num">100–120</span> وحدة/ساعة.</p>
-                    <p><strong>المعايير التقنية:</strong> ضبط الأسطوانة الهوائية لتحقيق عمق تداخل لا يقل عن 0.8 ملم، مع ضمان صمود برشام ميكانيكي دائم ضد الاهتزازات والصدمات.</p>
-                    <p><strong>التكلفة التقديرية (2027):</strong> 387,500 دج (شاملة الترقية).</p>
-                </div>
-            </div>
-
-            <div class="machine-card">
-                <div class="machine-icon"><i class="fas fa-fire"></i></div>
-                <div class="machine-content">
-                    <h4>(ب) اللحام الرقمي – «فرن الذهب» (Solder Pot SB PTC 500-D)</h4>
-                    <p><strong>الوظيفة:</strong> لحام نقاط التوصيل والأسلاك بالـ PCB عن طريق التغطيس السريع (Dip Soldering).</p>
-                    <p><strong>درجة الحرارة المثلى:</strong> للقصدير التقليدي Sn63Pb37: 250-280°C، وللقصدير الخالي من الرصاص SAC305: 300-350°C.</p>
-                    <p><strong>زمن الغمر المثالي:</strong> 2-4 ثوانٍ فقط لمنع تلف المسارات النحاسية.</p>
-                    <p><strong>التكلفة التقديرية (2027):</strong> 54,000 دج.</p>
-                </div>
-            </div>
-
-            <div class="machine-card">
-                <div class="machine-icon"><i class="fas fa-compress"></i></div>
-                <div class="machine-content">
-                    <h4>(ت) آلة الكبس بالهواء المضغوط (Pneumatic Press Machine)</h4>
-                    <p><strong>الوظيفة:</strong> الضغط وتجميع أجزاء المصباح (تثبيت القاعدة والمكونات المعدنية).</p>
-                    <p><strong>السعر التقديري:</strong> 1,800–2,500 دولار (243,000–337,500 دج).</p>
-                    <p><strong>ضغط التشغيل المعايرة:</strong> 6 بار ثابت.</p>
-                </div>
-            </div>
-
-            <div class="machine-card">
-                <div class="machine-icon"><i class="fas fa-syringe"></i></div>
-                <div class="machine-content">
-                    <h4>(ث) آلة توزيع الغراء (Glue Dispenser Machine)</h4>
-                    <p><strong>الوظيفة:</strong> توزيع السيليكون الحراري بدقة متناهية لتثبيت الناشر الضوئي والمكونات الحساسة.</p>
-                    <p><strong>الاستهلاك المعياري:</strong> 0.15-0.20 غرام لكل لمبة.</p>
-                    <p><strong>ضغط الهواء:</strong> 4-5 بار ثابت (أي تذبذب يفسد مسار الغراء).</p>
-                    <p><strong>التكلفة التقديرية (2027):</strong> 877,000 دج.</p>
-                </div>
-            </div>
-
-            <div class="machine-card">
-                <div class="machine-icon"><i class="fas fa-qrcode"></i></div>
-                <div class="machine-content">
-                    <h4>(ج) ماكينة الوسم والاختبار بالليزر (Laser Marking & Testing Machine)</h4>
-                    <p><strong>الوظيفة:</strong> الفحص الكهربائي (جهد، تيار، استطاعة) + الوسم بالليزر (شعار، قدرة، رقم دفعة، QR Code).</p>
-                    <p><strong>نوع المصدر:</strong> Fiber Laser – عمر تشغيلي حتى 100,000 ساعة.</p>
-                    <p><strong>التكلفة التقديرية (2027):</strong> 1,215,000 دج.</p>
-                </div>
-            </div>
-
-            <div class="machine-card">
-                <div class="machine-icon"><i class="fas fa-brush"></i></div>
-                <div class="machine-content">
-                    <h4>(خ) آلة التلميع والصنفرة (Buffer Polisher XLBP 9)</h4>
-                    <p><strong>الوظيفة:</strong> إزالة النتوءات الزائدة وتلميع الأسطح الخارجية للهيكل والمشتت الحراري.</p>
-                    <p><strong>المواصفات التقنية:</strong> آلة تلميع صناعية ذات عزم دوران عالٍ.</p>
-                    <p><strong>التكلفة التقديرية (2027):</strong> 33,750 دج.</p>
-                </div>
-            </div>
-
-            <h3 class="subsection-title">1.2 الميزانية التقنية الإجمالية المحدثة (2027)</h3>
-            <div class="table-responsive">
-                <table class="data-table">
-                    <thead><tr><th>الآلة</th><th>التكلفة (دج)</th><th>الحالة</th></tr></thead>
-                    <tbody>
-                        <tr><td>آلة متعددة الوظائف</td><td>861,250</td><td>مشغّلة</td></tr>
-                        <tr><td>فرن تغطيس بالقصدير</td><td>54,000</td><td>مشغّلة</td></tr>
-                        <tr><td>آلة توزيع الغراء</td><td>877,000</td><td>مشغّلة</td></tr>
-                        <tr><td>آلة كبس هوائية</td><td>337,500</td><td>مشغّلة</td></tr>
-                        <tr><td>آلة اختبار ووسم بالليزر</td><td>1,215,000</td><td>مشغّلة</td></tr>
-                        <tr><td>آلة التلميع والصنفرة</td><td>33,750</td><td>مشغّلة</td></tr>
-                        <tr style="background: rgba(212,175,55,0.15);"><td><strong>الإجمالي (6 آلات)</strong></td><td><strong>3,378,500 دج</strong></td><td><strong>جاهز للإنتاج</strong></td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3 class="subsection-title">1.3 معايير الجودة والسلامة المحدثة V.9.5</h3>
-            <p><strong>معايير الأداء الجديدة:</strong></p>
-            <ul>
-                <li><strong>معايرة دقيقة:</strong> جميع الآلات تخضع لمعايرة أسبوعية بجهاز مرجعي معتمد.</li>
-                <li><strong>مراقبة العمليات:</strong> رصد مستمر لدرجات الحرارة والضغوط والأوقات بسجلات يومية.</li>
-                <li><strong>الصيانة الوقائية:</strong> جدول صيانة دوري يومي وأسبوعي وشهري وسنوي.</li>
-                <li><strong>السلامة الكهربائية:</strong> اختبار Hi-Pot إلزامي لكل 500 وحدة.</li>
-                <li><strong>الحماية من الشحنات الساكنة:</strong> إجراءات ESD صارمة على جميع محطات العمل.</li>
-            </ul>
-        </div>
-
-        <div class="section" id="bab2">
-            <h2 class="section-title">الباب الثاني: استراتيجية الإنتاج والجدول الزمني المحدث</h2>
-            <h3 class="subsection-title">2.1 الهدف الاستراتيجي وتحديد المنتج</h3>
-            <p><strong>تخصص الإنتاج:</strong> التركيز الحصري في السنة الأولى على المصابيح الكروية (LED Bulbs) بقدرات 9W، 12W، 18W.</p>
-            <p><strong>الهدف التراكمي:</strong> 60,000 وحدة بنهاية السنة الأولى من بداية فبراير 2027.</p>
-            <p><strong>مخزون الأمان:</strong> الحفاظ الدائم على 5,000 وحدة PCB جاهزة.</p>
-
-            <h3 class="subsection-title">2.2 مراحل التصعيد الإنتاجي الشهري المحدثة</h3>
-            <div class="table-responsive">
-                <table class="data-table">
-                    <thead><tr><th>المرحلة</th><th>الإنتاج المستهدف (وحدة)</th><th>الشهر (من فبراير 2027)</th></tr></thead>
-                    <tbody>
-                        <tr><td>مرحلة الانطلاق والتأسيس</td><td>5,000</td><td>1 (فبراير)</td></tr>
-                        <tr><td>استقرار العمليات</td><td>5,000</td><td>2 (مارس)</td></tr>
-                        <tr><td>تحسين الإنتاجية</td><td>6,000</td><td>3 (أبريل)</td></tr>
-                        <tr><td>الاستقرار التشغيلي</td><td>6,000</td><td>4 (مايو)</td></tr>
-                        <tr><td>رفع الطاقة الإنتاجية</td><td>7,000</td><td>5 (يونيو)</td></tr>
-                        <tr><td>نهاية النصف الأول (36,000)</td><td>7,000</td><td>6 (يوليو)</td></tr>
-                        <tr><td>كفاءة قصوى</td><td>7,000</td><td>7 (أغسطس)</td></tr>
-                        <tr><td>-</td><td>8,000</td><td>8 (سبتمبر)</td></tr>
-                        <tr><td>-</td><td>8,000</td><td>9 (أكتوبر)</td></tr>
-                        <tr><td>-</td><td>8,000</td><td>10 (نوفمبر)</td></tr>
-                        <tr><td>-</td><td>9,000</td><td>11 (ديسمبر)</td></tr>
-                        <tr style="background: rgba(212,175,55,0.15);"><td><strong>الهدف السنوي: ≈ 60,000 وحدة</strong></td><td><strong>9,000</strong></td><td><strong>12 (يناير 2028)</strong></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="section" id="bab3">
-            <h2 class="section-title">الباب الثالث: البطاقات الفنية والصيانة الوقائية المحدثة</h2>
-            <p>جميع الآلات تخضع لبرنامج صيانة وقائية دقيق يشمل:</p>
-            <ul>
-                <li><strong>الفحص اليومي:</strong> التحقق من السلامة والأداء قبل بدء الإنتاج.</li>
-                <li><strong>الصيانة الأسبوعية:</strong> تنظيف وتشحيم والمعايرة.</li>
-                <li><strong>الصيانة الشهرية:</strong> فحص شامل واستبدال المستهلكات.</li>
-                <li><strong>الصيانة السنوية:</strong> فحص معمق وإصلاح أي مشاكل كبرى.</li>
-            </ul>
-        </div>
-
-        <div class="section" id="bab4">
-            <h2 class="section-title">الباب الرابع: بروتوكول الرقابة عند الاستلام (IQC) والامتثال العالمي</h2>
-            <h3 class="subsection-title">4.1 معايير الجودة والقبول المحدثة V.9.5</h3>
-            <p><strong>معايير الفحص الجديدة:</strong></p>
-            <ul>
-                <li><strong>شرائح LED:</strong> شهادة LM-80 إلزامية، فحص مجهري 5%، MSL ≤ 1.</li>
-                <li><strong>المكثفات:</strong> تحمل 105°C حصراً، عمر ≥ 5,000 ساعة، ESR ≤ 50 mΩ.</li>
-                <li><strong>الهياكل البلاستيكية:</strong> UL94-V0، ثبات 120°C، مقاومة UV مؤكدة.</li>
-                <li><strong>جميع المكونات:</strong> مطابقة RoHS، شهادة CE، توثيق المورد كامل.</li>
-            </ul>
-            <p><strong>نسبة العيوب المسموحة (AQL):</strong> ≤ 1% للعيوب الخطيرة، ≤ 2% للعيوب الرئيسية.</p>
-        </div>
-
-        <div class="section" id="bab5">
-            <h2 class="section-title">الباب الخامس: الاختبارات المتقدمة والموثوقية (V.9.5)</h2>
-            <h3 class="subsection-title">5.1 بروتوكولات الاختبار المحدثة</h3>
-            <ul>
-                <li><strong>اختبار الحرق المتقدم (Burn-in):</strong> 265V لـ ساعتين + 170V لـ ساعتين. 5% من كل دفعة.</li>
-                <li><strong>اختبار التبديل السريع:</strong> 500 دورة تشغيل/إطفاء متتالية.</li>
-                <li><strong>اختبار التوافق الكهرومغناطيسي (EMI):</strong> راديو AM قياسي دون تأثر.</li>
-                <li><strong>اختبار السقوط:</strong> من ارتفاع 1 متر على أسطح صلبة.</li>
-                <li><strong>اختبار دورات الحرارة:</strong> 50 دورة بين 0°C و +65°C.</li>
-                <li><strong>اختبار العزل الكهربائي (Hi-Pot):</strong> 1440V لـ 2-3 ثوانٍ.</li>
-            </ul>
-        </div>
-
-        <div class="section" id="ch6">
-            <h2 class="section-title">الفصل السادس: الموارد البشرية والنظام التشغيلي</h2>
-            <h3 class="subsection-title">6.1 الكادر البشري المحدث</h3>
-            <p><strong>عدد العاملين:</strong> 8 عمال أساسيين + 2 مشرف + 1 مدير تقني.</p>
-            <p><strong>التوزيع الوظيفي:</strong></p>
-            <ul>
-                <li>7 عمال إنتاج: تركيب مكونات وتجميع.</li>
-                <li>1 عامل اختبار وفحص جودة.</li>
-                <li>2 مشرف: يومي وتقني.</li>
-                <li>1 مدير تقني: إدارة العمليات.</li>
-            </ul>
-            <p><strong>نظام التدريب:</strong> تدريب مستمر شهري على المعايير الجديدة.</p>
-        </div>
-
-        <footer>
-            <p>&copy; 2027 Jannah Light Workshop | الدليل التشغيلي المعياري V.9.5</p>
-            <p>آخر تحديث: 27 فبراير 2027 | المؤلف: محمد جعيل</p>
-            <p><a href="index.html" style="color: #d4af37;">العودة إلى الرئيسية</a></p>
-        </footer>
+  <div class="container">
+    <div class="header">
+      <div class="brand">Jannah Light LED</div>
+      <div class="nav"><a href="index.html">Accueil</a> <a href="machines.html">Machines</a></div>
     </div>
 
-    <div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-        <i class="fas fa-arrow-up"></i>
+    <div class="hero">
+      <h1>Catalogue officiel</h1>
+      <p>Phase 1 : Spot encastré plat COB 6W et 12W • Ø75 mm • 36° • CRI &gt; 80</p>
     </div>
 
-    <script>
-        window.addEventListener('scroll', () => {
-            const backToTopButton = document.getElementById('backToTop');
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('show');
-            } else {
-                backToTopButton.classList.remove('show');
-            }
-        });
-    </script>
+    <div class="grid">
+      <div class="card">
+        <h3>Phase 1 – Spots encastrés</h3>
+        <ul>
+          <li>Spot encastré plat COB 6W</li>
+          <li>Spot encastré plat COB 12W</li>
+          <li>Cut-out Ø75 mm</li>
+          <li>Angle 36°</li>
+          <li>CRI &gt; 80</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Autres gammes</h3>
+        <ul>
+          <li>Spot apparent</li>
+          <li>Spot à lentille convexe</li>
+          <li>Types extérieurs IP65</li>
+          <li>Luminaires intelligents à détecteur de mouvement et variation d’intensité</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Phase 2</h3>
+        <ul>
+          <li>Gamme standard E27</li>
+          <li>Panneaux LED ronds</li>
+          <li>Panneaux LED 60×60</li>
+          <li>Spot au sol rond</li>
+          <li>Circuits de commande vendus comme pièces de rechange</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Phase 3</h3>
+        <ul>
+          <li>Projecteurs</li>
+          <li>Éclairage public</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">Jannah Light LED • Investissement total : 7 075 642 DZD</div>
+  </div>
 </body>
 </html>
