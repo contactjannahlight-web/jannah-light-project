@@ -3,84 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jannah Light LED | Guide opérationnel</title>
+  <title>Jannah Light LED | Machines de lancement</title>
   <style>
-    :root { --gold: #D4AF37; --navy: #0A1628; --silver: #C0C0C0; --bg: #071421; --card: rgba(10, 22, 40, 0.82); --muted: #dfe7ef; --line: rgba(212,175,55,0.38); }
+    :root {
+      --gold: #D4AF37;
+      --navy: #0A1628;
+      --silver: #C0C0C0;
+      --bg: #071421;
+      --card: rgba(10, 22, 40, 0.82);
+      --muted: #dfe7ef;
+      --line: rgba(212,175,55,0.38);
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #06111d 0%, #0A1628 100%); color: #f5f7fa; line-height: 1.8; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 28px 18px 70px; }
-    .header { padding: 26px 20px; border: 1px solid var(--line); border-radius: 20px; background: rgba(10, 22, 40, 0.82); }
-    h1 { margin: 0 0 10px; color: var(--gold); }
-    .section { margin-top: 24px; background: rgba(10, 22, 40, 0.82); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
-    h2 { color: var(--gold); margin-top: 0; }
-    ul { color: var(--muted); padding-left: 18px; }
-    .meta { color: var(--silver); }
-    .footer { text-align: center; color: var(--silver); padding-top: 26px; }
+    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #06111d 0%, #0A1628 100%); color: #f5f7fa; line-height: 1.7; }
+    a { color: inherit; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 30px 18px 70px; }
+    .header { text-align: center; padding: 28px 18px; border: 1px solid var(--line); border-radius: 20px; background: rgba(10, 22, 40, 0.85); }
+    h1 { margin: 0; color: var(--gold); font-size: clamp(2rem, 4vw, 3rem); }
+    .subtitle { color: var(--muted); margin-top: 12px; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: 18px; margin-top: 28px; }
+    .stat { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 20px; text-align: center; }
+    .stat strong { display: block; color: var(--gold); font-size: 1.6rem; margin-bottom: 6px; }
+    .section { margin-top: 28px; background: rgba(10, 22, 40, 0.82); border: 1px solid var(--line); border-radius: 22px; padding: 24px; }
+    .section h2 { margin: 0 0 18px; color: var(--gold); }
+    .machines { display: grid; grid-template-columns: repeat(3, minmax(230px, 1fr)); gap: 18px; }
+    .machine { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+    .machine h3 { color: var(--gold); margin-top: 0; margin-bottom: 10px; }
+    .machine p { margin: 0; color: var(--muted); }
+    .alert { margin-top: 18px; padding: 14px 18px; border-left: 4px solid var(--gold); background: rgba(212,175,55,0.08); color: var(--muted); border-radius: 8px; }
+    .footer { text-align: center; color: var(--silver); padding-top: 24px; }
+    @media (max-width: 780px) { .summary, .machines { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>Jannah Light LED</h1>
-      <div class="meta">Guide opérationnel validé • Investissement total : 7 075 642 DZD</div>
+      <div class="subtitle">Machines de lancement – Bain d'étain / Machine de marquage laser à fibre / Machine de nettoyage des cartes</div>
     </div>
 
-    <div class="section">
-      <h2>Identité du projet</h2>
-      <ul>
-        <li>Nom : Jannah Light LED</li>
-        <li>Contact : contact.jannahlight@gmail.com</li>
-        <li>Adresse : Cité des Douaniers, Bt. C N°34, Mohammadia, Alger, Algérie.</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Produit de lancement</h2>
-      <ul>
-        <li>Spot encastré plat COB, 12W et 6W</li>
-        <li>Ø75 mm de découpe</li>
-        <li>Angle de faisceau 36°</li>
-        <li>CRI &gt; 80</li>
-        <li>Carte de commande séparée et interchangeable, conçue avec protection contre les variations de tension</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Phases validées</h2>
-      <ul>
-        <li>Phase 1 : spots encastrés</li>
-        <li>Phase 2 : E27 standard + panneaux LED + spot au sol + circuits de commande comme pièces de rechange</li>
-        <li>Phase 3 : projecteurs et éclairage public</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Production et organisation</h2>
-      <ul>
-        <li>Équipe : promoteur + 1 technicien électricien + 10 ouvriers</li>
-        <li>Système de travail : trois équipes tournantes</li>
-        <li>Rythme de production : 10 000 unités pendant le premier mois et demi</li>
-        <li>Cible première année : 60 000 unités</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Services et maintenance</h2>
-      <ul>
-        <li>Maintenance après-vente</li>
-        <li>Fourniture et installation pour des projets</li>
-        <li>Vente de pièces de rechange (circuits et modules LED)</li>
-        <li>Service de retours : inspection, reconditionnement complet, revente déclarée comme reconditionnée ; les unités irréparables sont recyclées</li>
-      </ul>
+    <div class="summary">
+      <div class="stat"><strong>7 075 642</strong><span>DZD</span></div>
+      <div class="stat"><strong>Phase 1</strong><span>spots encastrés</span></div>
+      <div class="stat"><strong>3</strong><span>machines de lancement</span></div>
     </div>
 
     <div class="section">
       <h2>Machines de lancement</h2>
-      <ul>
-        <li>Bain d'étain</li>
-        <li>Machine de marquage laser à fibre</li>
-        <li>Machine de nettoyage des cartes — Automatic PCB Lead Cutting Machine, Model ZB-200E</li>
-      </ul>
+      <div class="machines">
+        <div class="machine">
+          <h3>Bain d'étain</h3>
+          <p>Équipement de soudure pour les cartes électroniques et les assemblages de production.</p>
+        </div>
+        <div class="machine">
+          <h3>Machine de marquage laser à fibre</h3>
+          <p>Marquage précis des produits afin d’assurer la traçabilité et la qualité visuelle.</p>
+        </div>
+        <div class="machine">
+          <h3>Machine de nettoyage des cartes</h3>
+          <p>Coupe les broches de composants excessives sur les cartes après le bain de soudure.</p>
+        </div>
+      </div>
+
+      <div class="alert">
+        Machine de polissage retirée du site et du programme de lancement conformément aux données validées. La ligne de lancement conservée est strictement : Bain d'étain, Machine de marquage laser à fibre, Machine de nettoyage des cartes.
+      </div>
     </div>
 
     <div class="footer">Jannah Light LED • Cité des Douaniers, Bt. C N°34, Mohammadia, Alger, Algérie.</div>
