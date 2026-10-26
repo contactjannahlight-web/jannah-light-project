@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jannah Light LED | Machines de lancement</title>
+  <title>Jannah Light LED | Smart Lighting</title>
   <style>
     :root {
       --gold: #D4AF37;
@@ -12,64 +12,168 @@
       --bg: #071421;
       --card: rgba(10, 22, 40, 0.82);
       --muted: #dfe7ef;
-      --line: rgba(212,175,55,0.38);
+      --soft: #aab8c7;
+      --line: rgba(212,175,55,0.4);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #06111d 0%, #0A1628 100%); color: #f5f7fa; line-height: 1.7; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 30px 18px 70px; }
-    .header { text-align: center; padding: 28px 18px; border: 1px solid var(--line); border-radius: 20px; background: rgba(10, 22, 40, 0.85); }
-    h1 { margin: 0; color: var(--gold); font-size: clamp(2rem, 4vw, 3rem); }
-    .subtitle { color: var(--muted); margin-top: 12px; }
-    .summary { display: grid; grid-template-columns: repeat(3, minmax(180px, 1fr)); gap: 18px; margin-top: 28px; }
-    .stat { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 20px; text-align: center; }
-    .stat strong { display: block; color: var(--gold); font-size: 1.6rem; margin-bottom: 6px; }
+    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #06111d 0%, #0A1628 100%); color: #f5f7fa; line-height: 1.8; }
+    a { color: inherit; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 24px 18px 80px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 18px 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(10, 22, 40, 0.8); }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--gold); }
+    .brand-mark { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--gold), #f2d57b); color: var(--navy); font-weight: 900; }
+    .lang { display: flex; flex-wrap: wrap; gap: 10px; }
+    .lang a { text-decoration: none; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--silver); background: rgba(255,255,255,0.02); }
+    .lang a.active, .lang a:hover { background: rgba(212,175,55,0.12); color: var(--gold); border-color: var(--gold); }
+    .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: center; background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(10,22,40,0.86)); border: 1px solid var(--line); border-radius: 24px; padding: 30px; }
+    .hero img { width: 100%; border-radius: 22px; border: 1px solid var(--line); background: #020b12; object-fit: cover; min-height: 300px; }
+    h1, h2, h3 { margin: 0 0 12px; }
+    .eyebrow { color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; font-size: 12px; font-weight: bold; }
+    h1 { font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.2; color: var(--gold); }
+    .subtitle { color: var(--muted); font-size: 1.05rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    .button { display: inline-block; text-decoration: none; padding: 12px 18px; border-radius: 999px; font-weight: 700; border: 1px solid var(--gold); transition: 0.2s ease; }
+    .button.primary { background: var(--gold); color: var(--navy); }
+    .button.secondary { background: transparent; color: var(--gold); }
+    .button:hover { transform: translateY(-1px); }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 18px; margin-top: 24px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px 16px; text-align: center; }
+    .stat strong { display: block; font-size: 1.6rem; color: var(--gold); margin-bottom: 6px; }
     .section { margin-top: 28px; background: rgba(10, 22, 40, 0.82); border: 1px solid var(--line); border-radius: 22px; padding: 24px; }
-    .section h2 { margin: 0 0 18px; color: var(--gold); }
-    .machines { display: grid; grid-template-columns: repeat(3, minmax(230px, 1fr)); gap: 18px; }
+    .section h2 { color: var(--gold); font-size: clamp(1.5rem, 2vw, 2rem); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 18px; }
+    ul { margin: 0; padding-left: 18px; color: var(--muted); }
+    li { margin-bottom: 8px; }
+    .phase { display: grid; grid-template-columns: repeat(3, minmax(200px, 1fr)); gap: 16px; margin-top: 18px; }
+    .phase-item { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+    .phase-item .num { display: inline-block; background: var(--gold); color: var(--navy); font-weight: 800; border-radius: 999px; padding: 6px 10px; margin-bottom: 10px; }
+    .machine-list { display: grid; grid-template-columns: repeat(3, minmax(210px, 1fr)); gap: 18px; margin-top: 18px; }
     .machine { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
-    .machine h3 { color: var(--gold); margin-top: 0; margin-bottom: 10px; }
+    .machine h3 { color: var(--gold); margin-bottom: 8px; }
     .machine p { margin: 0; color: var(--muted); }
-    .alert { margin-top: 18px; padding: 14px 18px; border-left: 4px solid var(--gold); background: rgba(212,175,55,0.08); color: var(--muted); border-radius: 8px; }
-    .footer { text-align: center; color: var(--silver); padding-top: 24px; }
-    @media (max-width: 780px) { .summary, .machines { grid-template-columns: 1fr; } }
+    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .info { color: var(--muted); }
+    .info strong { color: #fff; }
+    .label { color: var(--gold); font-weight: bold; }
+    footer { text-align: center; color: var(--silver); padding: 30px 10px 10px; }
+    @media (max-width: 900px) { .hero, .grid-2, .contact, .machine-list, .phase, .stats { grid-template-columns: 1fr; } .hero { padding: 20px; } }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1>Jannah Light LED</h1>
-      <div class="subtitle">Machines de lancement – Bain d'étain / Machine de marquage laser à fibre / Machine de nettoyage des cartes</div>
+    <div class="topbar">
+      <div class="brand"><div class="brand-mark">J</div><span>Jannah Light LED</span></div>
+      <div class="lang">
+        <a href="index.html">العربية</a>
+        <a href="index-fr.html">Français</a>
+        <a href="index-en.html" class="active">English</a>
+      </div>
     </div>
 
-    <div class="summary">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Jannah Light LED</div>
+        <h1>Innovative Algerian lighting built for the future</h1>
+        <p class="subtitle">Official project identity: Jannah Light LED • contact.jannahlight@gmail.com • Cité des Douaniers, Bt. C N°34, Mohammadia, Alger, Algérie.</p>
+        <div class="cta-row">
+          <a href="#products" class="button primary">Phase 1 products</a>
+          <a href="#contact" class="button secondary">Contact</a>
+        </div>
+      </div>
+      <img src="workshop.jpg" alt="Jannah Light LED" />
+    </section>
+
+    <div class="stats">
       <div class="stat"><strong>7 075 642</strong><span>DZD</span></div>
-      <div class="stat"><strong>Phase 1</strong><span>spots encastrés</span></div>
-      <div class="stat"><strong>3</strong><span>machines de lancement</span></div>
+      <div class="stat"><strong>3</strong><span>phases</span></div>
+      <div class="stat"><strong>1 + 1 + 10</strong><span>project team</span></div>
+      <div class="stat"><strong>10 000</strong><span>units in the first month and a half</span></div>
     </div>
 
-    <div class="section">
-      <h2>Machines de lancement</h2>
-      <div class="machines">
-        <div class="machine">
-          <h3>Bain d'étain</h3>
-          <p>Équipement de soudure pour les cartes électroniques et les assemblages de production.</p>
+    <section class="section" id="products">
+      <h2>Launch product and phase 1 foundation</h2>
+      <div class="grid-2">
+        <div class="card">
+          <p class="label">Spot encastré plat COB</p>
+          <ul>
+            <li>12W and 6W</li>
+            <li>Cut-out Ø75 mm</li>
+            <li>Beam angle 36°</li>
+            <li>CRI &gt; 80</li>
+            <li>Separate replaceable control circuit designed to protect against voltage fluctuations</li>
+          </ul>
         </div>
-        <div class="machine">
-          <h3>Machine de marquage laser à fibre</h3>
-          <p>Marquage précis des produits afin d’assurer la traçabilité et la qualité visuelle.</p>
-        </div>
-        <div class="machine">
-          <h3>Machine de nettoyage des cartes</h3>
-          <p>Coupe les broches de composants excessives sur les cartes après le bain de soudure.</p>
+        <div class="card">
+          <p class="label">Product types</p>
+          <ul>
+            <li>Spot encastré plat</li>
+            <li>Spot apparent</li>
+            <li>Spot à lentille convexe</li>
+            <li>Outdoor types IP65</li>
+            <li>Smart luminaires with motion detector and dimming</li>
+          </ul>
         </div>
       </div>
+    </section>
 
-      <div class="alert">
-        Machine de polissage retirée du site et du programme de lancement conformément aux données validées. La ligne de lancement conservée est strictement : Bain d'étain, Machine de marquage laser à fibre, Machine de nettoyage des cartes.
+    <section class="section">
+      <h2>Approved production phases</h2>
+      <div class="phase">
+        <div class="phase-item"><div class="num">Phase 1</div><h3>Recessed spots</h3><p>Spot encastré plat COB 6W/12W, aimed at residential and commercial use.</p></div>
+        <div class="phase-item"><div class="num">Phase 2</div><h3>E27 bulbs + LED panels + ground spot</h3><p>Standard E27 bulb line, round and 60×60 LED panels, round in-ground spot, and driver circuits sold as spare parts.</p></div>
+        <div class="phase-item"><div class="num">Phase 3</div><h3>Floodlights and public lighting</h3><p>Expansion toward floodlights and public lighting infrastructure projects.</p></div>
       </div>
-    </div>
+    </section>
 
-    <div class="footer">Jannah Light LED • Cité des Douaniers, Bt. C N°34, Mohammadia, Alger, Algérie.</div>
+    <section class="section">
+      <h2>Industrial capacity</h2>
+      <div class="grid-2">
+        <div class="card"><p class="label">Team</p><ul><li>Promoter / production manager</li><li>1 electrical technician</li><li>10 workers</li></ul></div>
+        <div class="card"><p class="label">Work system</p><ul><li>Three rotating shifts</li><li>Mandatory 15-minute break after every two hours</li><li>Production pace: 10,000 units during the first month and a half</li><li>Target first year: 60,000 units</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Services</h2>
+      <div class="card">
+        <ul>
+          <li>After-sales maintenance</li>
+          <li>Lighting supply and installation for projects</li>
+          <li>Sale of spare parts: driver circuits and LED modules</li>
+          <li>Returns service: damaged units, including transport damage, are inspected, fully renewed (housing and components), and resold as refurbished; non-repairable units are recycled.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Markets and export vision</h2>
+      <div class="grid-2">
+        <div class="card"><p class="label">National rollout</p><ul><li>Centre region: Algiers and industrial suburbs</li><li>Then the East</li><li>Then the national market</li></ul></div>
+        <div class="card"><p class="label">Export vision</p><ul><li>Mauritania</li><li>Côte d'Ivoire</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Launch machines</h2>
+      <div class="machine-list">
+        <div class="machine"><h3>Bain d'étain</h3><p>For soldering electronic boards and assemblies.</p></div>
+        <div class="machine"><h3>Machine de marquage laser à fibre</h3><p>For precise product marking and traceability.</p></div>
+        <div class="machine"><h3>Machine de nettoyage des cartes — Automatic PCB Lead Cutting Machine, Model ZB-200E</h3><p>Removes excess component leads after the solder bath.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>Official contact</h2>
+      <div class="contact">
+        <div class="card info"><p><span class="label">Email:</span> contact.jannahlight@gmail.com</p><p><span class="label">Address:</span> Cité des Douaniers, Bt. C N°34, Mohammadia, Alger, Algérie.</p></div>
+        <div class="card info"><p><span class="label">Project:</span> Jannah Light LED</p><p><span class="label">Scope:</span> manufacturing a dependable, high-performance lighting range aligned with the national market.</p></div>
+      </div>
+    </section>
   </div>
+
+  <footer>
+    <p>Jannah Light LED • Algerian lighting designed for tomorrow.</p>
+  </footer>
 </body>
 </html>
